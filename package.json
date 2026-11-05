@@ -18,5 +18,13 @@
     "postcss": "8.5.15",
     "sass": "^1.107.1",
     "terser": "5.48.0"
+  },
+  "browserslist": {
+    "defaults": [
+      "defaults",
+      "> 1%",
+      "last 5 versions",
+      "ie >= 8"
+    ]
   }
 }
