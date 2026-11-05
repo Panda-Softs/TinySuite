@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>TinyDataTable Demo v1.3.3</title>
+    <link rel="stylesheet" href="./vendor/tippy.css"/>
+    <link rel="stylesheet" href="../dist/TinyDataTable.min.css"/>
+
+    <script src="../dist/TinyDataTable.min.js"></script>
+    <script src="../dist/TinyDataTable.export.min.js"></script>
+    <script src="../dist/TinyDataTable.customSelect.min.js"></script>
+
+    <script src="./vendor/tippy-bundle.umd.min.js"></script>
+    <script src="./vendor/mark.min.js"></script>
+    <script src="./vendor/xlsx.full.min.js"></script>
+    <script src="./vendor/jspdf.umd.min.js"></script>
+    <script src="./vendor/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Optional: external styling for <select> can be added by your app CSS. -->
+
+    <style>
+        body {
+            margin: 20px;
+            font-family: "Helvetica Neue", -apple-system, "system-ui", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", sans-serif;
+            background-color: var(--tt-page-bg);
+            color: var(--tt-page-text);
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 0.25rem;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        section:not(.no-border) {
+            padding: 16px;
+            background-color: var(--tt-card-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card {
+            background-color: var(--tt-card-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        #search-input {
+            background-color: var(--tt-card-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            width: 25%;
+            border: none;
+            margin-bottom: 10px;
+            padding: 8px 5px;
+        }
+
+        .demo-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .demo-controls input[type="text"] {
+            padding: 4px 8px;
+            border-radius: 4px;
+            min-width: 180px;
+        }
+
+        code {
+            background: var(--tt-code-bg);
+            color: var(--tt-code-text);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .log-box {
+            margin-top: 8px;
+            padding: 8px;
+            border-radius: 4px;
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            font-size: 12px;
+            max-height: 120px;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .demo-controls + .demo-buttons, .demo-controls {
+            margin-bottom: 8px;
+        }
+
+        .theme-switch {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+        }
+
+
+        /* Toolbar buttons (options.buttons) demo helpers */
+        .badge {
+            display: inline-block;
+            padding: 4px 6px;
+            border-radius: 10px;
+            font-size: 12px;
+            border: 1px solid rgba(0, 0, 0, .15);
+        }
+
+        /* Overdue rows */
+        tr.row-overdue {
+            background-color: rgba(220, 38, 38, 0.08) !important;; /* soft red */
+        }
+
+        /* High priority rows */
+        tr.row-high-priority {
+            font-weight: 600;
+            color: green;
+        }
+
+        /* Combined: overdue + high priority */
+        tr.row-overdue.row-high-priority {
+            background-color: rgba(220, 38, 38, 0.14) !important;;
+        }
+
+        /* Optional: stronger visual cue on hover */
+        tr.row-overdue:hover {
+            background-color: rgba(220, 38, 38, 0.18) !important;;
+        }
+
+        /* Optional: emphasize status cell */
+        tr.row-overdue td:nth-child(4) {
+            color: #b91c1c;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="theme-switch">
+    <label class="tt-switch"><input type="checkbox" id="theme-select"><span class="lever"></span></label>
+</div>
+<h1>TinyDataTable Demo v1.3.3</h1>
+<p>
+    This demo shows TinyDataTable with local data, child rows, paging, footer sums, mark.js highlighting,
+    simulated Ajax data, grouping with merged cells, and row selection (including group-level selection).
+</p>
+
+<section>
+    <h2>Local data with child rows + mark.js highlighting + row selection</h2>
+    <div class="demo-controls">
+        <label>
+            Search:
+            <input type="text" id="local-search" class="tt-input" placeholder="Type to filter..."/>
+        </label>
+        <div class="demo-buttons">
+            <button id="local-log-selected" class="tt-button">Log selected keys</button>
+            <button id="local-log-selected-rows" class="tt-button">Log selected rows</button>
+            <button id="local-clear-selection" class="tt-button">Clear selection</button>
+        </div>
+    </div>
+    <table id="table-local"></table>
+    <div>
+        <strong>Event log (childShown / childHidden / draw / select):</strong>
+        <div id="log-local1" class="log-box"></div>
+    </div>
+</section>
+
+<section>
+    <h2>Local data with per-parent child layout + API (selection + events)</h2>
+    <div class="demo-controls">
+        <label>
+            Search:
+            <input type="text" id="local2-search" class="tt-input" placeholder="Type to filter..."/>
+        </label>
+    </div>
+    <div class="demo-buttons">
+        <button id="btn-expand-all" class="tt-button">Expand all children</button>
+        <button id="btn-collapse-all" class="tt-button">Collapse all children</button>
+        <button id="btn-expand-row-101" class="tt-button">Expand children of project 101</button>
+        <button id="btn-collapse-row-101" class="tt-button">Collapse children of project 101</button>
+        <button id="local2-log-selected" class="tt-button">Log selected project IDs</button>
+        <button id="local2-clear-selection" class="tt-button">Clear selection</button>
+    </div>
+    <table id="table-local2"></table>
+    <div>
+        <strong>Event log (childShown / childHidden / draw / select):</strong>
+        <div id="log-local2" class="log-box"></div>
+    </div>
+</section>
+
+<section>
+    <h2>Simulated Ajax data (server-side) + toolbar buttons</h2>
+    <p>
+        This table demonstrates <code>options.buttons</code> rendered by TinyDataTable (refresh, export, custom HTML,
+        icon-only actions, dividers, disabled state) and tooltips.
+    </p>
+    <table id="table-ajax"></table>
+</section>
+
+<section>
+    <h2>Grouping example: orders with merged "Total" column + group-level selection</h2>
+    <p>
+        Grouped by <code>[orderId, paymentType]</code>. Each group shows a header row, merges the
+        <code>Total</code> column cells with <code>rowspan</code>, and uses one checkbox per group
+        (group-level selection).
+    </p>
+    <div class="demo-controls">
+        <label>
+            Search:
+            <input type="text" id="grouping-search" class="tt-input" placeholder="Type to filter..."/>
+        </label>
+        <div class="demo-buttons">
+            <button id="group-log-selected" class="tt-button">Log selected group row keys</button>
+            <button id="group-clear-selection" class="tt-button">Clear selection</button>
+        </div>
+    </div>
+    <table id="table-grouping"></table>
+</section>
+
+<section>
+    <h2>Numeric type renderers (<code>type: "digits"</code> / <code>type: "ngdigits"</code>)</h2>
+    <p>
+        This example uses the built-in numeric type renderers together with the
+        <code>locale</code> option to format amounts.
+    </p>
+    <table id="table-types"></table>
+</section>
+
+<section>
+    <h2>Empty state + custom row classes</h2>
+    <p>
+        This example shows how to configure a custom empty-state message
+        and how to add CSS classes per row using <code>customClass</code> and
+        <code>createdRow</code>.
+    </p>
+
+    <h3>Empty table</h3>
+    <table id="table-empty"></table>
+
+    <h3>Row highlighting with customClass</h3>
+    <table id="table-custom-class"></table>
+</section>
+
+<section>
+    <h2>Full example: built-in search, filters, paging and selection</h2>
+    <p>
+        This example demonstrates the automatic <code>tiny-table-container</code> layout with a built-in
+        search box and filters bar rendered by TinyDataTable itself. The table uses local data, paging,
+        selection and a footer with sums.
+    </p>
+    <table id="table-full"></table>
+</section>
+
+<section class="no-border">
+    <h2>Full example card: built-in search, filters, paging and selection</h2>
+    <p>
+        This example demonstrates the automatic <code>tiny-table-container</code> layout with a built-in
+        search box and filters bar rendered by TinyDataTable itself. The table uses local data, paging,
+        selection and a footer with sums.
+    </p>
+    <input type="search" id="search-input" placeholder="Search...">
+    <div class="card">
+        <table id="table-card-full"></table>
+    </div>
+</section>
+
+<script>
+
+    // -----------------------------
+    // Demo 1: local data with child rows + mark.js highlighting + selection
+    // -----------------------------
+
+    var localData = [
+        {
+            id: 1, name: 'Alice', email: 'alice@example.com', role: 'Admin', status: 'Active', amount: 1500, hours: 40,
+            children: [
+                {
+                    id: '1.1',
+                    name: 'Audit Log',
+                    email: '-',
+                    role: 'Subresource',
+                    status: 'Read-only',
+                    amount: 200,
+                    hours: 8
+                },
+                {
+                    id: '1.2',
+                    name: 'Permissions',
+                    email: '-',
+                    role: 'Subresource',
+                    status: 'Full access',
+                    amount: 300,
+                    hours: 12
+                }
+            ]
+        },
+        {
+            id: 2, name: 'Bob', email: 'bob@example.com', role: 'Editor', status: 'Active', amount: 800, hours: 24,
+            children: [
+                {
+                    id: '2.1',
+                    name: 'Drafts',
+                    email: '-',
+                    role: 'Subresource',
+                    status: 'Read + write',
+                    amount: 150,
+                    hours: 6
+                }
+            ]
+        },
+        {
+            id: 3,
+            name: 'Charlie',
+            email: 'charlie@example.com',
+            role: 'Viewer',
+            status: 'Invited',
+            amount: 400,
+            hours: 10,
+            children: []
+        },
+        {id: 4, name: 'Diana', email: 'diana@example.com', role: 'Editor', status: 'Suspended', amount: 250, hours: 5}
+    ];
+
+    var localColumns = [
+        {key: 'id', title: 'ID', sortable: true, className: 'text-right', headerTooltip: "Unique row identifier"},
+        {
+            key: 'name',
+            title: 'Name',
+            sortable: true,
+            headerTooltip: "Full name of the user",
+            tooltip: function (row) {
+                return row.name?.length + " characters";
+            }
+        },
+        {
+            key: 'email',
+            title: 'Email',
+            sortable: true,
+            headerTooltip: "Primary email address",
+            tooltip: row => "Email: " + row.email
+        },
+        {
+            key: 'role',
+            title: 'Role',
+            sortable: true,
+            headerTooltip: "User role in the system",
+            tooltip: row => "Role is " + row.role
+        },
+        {
+            key: 'status',
+            title: 'Status',
+            sortable: true,
+            headerTooltip: "Account status",
+            tooltip: row => "Current status: " + row.status
+        },
+        {
+            key: 'amount',
+            title: 'Amount',
+            sortable: true,
+            className: 'text-right',
+            headerTooltip: "Total amount in CHF",
+            tooltip: row => "CHF " + row.amount,
+            render: function (value, row) {
+                return value != null ? value.toLocaleString('de-CH', {minimumFractionDigits: 0}) : '';
+            }
+        },
+        {
+            key: 'hours',
+            title: 'Hours',
+            sortable: true,
+            headerTooltip: "Total hours logged",
+            tooltip: row => "Hours: " + row.hours,
+            className: 'text-right'
+        }
+    ];
+
+    var localChildColumns = [
+        {key: 'id', title: '#', visible: true, sortable: false},
+        {key: 'name', title: 'Child name', visible: true, sortable: false},
+        {key: 'status', title: 'Status', visible: true, sortable: false},
+        {key: 'role', title: 'Type', visible: true, sortable: false},
+        {
+            key: 'amount',
+            title: 'Amount',
+            visible: true,
+            sortable: false,
+            className: 'text-right',
+            render: function (value, row) {
+                return value != null ? value.toLocaleString('de-CH', {minimumFractionDigits: 0}) : '';
+            }
+        }
+    ];
+
+    var localTable = new TinyDataTable('#table-local', {
+        columns: localColumns,
+        data: localData,
+        paging: {
+            enabled: true,
+            pageSize: 10,
+            pageSizeOptions: [5, 10, 25, 50]
+        },
+        defaultSort: {name: 'asc'},
+        childRows: {
+            enabled: true,
+            dataKey: 'children',
+            startExpanded: true,
+            rowId: function (row) {
+                return row.id;
+            },
+            toggleOnRowClick: true,
+            showToggleIcon: true,
+            columns: localChildColumns
+        },
+        footer: {
+            enabled: true,
+            aggregates: {
+                amount: 'sum',
+                hours: 'avg',
+            }
+        },
+        highlight: {
+            enabled: true,
+            markOptions: {
+                className: 'tt-highlight',
+                separateWordSearch: true
+            }
+        },
+        select: true
+    });
+
+    document.getElementById('local-search').addEventListener('input', function () {
+        localTable.search(this.value);
+    });
+
+    var log1El = document.getElementById('log-local1');
+
+    function log1(msg) {
+        var ts = new Date().toISOString().slice(11, 19);
+        log1El.textContent += `${log1El.textContent.length ? '\n' : ''}[${ts}] ${msg}`;
+    }
+
+    document.getElementById('local-log-selected').addEventListener('click', function () {
+        log1(`Local table selected keys: ${localTable.getSelectedRowKeys()}`);
+    });
+
+    document.getElementById('local-log-selected-rows').addEventListener('click', function () {
+        log1(`Local table selected rows: : ${localTable.getSelectedRows()}`);
+    });
+
+    document.getElementById('local-clear-selection').addEventListener('click', function () {
+        localTable.clearSelection();
+    });
+
+    // -----------------------------
+    // Demo 2: local data with per-parent child layout + selection + events
+    // -----------------------------
+
+    var local2Data = [
+        {
+            id: 101,
+            name: 'Project Alpha',
+            owner: 'Alice',
+            status: 'In progress',
+            budget: 120000,
+            children: [
+                {id: '101.1', task: 'Analysis', assignee: 'Alice', hours: 40, status: 'Done'},
+                {id: '101.2', task: 'Implementation', assignee: 'Bob', hours: 120, status: 'In progress'}
+            ]
+        },
+        {
+            id: 102,
+            name: 'Project Beta',
+            owner: 'Bob',
+            status: 'Planning',
+            budget: 80000,
+            children: [
+                {id: '102.1', task: 'Scope definition', assignee: 'Bob', hours: 16, status: 'In progress'}
+            ]
+        },
+        {
+            id: 103,
+            name: 'Project Gamma',
+            owner: 'Charlie',
+            status: 'Completed',
+            budget: 45000
+        }
+    ];
+
+    var local2Columns = [
+        {key: 'id', title: 'Project ID', sortable: true, className: 'text-right'},
+        {key: 'name', title: 'Project name', sortable: true},
+        {key: 'owner', title: 'Owner', sortable: true},
+        {key: 'status', title: 'Status', sortable: true},
+        {
+            key: 'budget',
+            title: 'Budget (CHF)',
+            sortable: true,
+            className: 'text-right',
+            render: function (value, row) {
+                return value != null ? value.toLocaleString('de-CH', {minimumFractionDigits: 0}) : '';
+            }
+        }
+    ];
+
+    function getChildColumnsForProject(parentRow) {
+        if (parentRow.status === 'Completed') {
+            return [
+                {key: 'id', title: '#', visible: true},
+                {key: 'hours', title: 'Hours', visible: true, className: 'text-right'},
+                {key: 'task', title: 'Task', visible: true},
+                {key: 'assignee', title: 'Assignee', visible: true},
+                {key: 'status', title: 'Status', visible: true}
+            ];
+        }
+        return [
+            {key: 'id', title: '#', visible: true},
+            {key: 'task', title: 'Task', visible: true},
+            {key: 'assignee', title: 'Assignee', visible: true},
+            {key: 'hours', title: 'Hours', visible: true, className: 'text-right'},
+            {key: 'status', title: 'Status', visible: true}
+        ];
+    }
+
+    var local2Table = new TinyDataTable('#table-local2', {
+        columns: local2Columns,
+        data: local2Data,
+        paging: {
+            enabled: true,
+            pageSize: 5,
+            pageSizeOptions: [5, 10, 25]
+        },
+        defaultSort: {id: 'asc'},
+        childRows: {
+            enabled: true,
+            dataKey: 'children',
+            startExpanded: false,
+            rowId: function (row) {
+                return row.id;
+            },
+            toggleOnRowClick: true,
+            showToggleIcon: true,
+            getColumns: getChildColumnsForProject
+        },
+        footer: {
+            enabled: true,
+            aggregates: {
+                budget: 'sum',
+            }
+        },
+        highlight: {
+            enabled: true,
+            markOptions: {
+                className: 'tt-highlight',
+                separateWordSearch: true
+            }
+        },
+        select: true
+    });
+
+    document.getElementById('local2-search').addEventListener('input', function () {
+        local2Table.search(this.value);
+    });
+
+    document.getElementById('btn-expand-all').addEventListener('click', function () {
+        local2Data.forEach(function (row) {
+            if (row.children && row.children.length) {
+                local2Table.expandChildRows(String(row.id));
+            }
+        });
+    });
+
+    document.getElementById('btn-collapse-all').addEventListener('click', function () {
+        local2Table.collapseAllChildRows();
+    });
+
+    document.getElementById('btn-expand-row-101').addEventListener('click', function () {
+        local2Table.expandChildRows('101');
+    });
+
+    document.getElementById('btn-collapse-row-101').addEventListener('click', function () {
+        local2Table.collapseChildRows('101');
+    });
+
+    document.getElementById('local2-log-selected').addEventListener('click', function () {
+        console.log('Local2 selected keys:', local2Table.getSelectedRowKeys());
+    });
+
+    document.getElementById('local2-clear-selection').addEventListener('click', function () {
+        local2Table.clearSelection();
+    });
+
+    var logEl = document.getElementById('log-local2');
+
+    function log(msg) {
+        var ts = new Date().toISOString().slice(11, 19);
+        logEl.textContent += `${logEl.textContent.length ? '\n' : ''}[${ts}] ${msg}`;
+    }
+
+    local2Table.on('childShown', function (payload) {
+        log('childShown for rowKey=' + payload.rowKey);
+    });
+
+    local2Table.on('childHidden', function (payload) {
+        if (payload.all) {
+            log('childHidden: all rows collapsed');
+        } else {
+            log('childHidden for rowKey=' + payload.rowKey);
+        }
+    });
+
+    local2Table.on('draw', function ({state}) {
+        log('draw: page=' + state.page + ', pageSize=' + state.pageSize + ', totalRows=' + state.totalRows);
+    });
+
+    local2Table.on('select', function (info) {
+        log('select event: mode=' + info.mode + ', checked=' + info.checked + ', affected=' + info.affectedRowKeys.join(','));
+    });
+
+    // -----------------------------
+    // Demo 3: simulated Ajax data
+    // -----------------------------
+
+    function openSettings(api) {
+        alert('Settings clicked. You can open a modal here. Current selection: ' + (api.getSelectedRowKeys?.() || []).join(', '));
+    }
+
+
+    // -----------------------------
+    // Demo 3: simulated Ajax data (WITH grouping + payments) - FULL WORKING BLOCK
+    // Replace your current Demo 3 block with this.
+    // -----------------------------
+
+    // ---------- constants ----------
+    const GROUP_TYPES = Object.freeze({
+        RENTAL_GROUP: "RENTAL_GROUP",
+        RENTAL_MULTIPAY: "RENTAL_MULTIPAY",
+        SINGLE: "SINGLE",
+        OTHER: "OTHER",
+    });
+
+    // ---------- seeded RNG (deterministic) ----------
+    function mulberry32(seed) {
+        return function () {
+            let t = (seed += 0x6d2b79f5);
+            t = Math.imul(t ^ (t >>> 15), t | 1);
+            t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+    }
+
+    function randInt(rng, min, max) {
+        return Math.floor(rng() * (max - min + 1)) + min;
+    }
+
+    function pick(rng, arr) {
+        return arr[randInt(rng, 0, arr.length - 1)];
+    }
+
+    function pad2(n) {
+        return String(n).padStart(2, "0");
+    }
+
+    function dateStrFor(i, hh, mm, ss) {
+        const d = (i % 9) + 1;
+        return `2025-11-${pad2(d)} ${pad2(hh)}:${pad2(mm)}:${pad2(ss)}`;
+    }
+
+    function to2(n) {
+        return Number(n).toFixed(2);
+    }
+
+    // ---------- build ajaxFullData as TRANSACTIONS ----------
+    function buildAjaxTxData({
+                                 count = 250,
+                                 seed = 20260122,
+                                 pGroup = 0.14, // group_id groups
+                                 pMultiPay = 0.18, // same record_id, multiple payments
+                             } = {}) {
+        const rng = mulberry32(seed);
+
+        const paidMethods = ["CASH", "TERMINAL"];
+        const statuses = ["PENDING", "ACTIVE"];
+
+        let clientId = 6000;
+        let recordId = 17000;
+        let groupId = 2800;
+        let paymentId = 13000;
+
+        const rows = [];
+
+        function makeClient(i) {
+            const id = clientId++;
+            return {
+                client_id: id,
+                client: `Client ${i}`,
+                email: `client${id}@example.com`,
+                favorite: id % 7 === 0,
+            };
+        }
+
+        function baseRow({i, clientObj}) {
+            return {
+                client_id: clientObj.client_id,
+                client: clientObj.client,
+                email: clientObj.email,
+                favorite: clientObj.favorite,
+
+                group_id: null,
+                record_id: null,
+
+                description: "",
+                status: pick(rng, statuses),
+
+                sub_total: null,
+                credit_used: null,
+
+                amount: null,
+                creation_date: dateStrFor(i, 10, 0, 0),
+
+                payment_id: null,
+                total_amount: null,
+
+                paid_method: pick(rng, paidMethods),
+                paid_date: dateStrFor(i, 10, 5, 0),
+                payment_transfer_date: dateStrFor(i, 10, 5, 0),
+            };
+        }
+
+        while (rows.length < count) {
+            const i = rows.length + 1;
+            const clientObj = makeClient(i);
+            const roll = rng();
+
+            // ---- TYPE 1: RENTAL_GROUP (group_id set, multiple rows, SAME payment_id) ----
+            if (roll < pGroup && rows.length + 2 <= count) {
+                const gid = String(groupId++);
+                const pid = paymentId++;
+                const items = randInt(rng, 2, 4);
+
+                let total = 0;
+                const startIndex = rows.length;
+
+                for (let k = 0; k < items && rows.length < count; k++) {
+                    const amt = randInt(rng, 60, 220);
+                    total += amt;
+
+                    const r = baseRow({i, clientObj});
+                    r.group_id = gid;
+                    r.record_id = recordId++; // different record_id in the same group
+                    r.payment_id = pid; // SAME payment for whole group
+
+                    r.description = `Group item ${String.fromCharCode(65 + k)} for ${clientObj.client}`;
+                    r.status = i % 3 === 0 ? "PENDING" : "ACTIVE";
+
+                    r.sub_total = to2(amt);
+                    r.credit_used = null;
+
+                    r.amount = to2(amt);
+                    r.total_amount = r.amount; // set after loop
+
+                    r.creation_date = dateStrFor(i, 10, 0, 0);
+                    r.paid_date = dateStrFor(i, 10, 5, 0);
+                    r.payment_transfer_date = dateStrFor(i, 10, 5, 0);
+
+                    rows.push(r);
+                }
+
+                const totalStr = to2(total);
+                for (let idx = startIndex; idx < rows.length; idx++) {
+                    rows[idx].amount = totalStr; // same on all group rows
+                }
+
+                continue;
+            }
+
+            // ---- TYPE 2: RENTAL_MULTIPAY (group_id null, SAME record_id, DIFFERENT payment_id) ----
+            if (roll < pGroup + pMultiPay && rows.length + 2 <= count) {
+                // ---- TYPE 2: RENTAL_MULTIPAY ----
+                const rid = recordId++;
+                const pays = randInt(rng, 2, 3);
+                const total = randInt(rng, 120, 420);
+                const totalStr = to2(total);
+
+                // split total into N parts summing to total
+                const parts = [];
+                let remaining = total;
+
+                for (let p = 0; p < pays; p++) {
+                    if (p === pays - 1) {
+                        parts.push(remaining);
+                    } else {
+                        // ensure remaining can still be split into (pays-p-1) positive amounts
+                        const minLeft = (pays - p - 1);
+                        const maxPart = remaining - minLeft;
+                        const part = randInt(rng, 1, Math.max(1, maxPart));
+                        parts.push(part);
+                        remaining -= part;
+                    }
+                }
+
+                for (let k = 0; k < pays && rows.length < count; k++) {
+                    const pid = paymentId++;
+                    const amt = parts[k];
+
+                    const r = baseRow({ i, clientObj });
+                    r.group_id = null;
+                    r.record_id = rid;
+                    r.payment_id = pid;
+
+                    r.description = `Rental (multi-pay) for ${clientObj.client}`;
+                    r.status = "PENDING";
+
+                    r.sub_total = totalStr;      // ✅ stable
+                    r.credit_used = null;
+                    r.total_amount = totalStr;   // ✅ stable (sum of payments)
+
+                    r.amount = to2(amt);         // ✅ payment amount (parts sum to total)
+
+                    r.creation_date = dateStrFor(i, 12, 0, 0);
+                    r.paid_date = dateStrFor(i, 12, 3 + k * 2, 0);
+                    r.payment_transfer_date = r.paid_date;
+                    r.paid_method = (k % 2 === 0) ? "TERMINAL" : "CASH";
+
+                    rows.push(r);
+                }
+
+                continue;
+            }
+
+            // ---- BASE CASE: SINGLE (group_id null, unique record_id + payment_id) ----
+            {
+                const rid = recordId++;
+                const pid = paymentId++;
+                const amt = randInt(rng, 50, 250);
+
+                const r = baseRow({i, clientObj});
+                r.group_id = null;
+                r.record_id = rid;
+                r.payment_id = pid;
+
+                r.description = `Rental for ${clientObj.client}`;
+                r.status = i % 4 === 0 ? "ACTIVE" : "PENDING";
+
+                r.sub_total = to2(amt);
+                r.credit_used = null;
+
+                r.amount = to2(amt);
+                r.total_amount = to2(amt);
+
+                r.creation_date = dateStrFor(i, 14, 0, 0);
+                r.paid_date = dateStrFor(i, 14, 3, 0);
+                r.payment_transfer_date = dateStrFor(i, 14, 3, 0);
+
+                rows.push(r);
+            }
+        }
+
+        return rows;
+    }
+
+    // ✅ this is the server dataset
+    var ajaxFullData = buildAjaxTxData({count: 250, seed: 20260122, pGroup: 0.14, pMultiPay: 0.18});
+
+    // ---------- Query parsing helpers (nested like paging[page]=1&filters[x]=y) ----------
+    function parseQueryToObject(searchParams) {
+        const out = {};
+        const isIndex = (k) => /^[0-9]+$/.test(k);
+
+        const getParts = (rawKey) => {
+            const parts = [];
+            rawKey.replace(/([^\[\]]+)|\[([^\]]*)\]/g, (_, p1, p2) => {
+                parts.push(p1 != null ? p1 : p2 != null ? p2 : "");
+                return "";
+            });
+            return parts;
+        };
+
+        const ensureContainer = (parent, key, nextKey) => {
+            const shouldBeArray = nextKey === "" || isIndex(nextKey);
+            if (parent[key] == null) parent[key] = shouldBeArray ? [] : {};
+            return parent[key];
+        };
+
+        const setDeep = (obj, parts, value) => {
+            let cur = obj;
+            for (let i = 0; i < parts.length; i++) {
+                const key = parts[i];
+                const last = i === parts.length - 1;
+                const nextKey = parts[i + 1];
+
+                if (last) {
+                    if (key === "") {
+                        if (!Array.isArray(cur)) return;
+                        cur.push(value);
+                    } else if (Array.isArray(cur) && isIndex(key)) {
+                        cur[Number(key)] = value;
+                    } else {
+                        if (cur[key] === undefined) cur[key] = value;
+                        else if (Array.isArray(cur[key])) cur[key].push(value);
+                        else cur[key] = [cur[key], value];
+                    }
+                    return;
+                }
+
+                if (key === "") {
+                    if (!Array.isArray(cur)) return;
+                    const nextObj = {};
+                    cur.push(nextObj);
+                    cur = nextObj;
+                } else if (Array.isArray(cur) && isIndex(key)) {
+                    const idx = Number(key);
+                    if (cur[idx] == null) cur[idx] = nextKey === "" || isIndex(nextKey) ? [] : {};
+                    cur = cur[idx];
+                } else {
+                    cur = ensureContainer(cur, key, nextKey);
+                }
+            }
+        };
+
+        for (const [rawKey, val] of searchParams.entries()) {
+            const parts = getParts(rawKey);
+            if (parts.length) setDeep(out, parts, val);
+        }
+        return out;
+    }
+
+    function normalizeOrder(orderObj) {
+        if (!orderObj) return [];
+        if (Array.isArray(orderObj)) return orderObj.filter(Boolean);
+        if (typeof orderObj === "object") {
+            return Object.keys(orderObj)
+                .sort((a, b) => Number(a) - Number(b))
+                .map((k) => orderObj[k])
+                .filter(Boolean);
+        }
+        return [];
+    }
+
+    // ---------- derive group type & key for the PAGE SLICE ----------
+    function prepareGroupingMeta(pageRows) {
+        const rows = Array.isArray(pageRows) ? pageRows : [];
+
+        // record_id => set(payment_id)
+        const paySetByRecord = new Map();
+        for (const r of rows) {
+            if (r && r.group_id == null && r.record_id != null) {
+                if (!paySetByRecord.has(r.record_id)) paySetByRecord.set(r.record_id, new Set());
+                if (r.payment_id != null) paySetByRecord.get(r.record_id).add(r.payment_id);
+            }
+        }
+
+        for (const r of rows) {
+            if (!r) continue;
+
+            if (r.group_id != null && r.group_id !== "") {
+                r.__groupType = GROUP_TYPES.RENTAL_GROUP;
+                r.__groupKey = ["G", r.group_id].join("|");
+                continue;
+            }
+
+            // group_id null
+            const set = paySetByRecord.get(r.record_id);
+            const isMultiPay = set && set.size > 1;
+
+            if (isMultiPay) {
+                r.__groupType = GROUP_TYPES.RENTAL_MULTIPAY;
+                r.__groupKey = ["R", r.record_id].join("|");
+            } else {
+                r.__groupType = GROUP_TYPES.SINGLE;
+                // unique key so it never groups with others
+                r.__groupKey = ["U", r.record_id, r.payment_id].join("|");
+            }
+        }
+
+        return rows;
+    }
+
+    // ---------- fake server (fetch override) ----------
+    const realFetch = window.fetch;
+
+    window.fetch = function (url, options) {
+        const fullUrl = typeof url === "string" ? url : url.url;
+        const u = new URL(fullUrl, window.location.origin);
+
+        if (u.pathname !== "/fake-api/users") {
+            return realFetch(url, options);
+        }
+
+        const params = parseQueryToObject(u.searchParams);
+
+        const pagingEnabled = params.paging?.pagingEnabled !== "false";
+        const page = parseInt(params.paging?.page || 1, 10);
+        const pageSize = parseInt(params.paging?.length || 25, 10);
+        const searchText = (params.searchText || "").trim();
+
+        const orders = normalizeOrder(params.order);
+        const filters = params.filters || {};
+
+        let rows = ajaxFullData.slice();
+
+        // SEARCH
+        if (searchText) {
+            const q = searchText.toLowerCase();
+            rows = rows.filter((r) => {
+                return (
+                    String(r.record_id || "").toLowerCase().includes(q) ||
+                    String(r.group_id || "").toLowerCase().includes(q) ||
+                    String(r.client || "").toLowerCase().includes(q) ||
+                    String(r.email || "").toLowerCase().includes(q) ||
+                    String(r.description || "").toLowerCase().includes(q) ||
+                    String(r.status || "").toLowerCase().includes(q) ||
+                    String(r.paid_method || "").toLowerCase().includes(q)
+                );
+            });
+        }
+
+        // FILTERS
+        if (filters.status) {
+            rows = rows.filter((r) => String(r.status) === String(filters.status));
+        }
+        if (filters.onlyGroups === true || String(filters.onlyGroups).toLowerCase() === "true") {
+            rows = rows.filter((r) => r.group_id != null && r.group_id !== "");
+        }
+        if (filters.favorite === true || String(filters.favorite).toLowerCase() === "true") {
+            rows = rows.filter((r) => !!r.favorite);
+        }
+
+        // SORT (primary only)
+        if (orders.length > 0 && orders[0].key) {
+            const primary = orders[0];
+            const key = primary.key;
+            const dirMult = String(primary.dir || "asc").toLowerCase() === "desc" ? -1 : 1;
+
+            rows.sort((a, b) => {
+                const va = a[key];
+                const vb = b[key];
+                if (va == null && vb == null) return 0;
+                if (va == null) return 1;
+                if (vb == null) return -1;
+
+                // numeric compare if looks like number
+                const na = Number(va);
+                const nb = Number(vb);
+                if (Number.isFinite(na) && Number.isFinite(nb)) return (na - nb) * dirMult;
+
+                return String(va).localeCompare(String(vb)) * dirMult;
+            });
+        }
+
+        const total = rows.length;
+
+        // PAGING
+        const start = pagingEnabled ? (page - 1) * pageSize : 0;
+        const end = pagingEnabled ? start + pageSize : rows.length;
+        const pageRows = pagingEnabled ? rows.slice(start, end) : rows;
+
+        // Add grouping metadata to page slice
+        const outRows = prepareGroupingMeta(pageRows);
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(
+                    new Response(
+                        JSON.stringify({
+                            data: outRows,
+                            total: total,
+                            page: page,
+                            pageSize: pageSize,
+                        }),
+                        {status: 200, headers: {"Content-Type": "application/json"}}
+                    )
+                );
+            }, 120);
+        });
+    };
+
+    // ---------- columns ----------
+    var ajaxTxColumns = [
+        { key: "record_id", title: "Record", sortable: true, className: "text-right" },
+        { key: "group_id", title: "Group", sortable: true, className: "text-right" },
+        { key: "client", title: "Client", sortable: true },
+        { key: "email", title: "Email", sortable: true },
+        { key: "description", title: "Description", sortable: true },
+        { key: "status", title: "Status", sortable: true },
+
+        { key: "sub_total", title: "Sub", sortable: true, className: "text-right" },
+        { key: "credit_used", title: "Credit", sortable: true, className: "text-right" },
+        { key: "total_amount", title: "Total", sortable: true, className: "text-right" },
+
+        // payment block (row-specific)
+        { key: "amount", title: "Paid", sortable: true, className: "text-right" }, // ✅ HERE
+        { key: "paid_method", title: "Method", sortable: true },
+        { key: "paid_date", title: "Paid at", sortable: true },
+        { key: "payment_transfer_date", title: "Transfer", sortable: true },
+    ];
+
+    // ---------- dynamic mergeColumns ----------
+    // Columns index mapping (ajaxTxColumns):
+    // 0 created | 1 client | 2 email | 3 desc | 4 status | 5 sub | 6 credit | 7 total | 8 method | 9 paid | 10 transfer
+    // ---------- group header renderer ----------
+    function txGroupHeaderRenderer({rows}) {
+        const first = rows?.[0];
+        if (!first) return null;
+
+        // IMPORTANT: only show headers for real grouped cases
+        if (first.__groupType === GROUP_TYPES.RENTAL_GROUP) {
+            return `Groupe #${first.group_id} | Client: ${first.client || ""} | Paiement #${first.payment_id}`;
+        }
+
+        if (first.__groupType === GROUP_TYPES.RENTAL_MULTIPAY) {
+            return `Location #${first.record_id} | Client: ${first.client || ""} | Paiements: ${rows.length} | Total: ${first.total_amount}`;
+        }
+
+        return null; // SINGLE => no header
+    }
+
+    // ---------- dynamic mergeColumns ----------
+    // Columns index mapping (ajaxTxColumns):
+    // 0 created | 1 client | 2 email | 3 desc | 4 status | 5 sub | 6 credit | 7 total | 8 method | 9 paid | 10 transfer
+    function txMergeColumns({rows}) {
+        const t = rows?.[0]?.__groupType;
+
+        if (t === GROUP_TYPES.RENTAL_GROUP) {
+            // merge last 3 payment meta columns (8..10)
+            return ["9:12"];
+        }
+
+        if (t === GROUP_TYPES.RENTAL_MULTIPAY) {
+            // merge all except payment meta columns (0..7)
+            return ["0:8"];
+        }
+
+        return [];
+    }
+
+
+    // ---------- init table ----------
+    var ajaxTable = new TinyDataTable("#table-ajax", {
+        columns: ajaxTxColumns,
+        ajax: {url: "/fake-api/users", method: "GET"},
+
+        paging: {
+            enabled: true,
+            pageSize: 25,
+            pageSizeOptions: [10, 25, 50, 100],
+            serverSide: true,
+        },
+
+        defaultSort: {creation_date: "desc"},
+
+        search: {
+            enabled: true,
+            label: "Search:",
+            placeholder: "Type to filter...",
+        },
+
+        highlight: {
+            enabled: true,
+            markOptions: {className: "tt-highlight", separateWordSearch: true},
+        },
+
+        grouping: {
+            enabled: true,
+
+            precompute: {
+                countDistinctBy: [
+                    {
+                        by: 'record_id',
+                        distinct: 'payment_id',
+                        name: 'payCountByRecord',
+                        when: r => !(r && r.group_id) // only when group_id is empty
+                    }
+                ]
+            },
+
+            type: (row, ctx) => {
+                if (row && row.group_id) return GROUP_TYPES.RENTAL_GROUP;
+                const payCount = ctx.getDistinctCount('payCountByRecord', row?.record_id);
+                if (payCount > 1) return GROUP_TYPES.RENTAL_MULTIPAY;
+                return GROUP_TYPES.SINGLE;
+            },
+
+            key: (row, ctx) => {
+                if (row && row.group_id) return `G|${row.group_id}`;
+                const payCount = ctx.getDistinctCount('payCountByRecord', row?.record_id);
+                if (payCount > 1) return `R|${row.record_id}`;
+                return `U|${row.record_id}|${row.payment_id}`;
+            },
+
+            mergeColumns: ({ rows, gctx }) => txMergeColumns({
+                rows: rows.map(r => ({ ...r, __groupType: gctx.typeOf(r) })) // OR rewrite txMergeColumns to use gctx.typeOf
+            }),
+
+            header: {
+                show: true,
+                render: ({ rows, gctx }) => {
+                    const first = rows?.[0];
+                    const t = gctx.typeOf(first);
+
+                    if (t === GROUP_TYPES.RENTAL_GROUP) {
+                        return `Groupe #${first.group_id} | Client: ${first.client || ""} | Paiement #${first.payment_id}`;
+                    }
+                    if (t === GROUP_TYPES.RENTAL_MULTIPAY) {
+                        return `Location #${first.record_id} | Client: ${first.client || ""} | Paiements: ${rows.length} | Total: ${first.total_amount}`;
+                    }
+                    return null;
+                }
+            }
+        },
+
+
+        // selection works with grouping if your lib supports groupMode here too
+        select: {
+            enabled: true,
+            groupMode: 'group'
+        },
+
+        buttons: [
+            {
+                id: "ajax-log-selected",
+                text: "Log selected keys",
+                onClick: (api) => console.log("Selected keys:", api.getSelectedRowKeys()),
+                tooltip: "Log selected keys",
+            },
+            {
+                id: "ajax-clear-selection",
+                text: "Clear selection",
+                onClick: (api) => api.clearSelection(),
+                tooltip: "Clear selection",
+            },
+            {
+                id: "switch-button",
+                type: 'switch',
+                label : 'switch',
+                onChange: (checked, input) =>
+                    alert(`switch is ${checked ? 'checked' : 'unchecked'}`),
+                tooltip: "Switch Button",
+            },
+            {divider: true},
+            {html: '<span class="badge">Grouped Payments</span>'},
+            {divider: true},
+            {
+                type: "refresh",
+                icon: '<span aria-hidden="true">↻</span>',
+                tooltip: "Refresh",
+            },
+        ],
+
+        filters: {
+            enabled: true,
+            items: [
+                {
+                    key: "status",
+                    type: "select",
+                    label: "Status",
+                    defaultValue: "",
+                    options: [
+                        {value: "", label: "All"},
+                        {value: "PENDING", label: "PENDING"},
+                        {value: "ACTIVE", label: "ACTIVE"},
+                    ],
+                },
+                {
+                    key: "favorite",
+                    type: "boolean",
+                    label: "Favorite",
+                    defaultValue: false,
+                },
+                {
+                    key: "onlyGroups",
+                    type: "boolean",
+                    label: "Only group_id",
+                    defaultValue: false,
+                },
+            ],
+        },
+    }).on("draw", function (info) {
+        console.log("Ajax grouped draw:", info);
+    });
+
+    // NOTE:
+    // To avoid "headers on single-row groups", your TinyDataTable must NOT fallback to
+    // group.values[...] when header.render returns null. (You already discussed/implemented that earlier.)
+
+
+    // -----------------------------
+    // Demo 4: grouping example
+    // -----------------------------
+
+    var orderData = [
+        {
+            orderId: 'A-1001',
+            paymentType: 'Card',
+            item: 'Product X',
+            quantity: 1,
+            price: 50,
+            total: 70,
+            customer: 'Alice',
+            date: '2025-11-01'
+        },
+        {
+            orderId: 'A-1001',
+            paymentType: 'Card',
+            item: 'Product Y',
+            quantity: 2,
+            price: 10,
+            total: 70,
+            customer: 'Alice',
+            date: '2025-11-01'
+        },
+        {
+            orderId: 'B-2001',
+            paymentType: 'Cash',
+            item: 'Product Z',
+            quantity: 3,
+            price: 15,
+            total: 45,
+            customer: 'Bob',
+            date: '2025-11-02'
+        },
+        {
+            orderId: 'C-3001',
+            paymentType: 'Card',
+            item: 'Service A',
+            quantity: 1,
+            price: 120,
+            total: 120,
+            customer: 'Charlie',
+            date: '2025-11-02'
+        },
+        {
+            orderId: 'C-3001',
+            paymentType: 'Card',
+            item: 'Service B',
+            quantity: 1,
+            price: 30,
+            total: 150,
+            customer: 'Charlie',
+            date: '2025-11-02'
+        },
+        {
+            orderId: 'C-3001',
+            paymentType: 'Card',
+            item: 'Service C',
+            quantity: 1,
+            price: 0,
+            total: 150,
+            customer: 'Charlie',
+            date: '2025-11-02'
+        }
+    ];
+
+    var groupingColumns = [
+        {key: 'orderId', title: 'Order ID', sortable: true},
+        {key: 'paymentType', title: 'Payment', sortable: true},
+        {key: 'customer', title: 'Customer', sortable: true},
+        {key: 'date', title: 'Date', sortable: true},
+        {key: 'item', title: 'Item', sortable: true},
+        {key: 'quantity', title: 'Qty', sortable: true, className: 'text-right'},
+        {
+            key: 'price',
+            title: 'Price',
+            sortable: true,
+            className: 'text-right',
+            render: function (value, row) {
+                return value != null ? value.toLocaleString('de-CH', {minimumFractionDigits: 2}) : '';
+            }
+        },
+        {
+            key: 'total',
+            title: 'Total',
+            sortable: true,
+            className: 'text-right',
+            render: function (value, row) {
+                return value != null ? value.toLocaleString('de-CH', {minimumFractionDigits: 2}) : '';
+            }
+        }
+    ];
+
+    function groupHeaderRenderer(info) {
+        var orderId = info.values.orderId;
+        var paymentType = info.values.paymentType;
+        var rows = info.rows;
+        var first = rows[0];
+        var label = 'Order ' + orderId + ' (' + paymentType + ') - ' +
+            (first.customer || '') + ' - ' + (first.date || '');
+        return label;
+    }
+
+    /*
+    var groupingTable = new TinyDataTable('#table-grouping', {
+        columns: groupingColumns,
+        data: orderData,
+        paging: {
+            enabled: true,
+            pageSize: 10,
+            pageSizeOptions: [5, 10, 25]
+        },
+        defaultSort: {orderId: 'asc'},
+        grouping: {
+            enabled: true,
+            keys: ['orderId', 'paymentType'],
+            mergeColumns: ['total'],
+            header: {
+                show: true,
+                render: groupHeaderRenderer
+            }
+        },
+        footer: {
+            enabled: true,
+            aggregates: {
+                total: 'sum'
+            }
+        },
+        select: {
+            enabled: true,
+            groupMode: 'group'
+        }
+    });
+
+    document.getElementById('grouping-search').addEventListener('input', function () {
+        groupingTable.search(this.value);
+    });
+
+    document.getElementById('group-log-selected').addEventListener('click', function () {
+        console.log('Grouping table selected keys:', groupingTable.getSelectedRowKeys());
+    });
+
+    document.getElementById('group-clear-selection').addEventListener('click', function () {
+        groupingTable.clearSelection();
+    });
+
+    // Demo: full-featured example with built-in search + filters
+    (function () {
+        const commonOptions = {
+            columns: localColumns,
+            data: localData,
+            paging: {
+                enabled: true,
+                pageSize: 5,
+                pageSizeOptions: [5, 10, 25]
+            },
+            filters: {
+                enabled: true,
+                items: [
+                    {
+                        key: 'status',
+                        type: 'select',
+                        label: 'Status',
+                        defaultValue: '',
+                        options: [
+                            {value: '', label: 'All statuses (Label)'},
+                            {value: 'Active', label: 'Active (Label)'},
+                            {value: 'Invited', label: 'Invited (Label)'},
+                            {value: 'Suspended', label: 'Suspended (Label)'}
+                        ]
+                    },
+                    {
+                        key: 'role',
+                        type: 'select',
+                        label: 'Role',
+                        defaultValue: '',
+                        options: [
+                            {value: '', label: 'All roles'},
+                            {value: 'Admin', label: 'Admin'},
+                            {value: 'Editor', label: 'Editor'},
+                            {value: 'Viewer', label: 'Viewer'}
+                        ]
+                    },
+                    {
+                        key: 'highAmount',
+                        type: 'boolean',
+                        label: 'Amount ≥ 500',
+                        defaultValue: false,
+                        predicate: function (row, value) {
+                            if (!value) return true;
+                            return Number(row.amount || 0) >= 500;
+                        }
+                    }
+                ]
+            },
+            footer: {
+                enabled: true,
+                aggregates: {
+                    amount: 'sum',
+                    hours: 'sum'
+                }
+            },
+            select: true
+        }
+        var fullTable1 = new TinyDataTable('#table-full', Object.assign({}, commonOptions, {
+            search: {
+                enabled: true,
+                placeholder: 'Search users...'
+            }
+        }));
+        var fullTable2 = new TinyDataTable('#table-card-full', Object.assign({}, commonOptions, {
+            search: {
+                selector: '#search-input'
+            }
+        }));
+    })();
+
+    // Demo: numeric type renderers + locale
+    (function () {
+        var numericData = [
+            {id: 1, account: 'A-100', amount: 1500.5, delta: -125.25},
+            {id: 2, account: 'B-200', amount: 98765.43, delta: 300.0},
+            {id: 3, account: 'C-300', amount: 0, delta: -10.5}
+        ];
+
+        var numericTable = new TinyDataTable('#table-types', {
+            locale: 'de-CH', // use Swiss-German formatting for digits renderer
+            columns: [
+                {key: 'id', title: 'ID', sortable: true},
+                {key: 'account', title: 'Account', sortable: true},
+                {
+                    key: 'amount',
+                    title: 'Amount (digits)',
+                    type: 'digits',
+                    sortable: true,
+                    className: 'text-right'
+                },
+                {
+                    key: 'delta',
+                    title: 'Delta (ngdigits)',
+                    type: 'ngdigits',
+                    sortable: true,
+                    className: 'text-right'
+                }
+            ],
+            data: numericData,
+            paging: {enabled: false}
+        });
+    })();
+
+    // Demo: emptyMessage + customClass + createdRow
+    (function () {
+        // Empty-state example
+        var emptyTable = new TinyDataTable('#table-empty', {
+            columns: [
+                {key: 'id', title: 'ID'},
+                {key: 'name', title: 'Name'}
+            ],
+            data: [],  // no rows
+            emptyMessage: 'No items have been created yet.',
+            paging: {enabled: false}
+        });
+
+        // Row-highlighting example
+        var statusData = [
+            {id: 1, task: 'Prepare offer', owner: 'Alice', status: 'Done', priority: 'low', amount: 500},
+            {id: 2, task: 'Call customer', owner: 'Bob', status: 'Overdue', priority: 'high', amount: 1200},
+            {id: 3, task: 'Write proposal', owner: 'Clara', status: 'In work', priority: 'high', amount: 800},
+            {id: 4, task: 'Send invoice', owner: 'Dan', status: 'Overdue', priority: 'medium', amount: 2500}
+        ];
+
+        var statusTable = new TinyDataTable('#table-custom-class', {
+            locale: 'de-CH',
+            columns: [
+                {key: 'id', title: 'ID', sortable: true},
+                {key: 'task', title: 'Task', sortable: true},
+                {key: 'owner', title: 'Owner', sortable: true},
+                {key: 'status', title: 'Status', sortable: true},
+                {key: 'priority', title: 'Priority', sortable: true},
+                {
+                    key: 'amount',
+                    title: 'Amount',
+                    type: 'digits',
+                    className: 'text-right',
+                    sortable: true
+                }
+            ],
+            data: statusData,
+            paging: {enabled: false},
+
+            customClass: {
+                row: function (row) {
+                    var classes = [];
+                    if (row.status === 'Overdue') {
+                        classes.push('row-overdue');
+                    }
+                    if (row.priority === 'high') {
+                        classes.push('row-high-priority');
+                    }
+                    return classes;
+                }
+            },
+
+            createdRow: function (tr, row, index) {
+                tr.title = 'Task #' + row.id + ' – ' + row.status;
+            }
+        });
+    })();*/
+
+</script>
+
+<hr/>
+<h2>ScrollX demo (wide table)</h2>
+<p>
+    This example shows <code>scrollX: 'auto'</code> and <code>scrollY: false</code>. The table has many columns,
+    so you should see a horizontal scrollbar inside the wrapper.
+</p>
+<div id="wide-table-container">
+    <table id="wide-table"></table>
+</div>
+
+<script>
+    (function () {
+        var wideData = [];
+        for (var i = 0; i < 50; i++) {
+            wideData.push({
+                id: i + 1,
+                c1: 'Col1-' + (i + 1),
+                c2: 'Col2-' + (i + 1),
+                c3: 'Col3-' + (i + 1),
+                c4: 'Col4-' + (i + 1),
+                c5: 'Col5-' + (i + 1),
+                c6: 'Col6-' + (i + 1),
+                c7: 'Col7-' + (i + 1),
+                c8: 'Col8-' + (i + 1),
+                c9: 'Col9-' + (i + 1),
+                c10: 'Col10-' + (i + 1)
+            });
+        }
+
+        var wideColumns = [
+            {key: 'id', title: 'ID', sortable: true},
+            {key: 'c1', title: 'Col 1', sortable: true},
+            {key: 'c2', title: 'Col 2', sortable: true},
+            {key: 'c3', title: 'Col 3', sortable: true},
+            {key: 'c4', title: 'Col 4', sortable: true},
+            {key: 'c5', title: 'Col 5', sortable: true},
+            {key: 'c6', title: 'Col 6', sortable: true},
+            {key: 'c7', title: 'Col 7', sortable: true},
+            {key: 'c8', title: 'Col 8', sortable: true},
+            {key: 'c9', title: 'Col 9', sortable: true},
+            {key: 'c10', title: 'Col 10', sortable: true}
+        ];
+
+        var wideTable = new TinyDataTable('#wide-table', {
+            columns: wideColumns,
+            data: wideData,
+            paging: {enabled: true, pageSize: 10},
+            scrollX: 'auto',
+            scrollY: false
+        });
+    }());
+</script>
+
+<script>
+    var html = document.documentElement;
+    var select = document.getElementById('theme-select');
+
+    function applyTheme(mode, persist) {
+        if (mode === 'dark') {
+            html.setAttribute('data-theme', 'dark');
+        } else if (mode === 'light') {
+            html.setAttribute('data-theme', 'light');
+        } else {
+            // "auto": remove explicit override → CSS + prefers-color-scheme take over
+            html.removeAttribute('data-theme');
+        }
+
+        if (persist) {
+            try {
+                if (mode === 'auto') {
+                    localStorage.removeItem('tt-demo-theme');
+                } else {
+                    localStorage.setItem('tt-demo-theme', mode);
+                }
+            } catch (e) {
+            }
+        }
+    }
+
+    // Initial mode: read from localStorage or fall back to "auto"
+    let initial = 'light';
+    try {
+        var stored = localStorage.getItem('tt-demo-theme');
+        if (stored === 'light' || stored === 'dark') {
+            initial = stored;
+        }
+    } catch (e) {
+    }
+
+    // Apply initial theme and sync the select
+    applyTheme(initial, false);
+    select.value = initial;
+
+    // React to user changes
+    select.addEventListener('change', function () {
+        this.value = this.value == 'light' ? 'dark' : 'light';
+        applyTheme(this.value, true);
+    });
+
+</script>
+
+</body>
+</html>
