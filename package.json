@@ -13,6 +13,7 @@
     "check:demos:without-vendor": "node scripts/check-demos.cjs --allow-missing-vendor"
   },
   "devDependencies": {
+    "autoprefixer": "^10.6.2",
     "cssnano": "7.1.1",
     "postcss": "8.5.15",
     "sass": "^1.107.1",
