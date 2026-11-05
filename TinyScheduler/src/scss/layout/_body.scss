@@ -1,0 +1,12 @@
+.tiny-scheduler {
+  > .tsh-body {
+    padding: 0;
+    > .tsh-view-host {
+      width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      > .tsh-view {
+      }
+    }
+  }
+}

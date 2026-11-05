@@ -1,0 +1,174 @@
+.tsh-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  height: var(--tsh-control-height);
+  min-height: var(--tsh-control-height);
+  padding: 0 var(--tsh-control-padding-x);
+
+  border: var(--tsh-button-border);
+  border-radius: var(--tsh-control-radius);
+  background: var(--tsh-button-bg);
+  color: var(--tsh-button-text);
+  box-shadow: var(--tsh-button-shadow);
+
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  user-select: none;
+  cursor: pointer;
+
+  transition:
+    background var(--tsh-transition-fast),
+    color var(--tsh-transition-fast),
+    transform var(--tsh-transition-fast),
+    box-shadow var(--tsh-transition-fast);
+
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background: var(--tsh-button-bg-hover);
+  }
+
+  &:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(59, 142, 219, .35);
+    outline-offset: 2px;
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: .42;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &[data-tsh-button="today"] {
+    background: var(--tsh-today-button-bg);
+    color: var(--tsh-today-button-text);
+
+    &:hover:not(:disabled):not([aria-disabled="true"]) {
+      background: var(--tsh-today-button-bg-hover);
+    }
+  }
+
+  // Icon-only toolbar actions are square while sharing the common control height.
+  &--icon {
+    width: var(--tsh-control-height);
+    min-width: var(--tsh-control-height);
+    flex: 0 0 var(--tsh-control-height);
+    padding-inline: 0;
+  }
+
+  // Planning segments reuse the same button primitive; only typography differs.
+  &--segment {
+    font-weight: 500;
+  }
+
+  > .tsh-button-icon {
+    display: flex;
+    font-size: 1em;
+    vertical-align: middle;
+  }
+}
+
+// Standalone view buttons keep the historical active state. Inside a group,
+// the group-specific active surface below deliberately overrides it.
+.tsh-view-button {
+  &.active {
+    background: var(--tsh-button-bg-active);
+  }
+}
+
+.tsh-button-group {
+  display: inline-flex;
+  align-items: stretch;
+  height: var(--tsh-control-height);
+  min-height: var(--tsh-control-height);
+  padding: var(--tsh-button-group-padding);
+  gap: 0;
+
+  border-radius: var(--tsh-button-group-radius);
+  background: var(--tsh-button-group-bg);
+  vertical-align: middle;
+
+  > .tsh-button {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    margin: 0;
+    padding-inline: var(--tsh-control-padding-x);
+
+    border: 0;
+    border-radius: var(--tsh-button-group-item-radius);
+    background: transparent;
+    color: var(--tsh-button-text);
+    box-shadow: none;
+    transform: none;
+
+    &:hover:not(:disabled):not([aria-disabled="true"]) {
+      background: var(--tsh-button-group-hover-bg);
+    }
+
+    &:active:not(:disabled):not([aria-disabled="true"]) {
+      transform: none;
+    }
+
+    // Divider between adjacent segments/actions. It is intentionally shorter
+    // than the group so it reads as a separator rather than another border.
+    & + .tsh-button::before {
+      content: '';
+      position: absolute;
+      top: var(--tsh-button-group-divider-inset);
+      bottom: var(--tsh-button-group-divider-inset);
+      left: 0;
+      width: 1px;
+      background: var(--tsh-button-group-divider-color);
+      pointer-events: none;
+      transition: opacity var(--tsh-transition-fast);
+    }
+
+    &.active,
+    &[aria-pressed="true"] {
+      background: var(--tsh-button-group-active-bg);
+      color: var(--tsh-button-group-active-text);
+      box-shadow: var(--tsh-button-group-active-shadow);
+
+      // The selected pill owns its edges, so adjacent separators disappear.
+      &::before,
+      + .tsh-button::before {
+        opacity: 0;
+      }
+    }
+
+    &:disabled,
+    &[aria-disabled="true"] {
+      background: transparent;
+      color: var(--tsh-button-text-disabled);
+      box-shadow: none;
+    }
+  }
+}
+
+svg.tsh-button-svg {
+  width: 1em;
+  fill: none;
+  fill-rule: evenodd;
+  stroke: currentColor;
+  stroke-width: 3px;
+  transition: stroke-width .6s cubic-bezier(.165, .84, .44, 1);
+  will-change: stroke-width;
+  margin: 1.5px 0;
+
+  &--home {
+    stroke-width: 2.5px;
+  }
+}

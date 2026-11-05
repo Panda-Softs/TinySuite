@@ -13,6 +13,8 @@
 
 # Ignorer les fichiers dont le nom commence par _
 _*
+# Ne jamais ignorer les sources SCSS partielles
+!**/_*.scss
 
 # Ignorer les fichiers dont le nom commence par !
 \!*

@@ -1,0 +1,141 @@
+.tsh-now-indicator {
+  --tsh-now-color: #515ce6;
+  --tsh-now-label-width: var(--tsh-time-column-width, 54px);
+
+  position: absolute;
+  z-index: 6;
+  pointer-events: none;
+
+  > .tsh-now-indicator-label,
+  > .tsh-now-indicator-line,
+  > .tsh-now-indicator-active-line,
+  > .tsh-now-indicator-marker {
+    position: absolute;
+  }
+
+  > .tsh-now-indicator-label {
+    color: var(--tsh-now-color);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  > .tsh-now-indicator-line {
+    height: 0;
+    border-top: 1px dashed var(--tsh-now-color);
+  }
+
+  /*
+    Day/week time grid and resource time grid:
+    JS writes pixel-perfect positions based on real DOMRect measurements.
+    This keeps the dashed line full-width and the solid segment aligned to the
+    current day/resource group.
+  */
+  &--time-grid,
+  &--resource-time-grid {
+    top: var(--tsh-now-top);
+    right: 0;
+    left: 0;
+    height: 0;
+
+    > .tsh-now-indicator-label {
+      top: 0;
+      left: 4px;
+      z-index: 3;
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .96);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, .14);
+      transform: translateY(-50%);
+    }
+
+    > .tsh-now-indicator-line {
+      top: 0;
+    }
+
+    > .tsh-now-indicator-line--before {
+      left: var(--tsh-now-columns-left);
+      width: max(0px, calc(var(--tsh-now-today-left) - var(--tsh-now-columns-left)));
+    }
+
+    > .tsh-now-indicator-line--today {
+      left: var(--tsh-now-today-left);
+      width: var(--tsh-now-today-width);
+      border-top-style: solid;
+      border-top-width: 1px;
+    }
+
+    > .tsh-now-indicator-line--after {
+      left: calc(var(--tsh-now-today-left) + var(--tsh-now-today-width));
+      width: max(
+        0px,
+        calc(
+          var(--tsh-now-columns-left) + var(--tsh-now-columns-width)
+          - var(--tsh-now-today-left)
+          - var(--tsh-now-today-width)
+        )
+      );
+    }
+
+    > .tsh-now-indicator-marker {
+      top: 0;
+      left: var(--tsh-now-today-left);
+      z-index: 2;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid var(--tsh-now-color);
+      filter: drop-shadow(0 1px 1px rgba(15, 23, 42, .16));
+      transform: translateY(calc(-50% + 0.5px));
+    }
+  }
+
+  &--timeline {
+    top: 0;
+    bottom: 0;
+    left: var(--tsh-now-left);
+    width: 0;
+
+    > .tsh-now-indicator-label {
+      top: 4px;
+      left: 10px;
+      z-index: 3;
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .96);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, .14);
+      transform: translateX(-50%);
+    }
+
+    > .tsh-now-indicator-line,
+    > .tsh-now-indicator-active-line {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      height: auto;
+      border-top: 0;
+      border-left: 1px dashed var(--tsh-now-color);
+    }
+
+    > .tsh-now-indicator-active-line {
+      border-left-style: solid;
+      border-left-width: 2px;
+    }
+
+    > .tsh-now-indicator-marker {
+      top: 0;
+      left: 0;
+      z-index: 2;
+      width: 0;
+      height: 0;
+      border-right: 5px solid transparent;
+      border-left: 5px solid transparent;
+      border-top: 8px solid var(--tsh-now-color);
+      filter: drop-shadow(0 1px 1px rgba(15, 23, 42, .16));
+      transform: translateY(calc(-50% + 0.5px));
+    }
+  }
+}

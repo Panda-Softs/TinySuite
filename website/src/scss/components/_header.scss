@@ -1,0 +1,39 @@
+.c-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding-top: 10px;
+  > .l-shell > .c-header__inner {
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px;
+    min-height: 60px; padding: 7px 16px;
+    border: 1px solid rgba(137, 167, 233, .43); border-radius: 18px;
+    background: linear-gradient(150deg,rgba(16,29,67,.79),rgba(12,24,53,.79));
+    box-shadow: inset 0 1px #ffffff15, 0 15px 45px #0008;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  }
+  &__brand {
+    display: inline-flex; align-items: center; gap: 11px; min-width: 0;
+    font-weight: 780; font-size: 21px; letter-spacing: -.04em;
+    > img, > svg { width: 39px; height: 39px; flex: 0 0 39px; object-fit: contain; }
+  }
+  &__nav { display: flex; align-items: center; justify-content: center; gap: 28px; white-space: nowrap;
+    > a { color: #f4f7ff; font-size: 13px; font-weight: 580; padding: 6px 0; transition: color .2s ease;
+      &:hover, &[aria-current='page'] { color: #91d9ff; }
+    }
+  }
+  &__actions { display:flex; justify-content: flex-end; align-items: center; gap: 15px; }
+  &__github { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; font-size: 13px; font-weight: 600;
+    > svg { width: 19px; height: 19px; }
+  }
+  &__menu { display: none; align-items: center; justify-content: center; border: 1px solid #6d7ca3; color: #fff; background: #132245; border-radius: 9px; width: 40px; height: 40px; }
+}
+@media(max-width:1000px) {
+  .c-header {
+    > .l-shell > .c-header__inner { grid-template-columns: 1fr auto; }
+    &__nav { display: none; position: absolute; top: 66px; left: 20px; right: 20px; padding: 17px; flex-direction: column; align-items: start; gap: 15px; border: 1px solid var(--border-glass); border-radius: 16px; background: #0b1b3afa; box-shadow: var(--shadow-deep);
+      &.is-open { display: flex; }
+    }
+    &__menu { display: inline-flex; }
+  }
+}
+@media(max-width:650px){.c-header { &__actions > .c-button { display: none; } &__github { display: none; } &__brand { font-size: 18px; } }}

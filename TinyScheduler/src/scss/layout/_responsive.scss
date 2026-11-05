@@ -1,0 +1,114 @@
+/* Responsive CSS-only behavior */
+@container (max-width: 980px) {
+  .tiny-scheduler {
+    > .tsh-toolbar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      padding: 16px;
+
+      > .tsh-toolbar-chunck {
+        justify-content: center;
+        flex-wrap: wrap;
+        width: 100%;
+
+        &[data-toolbar-position="left"],
+        &[data-toolbar-position="center"],
+        &[data-toolbar-position="right"] {
+          justify-content: center;
+        }
+
+        .tsh-title {
+          font-size: 28px;
+        }
+
+        .tsh-view-button {
+          min-width: 54px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    > .tsh-planning-toolbar {
+      padding: 0 16px 14px;
+    }
+
+    > .tsh-body {
+      padding: 0 12px 14px;
+
+      > .tsh-view-host {
+        > .tsh-month {
+          > .tsh-month-grid {
+            > .tsh-month-day {
+              min-height: 104px;
+            }
+          }
+        }
+
+        > .tsh-list {
+          .tsh-list-row {
+            grid-template-columns: 90px 18px 1fr;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .tiny-scheduler-frame {
+    /*
+      Mobile layout:
+      - the frame has one grid column
+      - the sidebar owns open/collapsed classes
+      - the overlay is controlled by the opened sidebar sibling selector
+    */
+    grid-template-columns: minmax(0, 1fr) !important;
+    border-radius: 0;
+
+    > .tsh-frame-main {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+    }
+
+    > .tsh-frame-sidebar {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 50;
+      width: min(88vw, var(--tsh-frame-sidebar-width, 320px));
+      max-width: 88vw;
+
+      /*
+        Use viewport width instead of -100%.
+        This fully hides the sidebar even when the calendar is inside a padded card.
+      */
+      transform: translate3d(-100vw, 0, 0);
+      pointer-events: none;
+      box-shadow: 24px 0 50px rgba(15, 23, 42, .2);
+      transition: transform 180ms ease;
+
+      &.tsh--sidebar-open {
+        transform: translate3d(0, 0, 0);
+        pointer-events: auto;
+
+        + .tsh-frame-overlay {
+          display: block;
+        }
+      }
+
+      &.tsh-sidebar-collapsed {
+        transform: translate3d(-100vw, 0, 0);
+        pointer-events: none;
+      }
+    }
+
+    > .tsh-frame-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      background: rgba(15, 23, 42, .42);
+    }
+  }
+}

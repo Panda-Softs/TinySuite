@@ -1,0 +1,170 @@
+/* Time grid */
+.tsh-time-grid,
+.tsh-resource-time-grid,
+.tsh-resource-timeline {
+  border: 1px solid var(--tsh-border);
+  background: #fff;
+}
+
+.tsh-time-grid {
+  > .tsh-time-grid-header,
+  > .tsh-time-grid-all-day-row {
+    display: grid;
+    min-width: 0;
+  }
+
+  > .tsh-time-grid-header {
+    > .tsh-time-grid-corner,
+    > .tsh-time-grid-day-label {
+      min-height: 31px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-right: 1px solid var(--tsh-border);
+      border-bottom: 1px solid var(--tsh-border);
+      background: #fff;
+      font-weight: 500;
+      user-select: none;
+    }
+
+    > .tsh-time-grid-day-label {
+      cursor: pointer;
+
+      &:last-child {
+        border-right: 0;
+      }
+
+      &--today {
+        background: var(--tsh-today-bg);
+      }
+    }
+  }
+
+  > .tsh-time-grid-all-day-row {
+    border-bottom: 2px solid var(--tsh-border);
+
+    > .tsh-time-grid-all-day-label,
+    > .tsh-time-grid-all-day-cell {
+      min-height: var(--tsh-all-day-height);
+      display: flex;
+      align-items: flex-start;
+      border-right: 1px solid var(--tsh-border);
+      padding: 4px;
+    }
+
+    > .tsh-time-grid-all-day-label {
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    > .tsh-time-grid-all-day-cell {
+      &:last-child {
+        border-right: 0;
+      }
+
+      &.tsh-time-grid-day--today {
+        background: var(--tsh-today-bg);
+      }
+    }
+  }
+
+  > .tsh-time-grid-scroll {
+    max-height: 720px;
+    overflow: auto;
+
+    > .tsh-time-grid-body {
+      // The time-grid now indicator is appended directly to the body.
+      // Keep absolute positioning local to this grid, not to the page/root.
+      position: relative;
+      display: grid;
+      grid-template-columns: var(--tsh-time-column-width) 1fr;
+      min-width: 0;
+
+      > .tsh-time-grid-times {
+        min-width: 0;
+        border-right: 1px solid var(--tsh-border);
+        background: #fff;
+
+        > .tsh-time-grid-time-slots {
+          > .tsh-time-grid-slot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 0;
+          }
+        }
+      }
+
+      > .tsh-time-grid-columns {
+        display: grid;
+        position: relative;
+        min-width: 0;
+
+        > .tsh-time-grid-column {
+          position: relative;
+          min-width: 150px;
+          border-right: 1px solid var(--tsh-border);
+          background: #fff;
+
+          &:last-child {
+            border-right: 0;
+          }
+
+          &.tsh-time-grid-day--today {
+            background: var(--tsh-today-bg);
+          }
+
+          > .tsh-time-grid-slots {
+            position: relative;
+            z-index: 1;
+          }
+
+          > .tsh-time-grid-events {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+
+            > .tsh-event--block {
+              position: absolute;
+              width: auto;
+              min-height: 22px;
+              pointer-events: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /*
+    Real visual slots.
+    These replace the old absolute .tsh-time-grid-line elements.
+  */
+  .tsh-time-grid-slots {
+    display: grid;
+    grid-template-rows: repeat(var(--tsh-slot-count), var(--tsh-slot-height, 3rem));
+    min-height: 100%;
+
+    > .tsh-time-grid-slot {
+      height: var(--tsh-slot-height, 3rem);
+      border-top: 1px dotted var(--tsh-border-dot, rgba(76, 78, 100, .12));
+
+      &--hour {
+        border-top-style: solid;
+        border-top-color: var(--tsh-border);
+      }
+
+      > .tsh-time-grid-time {
+        color: #232631;
+        font-size: 14px;
+        line-height: 1;
+        pointer-events: none;
+        user-select: none;
+        white-space: nowrap;
+      }
+    }
+  }
+}

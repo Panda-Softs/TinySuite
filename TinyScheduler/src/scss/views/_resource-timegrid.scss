@@ -1,0 +1,312 @@
+/* Resource time grid */
+.tsh-resource-time-grid {
+  --tsh-rtg-slot-height: 24px;
+  --tsh-rtg-header-height: 32px;
+  --tsh-rtg-all-day-height: 58px;
+  --tsh-rtg-resource-min-width: 180px;
+
+  overflow: hidden;
+  background: #fff;
+
+  /*
+    One shared scroll container owns the header, all-day row and timed body.
+    This prevents the body from scrolling independently of the all-day row.
+  */
+  > .tsh-rtg-scroll {
+    position: relative;
+    max-height: 720px;
+    overflow: auto;
+
+    > .tsh-rtg-grid {
+      width: 100%;
+      min-width: 100%;
+
+      > .tsh-rtg-header,
+      > .tsh-rtg-all-day,
+      > .tsh-rtg-body {
+        display: grid;
+        grid-template-columns: var(--tsh-rtg-grid-columns);
+        width: 100%;
+      }
+
+      > .tsh-rtg-header {
+        position: sticky;
+        top: 0;
+        z-index: 6;
+        min-height: var(--tsh-rtg-header-height);
+        background: #fff;
+        box-shadow: 0 1px 0 var(--tsh-border);
+
+        > .tsh-rtg-corner,
+        > .tsh-rtg-resource-title,
+        > .tsh-rtg-day-title {
+          min-width: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-right: 1px solid var(--tsh-border);
+          border-bottom: 1px solid var(--tsh-border);
+          background: #fff;
+          color: #232631;
+          text-align: center;
+          user-select: none;
+          overflow: hidden;
+        }
+
+        > .tsh-rtg-corner {
+          position: sticky;
+          left: 0;
+          z-index: 10;
+          min-height: var(--tsh-rtg-header-height);
+          box-shadow: 2px 0 0 rgba(0, 0, 0, .06);
+        }
+
+        > .tsh-rtg-resource-title {
+          min-height: var(--tsh-rtg-header-height);
+          padding: 0 10px;
+          font-size: 14px;
+          font-weight: 600;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+
+          &--empty {
+            justify-content: flex-start;
+            color: var(--tsh-muted-text);
+            font-style: italic;
+          }
+        }
+
+        &--week {
+          grid-auto-rows: 30px 32px;
+          min-height: var(--tsh-rtg-header-height);
+
+          > .tsh-rtg-corner {
+            grid-row: 1 / span 2;
+            min-height: var(--tsh-rtg-header-height);
+          }
+
+          > .tsh-rtg-day-title {
+            gap: 6px;
+            min-height: 30px;
+            padding: 0 10px;
+            border-bottom-color: rgba(35, 38, 49, .08);
+            background: linear-gradient(180deg, #fff, #fafbff);
+            color: #6b7280;
+            font-size: 12px;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+
+            > strong {
+              color: #232631;
+              font-weight: 800;
+            }
+
+            > span {
+              color: rgba(35, 38, 49, .55);
+              font-weight: 700;
+            }
+
+            &--today {
+              background: linear-gradient(180deg, rgba(81, 92, 230, .12), rgba(81, 92, 230, .05));
+              color: var(--tsh-primary, #515ce6);
+
+              > strong,
+              > span {
+                color: var(--tsh-primary, #515ce6);
+              }
+            }
+          }
+
+          > .tsh-rtg-resource-title {
+            min-height: 32px;
+            padding: 0 8px;
+            color: rgba(35, 38, 49, .76);
+            font-size: 12px;
+            font-weight: 700;
+
+            &--today {
+              background: rgba(81, 92, 230, .04);
+              color: #232631;
+            }
+          }
+        }
+      }
+
+      > .tsh-rtg-all-day {
+        position: sticky;
+        top: var(--tsh-rtg-header-height);
+        z-index: 7;
+        min-height: var(--tsh-rtg-all-day-height);
+        background: #fff;
+
+        > .tsh-rtg-all-day-label,
+        > .tsh-rtg-all-day-cell {
+          min-width: 0;
+          min-height: var(--tsh-rtg-all-day-height);
+          display: flex;
+          border-right: 1px solid var(--tsh-border);
+          border-bottom: 1px solid var(--tsh-border);
+          background: #fff;
+        }
+
+        > .tsh-rtg-all-day-label {
+          position: sticky;
+          left: 0;
+          z-index: 9;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 2px 0 0 rgba(0, 0, 0, .06);
+          color: #232631;
+          font-size: 14px;
+          user-select: none;
+        }
+
+        > .tsh-rtg-all-day-cell {
+          align-items: flex-start;
+          padding: 4px;
+
+          &--today {
+            background: var(--tsh-today-bg);
+          }
+
+          &--empty {
+            background: #fff;
+          }
+        }
+      }
+
+      > .tsh-rtg-body {
+        position: relative;
+
+        > .tsh-rtg-times {
+          position: sticky;
+          left: 0;
+          z-index: 5;
+          min-width: 0;
+          border-right: 1px solid var(--tsh-border);
+          background: #fff;
+          box-shadow: 2px 0 0 rgba(0, 0, 0, .06);
+
+          > .tsh-rtg-time-slots {
+            > .tsh-rtg-slot {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-right: 0;
+            }
+          }
+        }
+
+        > .tsh-rtg-column,
+        > .tsh-rtg-empty-column {
+          position: relative;
+          min-width: 0;
+          border-right: 1px solid var(--tsh-border);
+          background: #fff;
+
+          &:last-child {
+            border-right: 0;
+          }
+
+          > .tsh-rtg-slots {
+            position: relative;
+            z-index: 1;
+          }
+        }
+
+        > .tsh-rtg-column {
+          &--today {
+            background: var(--tsh-today-bg);
+          }
+
+          &--week {
+            > .tsh-rtg-events {
+              > .tsh-event--block {
+                left: 3px;
+                right: 3px;
+              }
+            }
+          }
+
+          > .tsh-rtg-events {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+
+            > .tsh-event--block {
+              position: absolute;
+              left: 4px;
+              right: 4px;
+              width: auto;
+              min-height: 22px;
+              pointer-events: auto;
+            }
+          }
+        }
+
+        > .tsh-rtg-empty-column {
+          background: #fff;
+
+          > .tsh-rtg-empty-message {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            color: var(--tsh-muted-text);
+            font-size: 14px;
+            text-align: center;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+  }
+
+  /*
+    Real visual slots.
+    These replace old absolute visual separator elements.
+    One half-hour slot is 24px by default.
+  */
+  .tsh-rtg-slots {
+    display: grid;
+    grid-template-rows: repeat(var(--tsh-rtg-slot-count), var(--tsh-rtg-slot-height, 24px));
+    height: calc(var(--tsh-rtg-slot-count) * var(--tsh-rtg-slot-height, 24px));
+    align-content: start;
+
+    > .tsh-rtg-slot {
+      min-height: 0;
+      box-sizing: border-box;
+      border-top: 1px dotted var(--tsh-border-light);
+
+      &--hour {
+        border-top: 1px solid var(--tsh-border);
+      }
+
+      > .tsh-rtg-time {
+        color: #232631;
+        font-size: 14px;
+        line-height: 1;
+        white-space: nowrap;
+        user-select: none;
+        pointer-events: none;
+      }
+    }
+  }
+
+  &--week {
+    .tsh-rtg-slots {
+      > .tsh-rtg-slot {
+        border-top-color: rgba(222, 226, 235, .7);
+      }
+    }
+
+    .tsh-event--block {
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, .12);
+    }
+  }
+}

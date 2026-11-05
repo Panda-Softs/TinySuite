@@ -1,0 +1,217 @@
+/* Month view */
+.tsh-month {
+  border: 1px solid var(--tsh-border);
+  background: #fff;
+
+  > .tsh-month-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid var(--tsh-border);
+
+    > .tsh-month-header-cell {
+      padding: 5px 8px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      border-right: 1px solid var(--tsh-border);
+      user-select: none;
+
+      &:last-child {
+        border-right: 0;
+      }
+    }
+  }
+
+  > .tsh-month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+
+    > .tsh-month-day {
+      position: relative;
+      min-height: 168px;
+      border: 0;
+      border-right: 1px solid var(--tsh-border);
+      border-bottom: 1px solid var(--tsh-border);
+      background: #fff;
+      padding: 34px 4px 4px;
+      text-align: left;
+      overflow: hidden;
+      cursor: pointer;
+
+      &:nth-child(7n) {
+        border-right: 0;
+      }
+
+      /*
+        Last calendar row.
+        Removes the bottom border to avoid a double line with the calendar border.
+      */
+      &:nth-last-child(-n + 7) {
+        border-bottom: 0;
+      }
+
+      &--today {
+        background: var(--tsh-today-bg);
+      }
+
+      &--muted {
+        color: #b8bdc7;
+      }
+
+      &.tsh-slot--selected {
+        background: rgba(115, 103, 240, .1);
+      }
+
+      > .tsh-month-day-number {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 18px;
+        line-height: 1;
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+
+        &:hover {
+          color: var(--tsh-primary);
+          text-decoration: underline;
+        }
+      }
+
+      > .tsh-month-events {
+        display: grid;
+        gap: 3px;
+
+        > .tsh-month-dot-event {
+          min-height: 18px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          overflow: hidden;
+          padding: 1px 2px;
+          border-radius: 4px;
+          color: #222631;
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 1.1;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: grab;
+
+          > .tsh-month-dot {
+            width: 7px;
+            height: 7px;
+            flex: 0 0 auto;
+            border-radius: 50%;
+            background: var(--tsh-event-bg);
+          }
+        }
+
+        > .tsh-month-more {
+          display: block;
+          border: 0;
+          background: transparent;
+          color: #222631;
+          padding: 0;
+          font: inherit;
+          font-size: 12px;
+          font-weight: 700;
+          line-height: 1.2;
+          text-align: left;
+          cursor: pointer;
+
+          &:hover {
+            color: var(--tsh-primary);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*
+  More popover is appended to the calendar root, not inside .tsh-month.
+  Keep it scoped to .tiny-scheduler instead of making it fully global.
+*/
+.tiny-scheduler {
+  > .tsh-more-popover {
+    position: absolute;
+    z-index: 60;
+    width: min(440px, calc(100% - 32px));
+    border: 1px solid var(--tsh-border);
+    background: var(--tsh-surface);
+    box-shadow: 0 12px 28px rgb(15 23 42 / 18%);
+
+    > .tsh-more-popover-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5px 0 10px;
+      background: #eeeeee;
+
+      > .tsh-more-popover-title {
+        color: var(--tsh-text);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      > .tsh-more-popover-close {
+        border: 0;
+        background: transparent;
+        color: var(--tsh-muted-text);
+        cursor: pointer;
+        font-size: 30px;
+        line-height: 0.5;
+        padding: 0;
+      }
+    }
+
+    > .tsh-more-popover-body {
+      display: grid;
+      gap: 4px;
+      padding: 0.5rem;
+      font-size: 11px;
+      line-height: 1;
+
+      > .tsh-more-popover-event {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        border-radius: 5px;
+        color: var(--tsh-text);
+        position: relative;
+
+        &--all-day {
+          min-height: 0;
+          padding: 4px 6px;
+          background: var(--tsh-event-bg);
+          color: var(--tsh-event-text);
+          font-size: 12px;
+          margin-left: 16px;
+          &:before {
+            position: absolute;
+            content: "∞";
+            width: 12px;
+            height: 12px;
+            top: 50%;
+            left: -18px;
+            color: #0d0d0d;
+            transform: translateY(-50%);
+          }
+        }
+
+        > .tsh-more-popover-dot {
+          width: 12px;
+          height: 12px;
+          flex: 0 0 auto;
+          border-radius: 50%;
+        }
+
+        > .tsh-more-popover-time {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}

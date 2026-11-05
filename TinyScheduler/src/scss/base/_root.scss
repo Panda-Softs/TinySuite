@@ -1,0 +1,85 @@
+.tiny-scheduler,
+.tiny-scheduler-frame {
+  --tsh-bg: #ffffff;
+  --tsh-surface: #ffffff;
+  --tsh-surface-soft: #f4f6ff;
+  --tsh-text: #242733;
+  --tsh-muted-text: #7d8494;
+  --tsh-border: #dddddd;
+  --tsh-border-light: #eeeeee;
+  --tsh-border-dot: rgba(76, 78, 100, .12);
+  --tsh-primary: #3b8edb;
+  --tsh-event-bg: #3b8edb;
+  --tsh-event-text: #ffffff;
+  --tsh-today-bg: #f7f6ff;
+
+  // Buttons
+  --tsh-button-bg: #f0f1f6;
+  --tsh-button-bg-hover: #e5e6ec;
+  --tsh-button-bg-active: #d7d8db;
+  --tsh-button-text: #686d7c;
+  --tsh-button-border: 1px solid #e1e3eb;
+  --tsh-button-shadow: 0 8px 28px rgba(31, 35, 48, .055);
+  --tsh-button-text-disabled: #9ca3af;
+
+  // Today button
+  --tsh-today-button-bg: #6c63ff;
+  --tsh-today-button-bg-hover: #5f57ed;
+  --tsh-today-button-text: #ffffff;
+
+  // Shared toolbar control geometry
+  --tsh-control-height: 40px;
+  --tsh-control-radius: 8px;
+  --tsh-control-padding-x: 14px;
+
+  // Button groups / segmented controls
+  --tsh-button-group-bg: #e7e8ed;
+  --tsh-button-group-padding: 3px;
+  --tsh-button-group-radius: 10px;
+  --tsh-button-group-item-radius: 7px;
+  --tsh-button-group-hover-bg: rgba(255, 255, 255, .55);
+  --tsh-button-group-active-bg: #ffffff;
+  --tsh-button-group-active-text: var(--tsh-text);
+  --tsh-button-group-active-shadow: 0 1px 4px rgba(31, 35, 48, .18);
+  --tsh-button-group-divider-color: rgba(31, 35, 48, .14);
+  --tsh-button-group-divider-inset: 8px;
+
+  --tsh-radius: 4px;
+  --tsh-radius-lg: 12px;
+  --tsh-font-size: 14px;
+  --tsh-font-sizes-sm: .85em;
+  --tsh-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --tsh-hour-height: 60px;
+  --tsh-all-day-height: 54px;
+  --tsh-time-column-width: 50px;
+  --tsh-resource-column-width: 300px;
+  --tsh-resource-row-height: 46px;
+  --tsh-transition-fast: 140ms ease;
+
+  box-sizing: border-box;
+  color: var(--tsh-text);
+  font-family: var(--tsh-font-family);
+  container-type: inline-size;
+}
+
+.tiny-scheduler *,
+.tiny-scheduler *::before,
+.tiny-scheduler *::after,
+.tiny-scheduler-frame *,
+.tiny-scheduler-frame *::before,
+.tiny-scheduler-frame *::after {
+  box-sizing: border-box;
+}
+
+.tiny-scheduler button,
+.tiny-scheduler-frame button {
+  font: inherit;
+}
+
+.tiny-scheduler {
+  position: relative;
+  width: 100%;
+  background: var(--tsh-bg);
+  font-size: var(--tsh-font-size, 14px);
+  overflow: hidden;
+}

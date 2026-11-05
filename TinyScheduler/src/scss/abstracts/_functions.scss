@@ -1,0 +1,7 @@
+@function tsh-rem($px) {
+  @return calc($px / 16) * 1rem;
+}
+
+@function tsh-strip-unit($value) {
+  @return calc($value / ($value * 0 + 1));
+}

@@ -1,0 +1,68 @@
+.tsh-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-block-size: 68px;
+  padding: 0 1rem;
+  user-select: none;
+
+  > .tsh-toolbar-chunck {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+
+    &[data-toolbar-position="left"] {
+      justify-content: flex-start;
+    }
+
+    &[data-toolbar-position="center"] {
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    &[data-toolbar-position="right"] {
+      justify-content: flex-end;
+      flex-wrap: nowrap;
+    }
+
+    > .tsh-title {
+      margin: 0;
+      max-width: 100%;
+      overflow: hidden;
+      color: var(--tsh-text);
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 500;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.tsh-planning-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 0 26px 18px;
+  margin-top: -4px;
+
+  > .tsh-planning-toolbar-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    > .tsh-planning-toolbar-label {
+      color: #7a8295;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+  }
+}

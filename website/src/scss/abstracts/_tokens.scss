@@ -1,0 +1,23 @@
+:root {
+  color-scheme: dark;
+  --color-bg: #06112a;
+  --color-bg-deep: #040c22;
+  --color-text: #f6f8ff;
+  --color-muted: #bcc9e2;
+  --color-cyan: #35dfff;
+  --color-blue: #477bff;
+  --color-violet: #a04eff;
+  --color-pink: #fa65e6;
+  --color-orange: #ff995d;
+  --gradient-brand: linear-gradient(102deg, #22caff 0%, #586cff 37%, #a345ff 73%, #ff8b66 100%);
+  --gradient-type: linear-gradient(93deg, #33e3ff 0%, #628cff 32%, #bd60ff 70%, #ff80a4 100%);
+  --gradient-gold: linear-gradient(105deg, #fff199, #ffcd30 30%, #df9754 68%, #ad79ef 100%);
+  --surface-glass: rgba(15, 31, 70, .7);
+  --border-glass: rgba(111, 147, 226, .45);
+  --shadow-deep: 0 22px 65px rgba(0, 4, 23, .6);
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 25px;
+  --container: 1334px;
+  --font-body: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}

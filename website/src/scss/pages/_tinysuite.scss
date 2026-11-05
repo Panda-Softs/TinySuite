@@ -1,0 +1,28 @@
+.page--tinysuite {
+  .home-hero { display:grid; grid-template-columns:minmax(0,42%) minmax(0,58%); align-items:center; min-height:515px; padding-top:20px;gap:0;
+    >.home-hero__copy {padding:20px 0 45px;z-index:2;position:relative;}
+    .c-display-title { font-size:clamp(3.1rem,4.35vw,4.65rem); white-space:nowrap; }
+    .c-lead { max-width:505px; margin:22px 0 25px; }
+    >.home-hero__visual { position:relative; min-width:0; transform:translateX(3%);
+      >img {display:block;width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 15px 26px #070b2b65);}
+    }
+  }
+  .home-hero__benefits {display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:36px;
+    >span {display:flex;align-items:center;gap:8px;color:#d6e4ff;font-size:12px;font-weight:600;}
+    >span+span {border-left:1px solid #6e80b566;padding-left:17px;}
+    i {font-size:19px;font-style:normal;color:#a7dfff;}
+  }
+  .category-list {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;}
+  .category-tile {min-height:100px;display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:17px 14px;align-items:start;
+    >svg {width:29px;height:29px;color:#53e6ff;}
+    &--violet>svg {color:#ed7aff;}
+    >span {display:block;>strong{display:block;font-size:14px;margin-bottom:5px;line-height:1.2;} >small{display:block;font-size:12px;line-height:1.4;color:#bac6df;}}
+  }
+  .home-featured {margin-top:27px;}
+  .home-demos {display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:36px;
+    >.home-demos__links {display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;}
+  }
+}
+@media(max-width:1180px){.page--tinysuite { .home-hero {grid-template-columns:48% 52%; .c-display-title{font-size:clamp(2.7rem,4.5vw,4rem);} } .category-list{grid-template-columns:repeat(3,1fr);} }}
+@media(max-width:900px){.page--tinysuite { .home-hero {grid-template-columns:minmax(0,1fr); min-height:0; .c-display-title{font-size:clamp(2.9rem,8vw,4.5rem);white-space:normal;} >.home-hero__visual{transform:none;margin:0 auto;width:min(680px,100%);} } .category-list{grid-template-columns:repeat(2,1fr);} }}
+@media(max-width:600px){.page--tinysuite { .home-hero{padding-top:45px; .c-display-title{font-size:clamp(2.7rem,11vw,4rem);} } .category-list{grid-template-columns:1fr;} .home-demos{align-items:flex-start;flex-direction:column;} .c-showcase{height:350px; transform:scale(.8);transform-origin:top left;width:125%;} }}

@@ -1,0 +1,243 @@
+/* Resource timeline */
+.tsh-resource-timeline {
+  --tsh-rtl-half-hour-width: 1.5em;
+  --tsh-rtl-day-width: 96px;
+  --tsh-rtl-row-height: 46px;
+  --tsh-rtl-resource-column-width: var(--tsh-resource-column-width, 220px);
+  --tsh-rtl-resource-depth-padding: 16px;
+  --tsh-rtl-resource-depth-step: 28px;
+  --tsh-rtl-time-width: calc(var(--tsh-rtl-slot-count) * var(--tsh-rtl-slot-width));
+
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--tsh-border);
+  background: #fff;
+
+  > .tsh-rtl-scroller {
+    position: relative;
+    max-height: 720px;
+    overflow: auto;
+
+    > .tsh-rtl-grid {
+      display: grid;
+      grid-template-columns:
+        var(--tsh-rtl-resource-column-width)
+        minmax(var(--tsh-rtl-time-width), 1fr);
+      width: 100%;
+      min-width: calc(var(--tsh-rtl-resource-column-width) + var(--tsh-rtl-time-width));
+
+      > .tsh-rtl-resource-header,
+      > .tsh-rtl-time-header {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        min-height: 38px;
+        background: #fff;
+        border-bottom: 1px solid var(--tsh-border);
+        user-select: none;
+      }
+
+      > .tsh-rtl-resource-header {
+        grid-column: 1;
+        grid-row: 1;
+        left: 0;
+        z-index: 7;
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        padding: 0 16px;
+        border-right: 1px solid var(--tsh-border);
+        box-shadow: 2px 0 0 rgba(0, 0, 0, .06);
+        color: #232631;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      > .tsh-rtl-time-header {
+        grid-column: 2;
+        grid-row: 1;
+        min-width: 0;
+        width: 100%;
+        overflow: hidden;
+
+        > .tsh-rtl-time-slots {
+          > .tsh-rtl-slot {
+            border-left-color: var(--tsh-border);
+          }
+        }
+      }
+
+      > .tsh-rtl-resource-rows {
+        grid-column: 1;
+        grid-row: 2;
+        position: sticky;
+        left: 0;
+        z-index: 4;
+        min-width: 0;
+        border-right: 1px solid var(--tsh-border);
+        background: #fff;
+        box-shadow: 2px 0 0 rgba(0, 0, 0, .06);
+
+        > .tsh-rtl-resource-row {
+          height: var(--tsh-rtl-row-height);
+          min-height: var(--tsh-rtl-row-height);
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          min-width: 0;
+          padding-right: 12px;
+          padding-left: calc(
+            var(--tsh-rtl-resource-depth-padding)
+            + (var(--depth, 0) * var(--tsh-rtl-resource-depth-step))
+          );
+          border-bottom: 1px solid var(--tsh-border);
+          background: #fff;
+          color: #232631;
+          font-size: 14px;
+
+          &--child {
+            color: #4c5260;
+          }
+
+          &--empty {
+            padding-left: var(--tsh-rtl-resource-depth-padding);
+            color: var(--tsh-muted-text);
+            font-style: italic;
+          }
+
+          > .tsh-rtl-resource-title {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          > .tsh-rtl-toggle {
+            width: 18px;
+            height: 18px;
+            flex: 0 0 auto;
+            padding: 0;
+            border: 1px solid #8b95a1;
+            border-radius: 3px;
+            background: #fff;
+            color: #5b6470;
+            line-height: 1;
+            cursor: pointer;
+
+            &:hover {
+              background: rgba(76, 78, 100, .08);
+            }
+          }
+        }
+      }
+
+      > .tsh-rtl-time-rows {
+        grid-column: 2;
+        grid-row: 2;
+        position: relative;
+        min-width: 0;
+        width: 100%;
+
+        > .tsh-rtl-time-row {
+          position: relative;
+          height: var(--tsh-rtl-row-height);
+          min-height: var(--tsh-rtl-row-height);
+          border-bottom: 1px solid var(--tsh-border);
+          background: #fff;
+
+          &--empty {
+            background: var(--tsh-bg-soft, #fafafa);
+          }
+
+          > .tsh-rtl-row-slots {
+            height: 100%;
+          }
+
+          > .tsh-rtl-events-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+
+            > .tsh-event--timeline {
+              position: absolute;
+              top: var(--tsh-rtl-event-y-gap, 2px);
+              bottom: var(--tsh-rtl-event-y-gap, 2px);
+              height: auto;
+              min-height: 0;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              pointer-events: auto;
+
+              > .tsh-event-title,
+              > .tsh-event-text,
+              > .tsh-event-time {
+                flex: 0 0 auto;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /*
+    Shared slot grids.
+    The minimum width keeps slots readable. When the container is wider, slots
+    stretch with 1fr so the timeline fills the available space. When the minimum
+    width is reached, the single .tsh-rtl-scroller provides horizontal scrolling
+    for header, resource rows and time rows together.
+  */
+  .tsh-rtl-time-slots,
+  .tsh-rtl-row-slots {
+    display: grid;
+    grid-template-columns: repeat(
+      var(--tsh-rtl-slot-count),
+      minmax(var(--tsh-rtl-local-slot-width, var(--tsh-rtl-slot-width)), 1fr)
+    );
+    width: 100%;
+    min-width: var(--tsh-rtl-time-width);
+  }
+
+  .tsh-rtl-slot {
+    min-width: 0;
+    border-left: 1px solid var(--tsh-border-light);
+
+    &--hour,
+    &--day {
+      border-left-color: var(--tsh-border);
+    }
+  }
+
+  .tsh-rtl-time-slots {
+    > .tsh-rtl-slot {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 6px;
+      color: #232631;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+
+      > .tsh-rtl-time-label {
+        display: block;
+        line-height: 1;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+  }
+
+  .tsh-rtl-row-slots {
+    > .tsh-rtl-slot {
+      height: 100%;
+    }
+  }
+}

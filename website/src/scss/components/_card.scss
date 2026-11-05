@@ -1,0 +1,115 @@
+.c-card {
+  --card-edge: linear-gradient(130deg,rgba(78,200,255,.85),rgba(99,102,203,.48) 54%,rgba(138,89,205,.85));
+  --card-tint: rgba(24, 80, 171, .12);
+  position: relative; display: block; border: 1px solid transparent; border-radius: var(--radius-lg);
+  background: linear-gradient(145deg,#15294d,#0b1834 68%,#15244b) padding-box,var(--card-edge) border-box;
+  box-shadow: inset 0 1px #ffffff1c, 0 14px 26px #0107196e;
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+  &:hover { color: #fff; transform: translateY(-3px); box-shadow: 0 20px 40px #0009,0 0 25px #3f89ff27; }
+  &::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse at 88% 100%,var(--card-tint),transparent 57%); }
+  > * { position: relative; z-index: 1; }
+  &--cyan { --card-edge: linear-gradient(126deg,#56edff,#4677cb 45%,#7e9dff); --card-tint: #118fff35; }
+  &--violet { --card-edge: linear-gradient(126deg,#ef80e5,#8b5aa8 48%,#926bf0); --card-tint: #b643ff35; }
+  &--gold { --card-edge: linear-gradient(126deg,#f4de80,#d3a448 50%,#7c80c9); --card-tint: #e3aa3e29; }
+  &--glass { --card-edge: linear-gradient(133deg,#87a2e18a,#4f6da07d,#a773d894); --card-tint: #677eff18; }
+}
+/* Promo cards are intrinsically sized: the row height follows the longest
+   description instead of clipping text in a fixed 230px box. */
+.c-promo-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(92px, 34%);
+  align-items: stretch;
+  gap: clamp(10px, 1.3vw, 18px);
+  min-height: 310px;
+  height: auto;
+  padding: clamp(20px, 2vw, 26px);
+
+  > .c-promo-card__content {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  > .c-promo-card__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 180px;
+    object-fit: contain;
+    align-self: center;
+    justify-self: center;
+    filter: drop-shadow(0 14px 17px #0008);
+  }
+
+  &__type {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    min-width: 0;
+
+    > img, > svg {
+      display: block;
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      object-fit: contain;
+    }
+  }
+
+  &__name {
+    margin: 22px 0 10px;
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    font-weight: 790;
+    line-height: 1.09;
+    letter-spacing: -.04em;
+    overflow-wrap: normal;
+  }
+
+  &__description {
+    max-width: none;
+    margin: 0;
+    color: #d9e1f1;
+    font-size: 13px;
+    line-height: 1.55;
+    overflow-wrap: break-word;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 20px;
+    font-size: 14px;
+    font-weight: 760;
+  }
+
+  &__badge {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    padding: 4px 10px;
+    border: 1px solid #f5d36577;
+    border-radius: 99px;
+    color: #fbd95c;
+    background: #c1a04021;
+    font-size: 11px;
+    letter-spacing: normal;
+  }
+}
+
+@media (max-width: 670px) {
+  .c-promo-card {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding: 20px;
+    &__name { margin-top: 16px; }
+    &__description { font-size: 13px; }
+    &__link { margin-top: 10px; padding-top: 12px; }
+    > .c-promo-card__image { max-width: 160px; max-height: 160px; justify-self: end; }
+  }
+}

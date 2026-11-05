@@ -1,0 +1,13 @@
+.c-footer {
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;
+  padding:35px 0 45px;margin-top:30px;border-top:1px solid #6579b62f;
+  color:#9caed0;font-size:12px;
+}
+.c-action-row {display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  &--product{gap:10px;margin-top:28px;}
+}
+.c-category-symbol{display:inline-block;font-size:28px;color:#42dfff;}
+.page--demo-placeholder{background:#07152e;color:#d8e9ff;
+  >main{padding:3rem;max-width:50rem;margin:auto;font-size:16px;}
+  a{color:#7bdbff;}
+}

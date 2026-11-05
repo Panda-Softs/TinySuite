@@ -1,0 +1,50 @@
+/* List view */
+.tsh-list {
+  border: 1px solid var(--tsh-border);
+  background: #fff;
+}
+
+.tsh-list-day-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  background: #f2f2f2;
+  border-bottom: 1px solid var(--tsh-border);
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tsh-list-row {
+  display: grid;
+  grid-template-columns: 180px 24px 1fr;
+  align-items: center;
+  width: 100%;
+  min-height: 50px;
+  border: 0;
+  border-bottom: 1px solid var(--tsh-border);
+  background: #fff;
+  text-align: left;
+  padding: 0 22px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tsh-list-row:nth-child(even) { background: #fafafa; }
+
+.tsh-list-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tsh-primary);
+}
+
+.tsh-list-main {
+  display: grid;
+  gap: 2px;
+}
+
+.tsh-list-main span {
+  color: var(--tsh-muted-text);
+  font-size: 12px;
+}

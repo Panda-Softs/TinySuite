@@ -1,0 +1,234 @@
+/* Mini calendar */
+.tiny-mini-calendar {
+  padding: 8px 10px 10px;
+  overflow: hidden;
+
+  &.tmc--slide-left {
+    .tmc-grid {
+      animation: tmc-slide-left 180ms ease-out;
+    }
+  }
+
+  &.tmc--slide-right {
+    .tmc-grid {
+      animation: tmc-slide-right 180ms ease-out;
+    }
+  }
+
+  .tmc-header {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    gap: 4px;
+
+    button {
+      width: 34px;
+      height: 34px;
+      border: 1px solid #d1d6df;
+      border-radius: 50%;
+      background: #fff;
+      color: #b3bac5;
+      font-size: 28px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+
+      &:hover {
+        color: #7367f0;
+        border-color: #7367f0;
+      }
+
+      &:focus-visible {
+        outline: 2px solid rgba(115, 103, 240, .35);
+        outline-offset: 2px;
+      }
+
+    }
+
+    > div {
+      text-align: center;
+      color: #6a6c88;
+    }
+  }
+
+  .tmc-month {
+    display: block;
+    font-size: 26px;
+    line-height: 1;
+    text-transform: capitalize;
+  }
+
+  .tmc-year {
+    display: block;
+    color: #9aa0b2;
+    font-size: 15px;
+  }
+
+  .tmc-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-top: 12px;
+    padding: 8px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, .58);
+    overflow: hidden;
+    will-change: transform, opacity;
+  }
+
+  .tmc-weekday {
+    padding: 4px 0;
+    color: #555d72;
+    font-size: 18px;
+    font-weight: 800;
+    text-align: center;
+    user-select: none;
+  }
+
+  .tmc-day-cell {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    margin-bottom: 10px;
+    justify-content: center;
+    display: flex;
+    //justify-items: center;
+    //align-content: start;
+    align-items: center;     // vertical
+    background: transparent;
+
+    &--wrong-month {
+      background: rgba(239, 241, 246, .72);
+    }
+
+    &--wrong-month-start-radius {
+      border-top-left-radius: 999px;
+      border-bottom-left-radius: 999px;
+    }
+
+    &--wrong-month-end-radius {
+      border-top-right-radius: 999px;
+      border-bottom-right-radius: 999px;
+    }
+
+    .tmc-day {
+      position: relative;
+      z-index: 1;
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: transparent;
+      color: #2b2d33;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      user-select: none;
+
+      &:hover {
+        background: rgba(115, 103, 240, .10);
+      }
+
+      &:focus-visible {
+        outline: 2px solid rgba(115, 103, 240, .45);
+        outline-offset: 2px;
+      }
+
+      &--wrong-month {
+        color: #828a9c;
+      }
+
+      &--today {
+        outline: 2px dashed #6c63ff;
+        outline-offset: 1px;
+      }
+
+      &--selected {
+        background: #7367f0;
+        color: #fff;
+        font-weight: 800;
+
+        &:hover {
+          background: #7367f0;
+        }
+      }
+
+      &--has-event {
+        font-weight: 600;
+      }
+    }
+
+    .tmc-day-events {
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      bottom: 3px;
+      transform: translateY(100%);
+      display: grid;
+      justify-items: center;
+      gap: 2px;
+      pointer-events: none;
+      z-index: 1;
+
+      > .tmc-event-dots, > .tmc-all-day-bars {
+        display: flex;
+        justify-content: center;
+        gap: 1px 2px;
+        min-width: 0;
+        flex-wrap: wrap;
+      }
+
+      > .tmc-event-dots > .tmc-event-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #3b8edb;
+      }
+      &.markers-sm {
+        gap: 1px 1px;
+        > .tmc-event-dots > .tmc-event-dot {
+          width: 3px;
+          height: 3px;
+        }
+      }
+      &.markers-xs {
+        gap: 0.5px 0.5px;
+        > .tmc-event-dots > .tmc-event-dot {
+          width: 2px;
+          height: 2px;
+        }
+      }
+
+      > .tmc-all-day-bars > .tmc-all-day-bar {
+        width: 13px;
+        height: 3px;
+        border-radius: 6px;
+        background: #3b8edb;
+      }
+    }
+  }
+}
+
+@keyframes tmc-slide-left {
+  from {
+    opacity: .35;
+    transform: translateX(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tmc-slide-right {
+  from {
+    opacity: .35;
+    transform: translateX(-22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,13 @@
+.tiny-scheduler *,
+.tiny-scheduler *::before,
+.tiny-scheduler *::after,
+.tiny-scheduler-frame *,
+.tiny-scheduler-frame *::before,
+.tiny-scheduler-frame *::after {
+  box-sizing: border-box;
+}
+
+.tiny-scheduler button,
+.tiny-scheduler-frame button {
+  font: inherit;
+}

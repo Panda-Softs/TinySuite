@@ -1,0 +1,535 @@
+.tsh-event {
+  position: relative;
+  min-height: 20px;
+  padding: 2px 5px;
+  border: 0;
+  border-radius: 4px;
+  outline: 1px solid var(--tsh-bg);
+  background: var(--tsh-event-bg);
+  color: var(--tsh-event-text);
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  text-align: left;
+  font-size: var(--tsh-font-sizes-sm, 12px);
+  line-height: 1.15;
+
+  &:hover {
+    filter: brightness(.96);
+    box-shadow: 0 0 0 2px rgba(59, 142, 219, .18);
+  }
+  &--selected {
+    z-index: 5;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--tsh-event-bg, #7367f0) !important;
+  }
+
+  &--dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 18px;
+    padding: 0;
+    background: transparent;
+    color: var(--tsh-text);
+  }
+
+  > .tsh-event-title,
+  > .tsh-event-text,
+  > .tsh-event-time {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  > .tsh-event-title {
+    font-weight: 700;
+  }
+
+  > .tsh-event-text {
+    opacity: .9;
+  }
+
+  > .tsh-event-time {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  > .tsh-event-resize-handle {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 4;
+    height: 8px;
+    cursor: ns-resize;
+    touch-action: none;
+    opacity: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 8px;
+      bottom: 2px;
+      left: 8px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .75);
+    }
+  }
+
+  &:hover,
+  &--selected,
+  &--resizing {
+    > .tsh-event-resize-handle {
+      opacity: 1;
+    }
+  }
+
+  &--all-day {
+    width: 100%;
+    min-height: 22px;
+    font-weight: 700;
+  }
+
+  &--block {
+    position: absolute;
+    min-height: 22px;
+    z-index: 2;
+  }
+
+  &--timeline {
+    position: absolute;
+    z-index: 2;
+  }
+
+  /*
+    ResourceTimeline all-day event. The event still spans the full visible day,
+    but fades, subtle stripes and the infinity badge make the long occupation
+    immediately understandable without changing its positioning.
+  */
+  &--timeline-all-day {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, .24) 0,
+        transparent 18px,
+        transparent calc(100% - 18px),
+        rgba(255, 255, 255, .24) 100%
+      ),
+      repeating-linear-gradient(
+        135deg,
+        rgba(255, 255, 255, .08) 0 4px,
+        transparent 4px 10px
+      ),
+      var(--tsh-event-bg);
+
+    > .tsh-event-timeline-all-day-icon {
+      position: absolute;
+      top: 50%;
+      right: 6px;
+      z-index: 3;
+      color: inherit;
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1;
+      opacity: .86;
+      pointer-events: none;
+      user-select: none;
+      transform: translateY(-50%);
+    }
+
+    > .tsh-event-title,
+    > .tsh-event-text {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &--narrow {
+    padding: 2px 4px;
+    line-height: 1.08;
+
+    > .tsh-event-text {
+      display: none;
+    }
+
+    > .tsh-event-time,
+    > .tsh-event-title {
+      font-size: 0.5rem;
+      line-height: 1;
+    }
+  }
+
+  &--tiny {
+    padding: 1px 3px;
+    line-height: 1;
+
+    > .tsh-event-text {
+      display: none;
+    }
+
+    > .tsh-event-time,
+    > .tsh-event-title {
+      font-size: 10px;
+      line-height: 1;
+    }
+  }
+
+  &--block {
+    &.tsh-event--tiny {
+      > .tsh-event-title {
+        display: none;
+      }
+    }
+  }
+
+  &--timeline {
+    &.tsh-event--tiny {
+      > .tsh-event-title {
+        display: block;
+      }
+    }
+  }
+
+  &--drag-source-hidden {
+    visibility: hidden;
+  }
+
+  &--dragging {
+    opacity: .72;
+  }
+
+  &--dragging {
+    cursor: grabbing;
+    box-shadow: 0 0 0 2px orange !important;
+    opacity: .72;
+  }
+
+  &--resizing {
+    z-index: 20;
+    opacity: .92;
+    cursor: ns-resize;
+    box-shadow:
+      0 0 0 2px #fff,
+      0 0 0 4px var(--tsh-primary, #7367f0),
+      0 12px 28px rgba(15, 23, 42, .22);
+  }
+
+
+  /*
+    Resource overlap feedback.
+    The border remains crisp while a soft gradient halo breathes behind the
+    event. Only opacity and transform are animated for a smooth result.
+  */
+  &--collision,
+  &--collision-preview {
+    --tsh-collision-red: #ff4d67;
+    --tsh-collision-orange: #ff8a3d;
+    --tsh-collision-yellow: #ffd84d;
+
+    position: relative;
+    z-index: 22;
+    overflow: visible;
+    isolation: isolate;
+    border: 2px solid var(--tsh-collision-orange);
+    outline: 1px solid rgba(255, 255, 255, .7);
+    box-shadow:
+      0 0 0 1px rgba(255, 77, 103, .16),
+      0 5px 16px rgba(127, 29, 29, .18);
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      z-index: -1;
+      border-radius: calc(4px + 4px);
+      background: linear-gradient(
+        90deg,
+        var(--tsh-collision-red),
+        var(--tsh-collision-orange),
+        var(--tsh-collision-yellow),
+        var(--tsh-collision-red)
+      );
+      filter: blur(7px);
+      opacity: .34;
+      pointer-events: none;
+      transform: scale(.98);
+      transform-origin: center;
+      will-change: transform, opacity;
+      animation: tshCollisionGlow 1.8s ease-in-out infinite;
+    }
+
+    &::after {
+      content: '⚠';
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      z-index: 5;
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(249, 115, 22, .25);
+      border-radius: 50%;
+      background: #fff;
+      color: #f97316;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      box-shadow:
+        0 2px 8px rgba(15, 23, 42, .2),
+        0 0 0 2px rgba(255, 255, 255, .88);
+      pointer-events: none;
+    }
+  }
+
+  &--collision-preview {
+    opacity: .92;
+    border-style: dashed;
+
+    &::before {
+      opacity: .48;
+      animation-duration: 1.15s;
+    }
+  }
+
+}
+
+@keyframes tshCollisionGlow {
+  0%,
+  100% {
+    opacity: .26;
+    transform: scale(.98);
+  }
+
+  50% {
+    opacity: .58;
+    transform: scale(1.035);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tsh-event--collision::before,
+  .tsh-event--collision-preview::before {
+    animation: none;
+    opacity: .38;
+    transform: none;
+  }
+}
+
+
+.tsh-event-drag-mirror {
+  position: fixed;
+  z-index: 10000;
+  opacity: .88;
+  pointer-events: none;
+  cursor: grabbing;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, .22);
+  will-change: left, top;
+}
+
+.tsh-month-dot-event {
+  &:hover {
+    filter: brightness(.96);
+    box-shadow: 0 0 0 2px rgba(59, 142, 219, .18);
+  }
+}
+
+.tsh-month-day {
+  &.tsh-drop-target-hover {
+    background: rgba(59, 142, 219, .12) !important;
+    box-shadow: inset 0 0 0 2px rgba(59, 142, 219, .42);
+  }
+}
+
+/* Shared calendar day states */
+.tsh-day-number {
+  color: inherit;
+
+  &--weekend {
+    color: var(--tsh-weekend-color, #d45b5b);
+    font-weight: 700;
+  }
+}
+
+.tsh-slot {
+  position: relative;
+  user-select: none;
+
+  /*
+  Past-day texture is intentionally applied to the slot background only.
+  Events and interactive content remain fully opaque above it.
+*/
+  &.tsh-slot--past {
+    position: relative;
+    isolation: isolate;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+                      135deg,
+                      rgba(76, 78, 100, .07) 0,
+                      rgba(76, 78, 100, .07) 1px,
+                      transparent 1px,
+                      transparent 7px
+      );
+    }
+    /*
+    > * {
+      position: relative;
+      z-index: 1;
+    }*/
+  }
+
+  &--selected {
+
+    --tsh-slot-selection-bg     : rgba(59, 142, 219, .1);
+    --tsh-slot-selection-border : #92caff;
+
+    --tsh-slot-selection-color: var(--tsh-slot-selection-border, #3b8edb);
+    --tsh-slot-selection-size: 2px;
+
+    --tsh-slot-selection-top: var(--tsh-slot-selection-size);
+    --tsh-slot-selection-right: var(--tsh-slot-selection-size);
+    --tsh-slot-selection-bottom: var(--tsh-slot-selection-size);
+    --tsh-slot-selection-left: var(--tsh-slot-selection-size);
+
+    /*
+      Draw slightly outside the slot so the blue line sits on the grid border,
+      not inside the slot.
+    */
+    --tsh-slot-selection-outset: -1px;
+
+    z-index: 2;
+    background: var(--tsh-slot-selection-bg,rgba(59, 142, 219, .1));
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 3;
+      pointer-events: none;
+
+      top: var(--tsh-slot-selection-outset);
+      right: var(--tsh-slot-selection-outset);
+      bottom: var(--tsh-slot-selection-outset);
+      left: var(--tsh-slot-selection-outset);
+
+      background:
+              linear-gradient(
+                              var(--tsh-slot-selection-color),
+                              var(--tsh-slot-selection-color)
+              ) top left / 100% var(--tsh-slot-selection-top) no-repeat,
+
+              linear-gradient(
+                              var(--tsh-slot-selection-color),
+                              var(--tsh-slot-selection-color)
+              ) top right / var(--tsh-slot-selection-right) 100% no-repeat,
+
+              linear-gradient(
+                              var(--tsh-slot-selection-color),
+                              var(--tsh-slot-selection-color)
+              ) bottom left / 100% var(--tsh-slot-selection-bottom) no-repeat,
+
+              linear-gradient(
+                              var(--tsh-slot-selection-color),
+                              var(--tsh-slot-selection-color)
+              ) top left / var(--tsh-slot-selection-left) 100% no-repeat;
+    }
+  }
+
+  &--connected-top {
+    --tsh-slot-selection-top: 0px;
+    border-top-color: transparent !important;
+  }
+
+  &--connected-right {
+    --tsh-slot-selection-right: 0px;
+    border-right-color: transparent !important;
+  }
+
+  &--connected-bottom {
+    --tsh-slot-selection-bottom: 0px;
+    border-bottom-color: transparent !important;
+  }
+
+  &--connected-left {
+    --tsh-slot-selection-left: 0px;
+    border-left-color: transparent !important;
+  }
+
+  &.tsh-drop-target-hover {
+    background: rgba(59, 142, 219, .12);
+  }
+}
+
+.tsh-event-action-toolbar {
+  position: absolute;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgba(76, 78, 100, .18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .16);
+  backdrop-filter: blur(8px);
+  transform: none;
+
+  &[hidden] {
+    display: none;
+  }
+
+  > .tsh-event-action-button {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #232631;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(76, 78, 100, .08);
+    }
+
+    &--danger {
+      &:hover {
+        color: #ea5455;
+        background: rgba(234, 84, 85, .14);
+      }
+    }
+
+    > .tsh-button-svg {
+      width: 15px;
+      height: 15px;
+      display: block;
+      margin: 0;
+      stroke-width: 2.25;
+    }
+  }
+}
+
+.tsh-scroll-container {
+  position: relative;
+}
+
+.tsh-empty {
+  padding: 34px;
+  text-align: center;
+  color: var(--tsh-muted-text);
+}

@@ -1,0 +1,32 @@
+.c-eyebrow {
+  display: inline-block;
+  margin: 0 0 15px;
+  background: var(--gradient-type);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .39em;
+  text-transform: uppercase;
+}
+.c-display-title {
+  margin: 0;
+  font-size: clamp(3.1rem, 4.9vw, 5.6rem);
+  font-weight: 820;
+  letter-spacing: -.064em;
+  line-height: 1.055;
+  text-wrap: balance;
+  > span { display: inline; }
+  &--product { font-size: clamp(3rem, 4.8vw, 5rem); }
+}
+.u-gradient-text {
+  background: var(--gradient-type);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.c-lead { color: #d4e0f4; font-size: clamp(.95rem, 1.18vw, 1.17rem); line-height: 1.55; }
+.c-section-title { margin: 0; font-size: clamp(1.8rem, 2.4vw, 2.6rem); line-height: 1.14; font-weight: 790; letter-spacing: -.045em; }
+.c-subtitle { font-size: clamp(1rem, 1.25vw, 1.25rem); font-weight: 470; color: #ebf2ff; }
+.u-muted { color: var(--color-muted); }

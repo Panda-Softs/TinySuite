@@ -1,0 +1,28 @@
+.c-atmosphere {
+  position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  background:
+    radial-gradient(ellipse 32% 23% at 88% 2%, #2b86cb5c 0%, transparent 80%),
+    radial-gradient(ellipse 38% 24% at 86% 38%, #8e3ae93b 0%, transparent 80%),
+    radial-gradient(ellipse 38% 25% at 15% 63%, #274be44b 0%, transparent 80%);
+  &__ribbon {
+    position: absolute; width: 85%; max-width: 1350px; height: auto; top: 160px; right: -17%; opacity: .9;
+    filter: drop-shadow(0 0 45px #4a4ee8b8);
+  }
+  &--panda {
+    background:
+      radial-gradient(ellipse 28% 35% at 72% 12%,#197ec666,transparent 85%),
+      radial-gradient(ellipse 30% 28% at 88% 40%,#932fc45c,transparent 82%),
+      radial-gradient(ellipse 26% 22% at 9% 49%,#10346d6b,transparent 85%);
+    > .c-atmosphere__ribbon { top: 45px; right: -10%; }
+  }
+}
+.page {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  /* Keep horizontal artwork clipped without blocking vertical page scrolling. */
+  overflow-x: clip;
+  overflow-y: visible;
+  background: var(--color-bg-deep);
+}
+.page > :not(.c-atmosphere):not(.c-header) { position: relative; z-index: 1; }
