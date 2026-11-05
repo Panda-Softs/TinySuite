@@ -118,8 +118,53 @@
       "TinyColorPicker.css"
     ]
   },
-  "scheduler": {
-    "directory": "TinyScheduler",
-    "build": "npm run build --prefix TinyScheduler"
+  "bundles": {
+    "TinyScheduler": {
+      "javascript": {
+        "sources": [
+          "src/js/utils/type-utils.js",
+          "src/js/constants/defaults.js",
+          "src/js/constants/class-names.js",
+          "src/js/MicroEvent.js",
+          "src/js/utils/date-utils.js",
+          "src/js/utils/search-utils.js",
+          "src/js/utils/timeago-utils.js",
+          "src/js/utils/color-utils.js",
+          "src/js/utils/dom-utils.js",
+          "src/js/utils/event-layout-utils.js",
+          "src/js/core/CalendarState.js",
+          "src/js/core/CalendarStateStorage.js",
+          "src/js/core/EventStore.js",
+          "src/js/core/ResourceStore.js",
+          "src/js/core/SourceManager.js",
+          "src/js/core/InteractionManager.js",
+          "src/js/views/AbstractView.js",
+          "src/js/views/MonthView.js",
+          "src/js/views/TimeGridView.js",
+          "src/js/views/ListView.js",
+          "src/js/views/ResourceTimeGridView.js",
+          "src/js/views/ResourceTimelineView.js",
+          "src/js/TinyScheduler.js",
+          "src/js/mini-calendar/TinyMiniCalendar.js",
+          "src/js/frame/TinySchedulerSidebar.js",
+          "src/js/frame/TinySchedulerFrame.js"
+        ],
+        "output": "tiny-scheduler.js",
+        "umdExports": [
+          "TinyScheduler",
+          "TinySchedulerFrame",
+          "TinySchedulerSidebar",
+          "TinyMiniCalendar"
+        ]
+      },
+      "scss": {
+        "source": "src/scss/tiny-scheduler.scss",
+        "output": "tiny-scheduler.css",
+        "browserslist": [
+          "last 10 versions",
+          "ie 11"
+        ]
+      }
+    }
   }
 }
