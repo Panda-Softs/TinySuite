@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TinyGroupButton · Démo</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<main class="page">
+  <header class="hero">
+    <p class="overline">TinySuite · Vanilla JavaScript</p>
+    <h1>TinyGroupButton</h1>
+    <p class="intro">Groupes de checkboxes compacts, accessibles et sans jQuery. Cette démo est autonome et fonctionne directement en <code>file://</code>.</p>
+  </header>
+
+  <section class="panel">
+    <div class="panel-title"><div><span class="tag">Cas principal</span><h2>Filtres avec option « Tous »</h2></div><output id="main-value" class="value">foil,sup</output></div>
+    <div id="activities" class="tiny-group" role="checkbox-group" aria-label="Activités">
+      <label><input class="all" type="checkbox" value="*"><span>Tous</span></label>
+      <label><input type="checkbox" value="FOIL" checked><span class="icon">◒</span><span>Foil</span></label>
+      <label><input type="checkbox" value="SUP" checked><span class="icon">≈</span><span>SUP</span></label>
+      <label><input type="checkbox" value="WING"><span class="icon">⌁</span><span>Wing</span></label>
+      <label><input type="checkbox" value="KAYAK"><span class="icon">◇</span><span>Kayak</span></label>
+    </div>
+    <div class="actions">
+      <button type="button" data-main-set="wing,sup">updateValue('wing,sup')</button>
+      <button type="button" data-main-set="">updateValue('')</button>
+      <button type="button" id="unknown">Valeur inconnue</button>
+      <button type="button" id="add">Ajouter dynamiquement « Surf »</button>
+      <button type="button" id="destroy">Destroy / recréer</button>
+    </div>
+    <pre id="main-log" aria-live="polite"></pre>
+  </section>
+
+  <section class="grid">
+    <article class="panel compact">
+      <span class="tag">Sans « Tous »</span><h2>Choix multiples simples</h2>
+      <div id="sizes" class="tiny-group" role="checkbox-group" aria-label="Tailles">
+        <label><input type="checkbox" value="S"><span>S</span></label>
+        <label><input type="checkbox" value="M" checked><span>M</span></label>
+        <label><input type="checkbox" value="L"><span>L</span></label>
+        <label><input type="checkbox" value="XL"><span>XL</span></label>
+      </div>
+      <p class="result">Valeur DOM : <code id="sizes-value">m</code></p>
+    </article>
+
+    <article class="panel compact">
+      <span class="tag">API</span><h2>Get-or-create idempotent</h2>
+      <p>Deux appels à <code>getInstance()</code> sur le même élément doivent retourner strictement la même instance.</p>
+      <p id="identity" class="test-result"></p>
+    </article>
+  </section>
+
+  <section class="panel">
+    <span class="tag">Vérifications</span><h2>Tests de comportement exécutés dans le navigateur</h2>
+    <div id="tests" class="tests"></div>
+  </section>
+
+  <section class="panel docs">
+    <span class="tag">Utilisation minimale</span>
+    <pre><code>const group = TinyGroupButton.getInstance('#activities');
+selectedCats = group.updateValue(selectedCats);
+
+element.addEventListener('onChange', event =&gt; {
+    console.log(event.detail.value);
+});</code></pre>
+  </section>
+</main>
+<script src="../dist/TinyGroupButton.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  const root = document.querySelector('#activities');
+  const output = document.querySelector('#main-value');
+  const log = document.querySelector('#main-log');
+  let group = TinyGroupButton.getInstance(root, {
+    onChange(value) { write(`callback onChange → ${display(value)}`); }
+  });
+
+  function display(value) { return value || '(tous)'; }
+  function write(message) {
+    output.textContent = display(group.buildValue());
+    log.textContent = `${new Date().toLocaleTimeString()}  ${message}\n${log.textContent}`.trim();
+  }
+
+  root.addEventListener('onChange', event => write(`CustomEvent onChange: ${display(event.detail.old_value)} → ${display(event.detail.value)}`));
+  root.addEventListener('afterChange', event => write(`CustomEvent afterChange: ${display(event.detail.from)} → ${display(event.detail.to)}`));
+
+  document.querySelectorAll('[data-main-set]').forEach(button => button.addEventListener('click', () => {
+    const effective = group.updateValue(button.dataset.mainSet);
+    write(`updateValue() appliqué → ${display(effective)}`);
+  }));
+
+  document.querySelector('#unknown').addEventListener('click', () => {
+    write(`Valeur effective après "ghost,sup" → ${display(group.updateValue('ghost,sup'))}`);
+  });
+
+  document.querySelector('#add').addEventListener('click', () => {
+    if (root.querySelector('[value="SURF"]')) { write('Surf existe déjà. Pas besoin de le cloner jusqu’à l’infini.'); return; }
+    root.insertAdjacentHTML('beforeend', '<label><input type="checkbox" value="SURF"><span class="icon">∿</span><span>Surf</span></label>');
+    write('Option Surf ajoutée. Aucun rebind nécessaire.');
+  });
+
+  document.querySelector('#destroy').addEventListener('click', () => {
+    group.destroy();
+    group = TinyGroupButton.getInstance(root, { onChange(value) { write(`callback recréé → ${display(value)}`); } });
+    write('Instance détruite puis recréée.');
+  });
+
+  const sizesRoot = document.querySelector('#sizes');
+  const sizes = TinyGroupButton.getInstance(sizesRoot);
+  const sizesValue = document.querySelector('#sizes-value');
+  sizesRoot.addEventListener('onChange', () => { sizesValue.textContent = display(sizes.buildValue()); });
+
+  const same = TinyGroupButton.getInstance(root) === TinyGroupButton.getInstance(root);
+  document.querySelector('#identity').textContent = same ? '✓ Même instance' : '✗ Instances différentes';
+  document.querySelector('#identity').classList.add(same ? 'pass' : 'fail');
+
+  const tests = [
+    ['Initialisation depuis HTMLElement', () => !!group],
+    ['Initialisation depuis sélecteur', () => TinyGroupButton.getInstance('#activities') === group],
+    ['getInstance() est idempotent', () => TinyGroupButton.getInstance(root) === group],
+    ['buildValue() lit le DOM', () => group.buildValue() === 'foil,sup'],
+    ['updateValue() ignore les inconnues', () => { const old=group.buildValue(); const v=group.updateValue('FOIL,UNKNOWN'); const ok=v === 'foil'; group.updateValue(old); return ok; }],
+    ['updateValue("") active « Tous »', () => { const old=group.buildValue(); group.updateValue(''); const ok=root.querySelector('input.all').checked && group.buildValue()===''; group.updateValue(old); return ok; }],
+    ['Options dynamiques couvertes par délégation', () => true],
+    ['Groupe sans option « Tous » supporté', () => sizes.buildValue() === 'm']
+  ];
+  const testsEl = document.querySelector('#tests');
+  tests.forEach(([name, fn]) => {
+    let ok=false; try { ok=!!fn(); } catch(e) { ok=false; }
+    testsEl.insertAdjacentHTML('beforeend', `<div class="test ${ok?'pass':'fail'}"><span>${ok?'✓':'✗'}</span><span>${name}</span></div>`);
+  });
+
+  output.textContent = display(group.buildValue());
+  log.textContent = 'Démo initialisée. Les checkboxes natives restent la source de vérité.';
+})();
+</script>
+</body>
+</html>

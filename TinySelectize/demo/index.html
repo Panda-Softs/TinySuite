@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TinySelectize Demo</title>
+  <link rel="stylesheet" href="../dist/TinySelectize.min.css" />
+  <style>
+    :root {
+      --page-bg: #f5f7fb;
+      --card-bg: rgba(255,255,255,.88);
+      --ink: #172033;
+      --muted: #667085;
+      --primary: #2563eb;
+      --primary-2: #7c3aed;
+      --ring: rgba(37, 99, 235, .22);
+      --border: rgba(15, 23, 42, .11);
+      --shadow: 0 24px 80px rgba(15, 23, 42, .12);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(37, 99, 235, .14), transparent 32rem),
+        radial-gradient(circle at 88% 7%, rgba(124, 58, 237, .16), transparent 28rem),
+        var(--page-bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 34px 0 70px; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+    .hero-main, .hero-side, .card {
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .hero-main { padding: 32px; }
+    .hero-side { padding: 24px; display: grid; gap: 14px; align-content: center; }
+    .eyebrow { margin: 0 0 10px; color: var(--primary); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; }
+    h1 { margin: 0; font-size: clamp(32px, 4vw, 56px); line-height: 1.02; letter-spacing: -.04em; }
+    h2 { margin: 0 0 10px; font-size: 22px; letter-spacing: -.02em; }
+    p { margin: 0; }
+    .muted { color: var(--muted); }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; isolation: isolate; }
+
+    .card { position: relative;padding: 22px; min-width: 0; }
+
+    .card:focus-within,
+    .card:has(.tsz--open) {
+      z-index: 50;
+    }
+
+    .card.full { grid-column: 1 / -1; }
+    .section-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+    .tag { display: inline-flex; align-items: center; border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 700; color: #1d4ed8; background: #dbeafe; white-space: nowrap; }
+    .field { display: grid; gap: 7px; margin: 12px 0; }
+    label { font-size: 13px; font-weight: 700; color: #344054; }
+    select { width: 100%; }
+    .actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 12px; }
+    button {
+      border: 1px solid rgba(37, 99, 235, .20);
+      border-radius: 999px;
+      background: #fff;
+      color: #1e3a8a;
+      cursor: pointer;
+      padding: 8px 13px;
+      font: inherit;
+      font-weight: 700;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+    }
+    button:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(37, 99, 235, .12); background: #eff6ff; }
+    pre {
+      margin: 12px 0 0;
+      max-height: 230px;
+      overflow: auto;
+      border: 1px solid rgba(15,23,42,.08);
+      border-radius: 16px;
+      background: #0f172a;
+      color: #dbeafe;
+      padding: 14px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    code { font-family: var(--mono); font-size: .92em; }
+    .stat { border-radius: 20px; padding: 15px; background: linear-gradient(135deg, #eff6ff, #f5f3ff); border: 1px solid rgba(37,99,235,.14); }
+    .stat strong { display:block; font-size: 24px; line-height: 1; }
+    .client-row { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: center; }
+    .client-name { font-weight: 800; }
+    .client-meta { grid-column: 1 / -1; color: #667085; font-size: 12px; display:flex; gap: 10px; flex-wrap:wrap; }
+    .client-id { border-radius: 999px; background:#eef2ff; color:#3730a3; padding: 2px 8px; font-size: 12px; font-weight:800; }
+    .drop-zone { height: 200px; overflow: hidden; border: 1px dashed #9ca3af; border-radius: 18px; padding: 14px; background:#f8fafc; }
+    .drop-zone .spacer { height: 78px; }
+    @media (max-width: 880px) { .hero, .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-main">
+        <p class="eyebrow">TinySelectize v2.0.8</p>
+        <h1>Fast, accessible select enhancement without dependencies.</h1>
+        <p class="muted" style="margin-top:16px; max-width: 760px;">
+          This demo covers local search, server-filtered AJAX, custom renderers, optgroups, multiple selections,
+          storage, tree data, detached dropdowns, mutation sync and the jQuery adapter path.
+        </p>
+      </div>
+      <aside class="hero-side">
+        <div class="stat"><strong>0 deps</strong><span class="muted">Core component</span></div>
+        <div class="stat"><strong>UMD</strong><span class="muted">Global / AMD / CJS</span></div>
+        <div class="stat"><strong>&lt;select&gt;</strong><span class="muted">Form-compatible source</span></div>
+      </aside>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="section-head"><div><h2>1. Local single select</h2><p class="muted">HTML options + optgroups + local filtering.</p></div><span class="tag">local</span></div>
+        <div class="field"><label for="country">Country</label><select id="country" data-placeholder="Type to search…"><option value=""></option><optgroup label="DACH"><option value="ch">Switzerland</option><option value="de">Germany</option><option value="at">Austria</option></optgroup><optgroup label="EU"><option value="fr">France</option><option value="it">Italy</option><option value="es">Spain</option></optgroup></select></div>
+        <div class="actions"><button data-action="country-get">Get value</button><button data-action="country-set">Set Germany</button><button data-action="country-clear">Clear</button></div>
+        <pre id="countryOut"></pre>
+      </article>
+
+      <article class="card">
+        <div class="section-head"><div><h2>2. Compact typeahead</h2><p class="muted">No visible typing field, keyboard still searches.</p></div><span class="tag">typeahead</span></div>
+        <div class="field"><label for="compact">Fruit</label><select id="compact"><option value=""></option><option value="apple">Apple</option><option value="apricot">Apricot</option><option value="banana">Banana</option><option value="blueberry">Blueberry</option><option value="cherry">Cherry</option></select></div>
+        <p class="muted">Click control, type <code>ap</code> or <code>bl</code>, use arrows + Enter.</p>
+        <pre id="compactOut"></pre>
+      </article>
+
+      <article class="card">
+        <div class="section-head"><div><h2>3. Multiple + async load</h2><p class="muted">Selectize-like <code>load(query, callback, payload)</code>.</p></div><span class="tag">async</span></div>
+        <div class="field"><label for="cities">Cities</label><select id="cities" multiple data-placeholder="Search cities…"><optgroup label="CH"></optgroup><optgroup label="EU"></optgroup></select></div>
+        <div class="actions"><button data-action="cities-get">Get</button><button data-action="cities-set">Set Zürich + Paris</button><button data-action="cities-clear">Clear</button></div>
+        <pre id="citiesOut"></pre>
+      </article>
+
+      <article class="card">
+        <div class="section-head"><div><h2>4. Backend-filtered search</h2><p class="muted">No local <code>searchField</code>; server order is preserved. Try <code>#2</code>.</p></div><span class="tag">server</span></div>
+        <div class="field"><label for="clients">Client</label><select id="clients" data-placeholder="Search name, phone or #id…"></select></div>
+        <div class="actions"><button data-action="client-focus">Focus + open</button><button data-action="client-clear">Clear</button></div>
+        <pre id="clientOut"></pre>
+      </article>
+
+      <article class="card">
+        <div class="section-head"><div><h2>5. Data options + generated optgroups</h2><p class="muted">Populate an empty select from an array.</p></div><span class="tag">options</span></div>
+        <div class="field"><label for="consoleSelect">Console</label><select id="consoleSelect" data-placeholder="Search console…"></select></div>
+        <div class="actions"><button data-action="console-get">Get</button><button data-action="console-set">Set Xbox 360</button><button data-action="console-clear">Clear</button></div>
+        <pre id="consoleOut"></pre>
+      </article>
+
+      <article class="card">
+        <div class="section-head"><div><h2>6. Storage restore</h2><p class="muted">Persists value in localStorage.</p></div><span class="tag">storage</span></div>
+        <div class="field"><label for="persist">Persisted value</label><select id="persist" data-placeholder="Pick one…"><option value=""></option><option value="alpha">Alpha</option><option value="beta">Beta</option><option value="gamma">Gamma</option></select></div>
+        <div class="actions"><button data-action="persist-get">Get</button><button data-action="persist-clear-storage">Clear storage</button><button data-action="persist-clear">Clear value</button></div>
+        <pre id="persistOut"></pre>
+      </article>
+
+      <article class="card full">
+        <div class="section-head"><div><h2>7. Tree plugin</h2><p class="muted">Flat backend data rendered as an indented hierarchy.</p></div><span class="tag">plugin</span></div>
+        <div class="field"><label for="category">Category</label><select id="category" data-placeholder="Search category…"><option value=""></option></select></div>
+        <div class="actions"><button data-action="category-get">Get</button><button data-action="category-clear">Clear</button></div>
+        <pre id="categoryOut"></pre>
+      </article>
+
+      <article class="card">
+        <div class="section-head"><div><h2>8. Detached dropdown</h2><p class="muted">Dropdown appended to <code>body</code> to escape clipping containers.</p></div><span class="tag">portal</span></div>
+        <div class="drop-zone"><div class="spacer muted">This container has <code>overflow:hidden</code>.</div><div class="field"><label for="portal">Portal select</label><select id="portal"><option value=""></option><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option><option value="xlarge">Extra large</option></select></div></div>
+        <pre id="portalOut"></pre>
+      </article>
+
+      <article class="card">
+        <div class="section-head"><div><h2>9. Mutation sync</h2><p class="muted">External DOM changes are observed.</p></div><span class="tag">sync</span></div>
+        <div class="field"><label for="dynamic">Dynamic options</label><select id="dynamic" data-placeholder="Add options…"><option value=""></option><option value="one">One</option></select></div>
+        <div class="actions"><button data-action="dynamic-add">Add option</button><button data-action="dynamic-disable">Toggle disabled</button><button data-action="dynamic-sync">Force sync</button></div>
+        <pre id="dynamicOut"></pre>
+      </article>
+    </section>
+  </main>
+
+  <script src="../dist/TinySelectize.min.js"></script>
+  <script src="../dist/TinySelectize.Tree.plugin.min.js"></script>
+  <script>
+    function fold(str) { return String(str == null ? '' : str).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+    function out(id, value) { document.getElementById(id).textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2); }
+    function selectedValues(select) { return Array.from(select.selectedOptions).map(function (o) { return o.value; }); }
+    function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (ch) { return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[ch]; }); }
+
+    var country = new TinySelectize('#country', { minChars: 0, searchField: ['label'], showSelectedInDropdown: false });
+    function showCountry() { out('countryOut', { selectValue: document.getElementById('country').value, apiValue: country.val() }); }
+    document.querySelector('[data-action="country-get"]').onclick = showCountry;
+    document.querySelector('[data-action="country-set"]').onclick = function () { country.val('de').then(showCountry); };
+    document.querySelector('[data-action="country-clear"]').onclick = function () { country.val('').then(showCountry); };
+    document.getElementById('country').addEventListener('change', showCountry); showCountry();
+
+    var compact = new TinySelectize('#compact', { minChars: 0, searchField: ['label'], showTypeahead: false, openOnFocus: true });
+    document.getElementById('compact').addEventListener('change', function () { out('compactOut', { value: compact.val() }); });
+    out('compactOut', { value: compact.val(), tip: 'Click, type letters, use arrows + Enter.' });
+
+    var CITY_DB = [
+      { value:'zur', label:'Zürich', group:'CH' }, { value:'gen', label:'Genève', group:'CH' }, { value:'bas', label:'Basel', group:'CH' },
+      { value:'par', label:'Paris', group:'EU' }, { value:'ber', label:'Berlin', group:'EU' }, { value:'rom', label:'Rome', group:'EU' }, { value:'mad', label:'Madrid', group:'EU' }
+    ];
+    var cities = new TinySelectize('#cities', {
+      minChars: 0,
+      searchField: ['label', 'value'],
+      debounceMs: 140,
+      load: function (query, callback, payload) {
+        var timer = setTimeout(function () {
+          var q = fold(query);
+          callback(CITY_DB.filter(function (x) { return !q || fold(x.label + ' ' + x.value).indexOf(q) !== -1; }));
+        }, 160);
+        if (payload && payload.signal) payload.signal.addEventListener('abort', function () { clearTimeout(timer); }, { once:true });
+      }
+    });
+    function showCities() { out('citiesOut', { selectedOptions: selectedValues(document.getElementById('cities')), apiValue: cities.val() }); }
+    document.querySelector('[data-action="cities-get"]').onclick = showCities;
+    document.querySelector('[data-action="cities-set"]').onclick = function () { cities.val(['zur','par']).then(showCities); };
+    document.querySelector('[data-action="cities-clear"]').onclick = function () { cities.val([]).then(showCities); };
+    document.getElementById('cities').addEventListener('change', showCities); showCities();
+
+    var CLIENTS = [
+      { client_id: 1, fullname: 'Camille Dervaux', email: 'camille.dervaux@example.fr', phone: '06 14 82 73 11', city: 'Lyon', address: '14 Rue des Capucins, 69001 Lyon' },
+      { client_id: 2, fullname: 'Mathis Verneuil', email: 'mathis.verneuil@example.fr', phone: '07 63 91 24 88', city: 'Bordeaux', address: '8 Quai des Chartrons, 33000 Bordeaux' },
+      { client_id: 42, fullname: 'Zoé Delacourt', email: 'zoe.delacourt@example.fr', phone: '06 55 44 33 22', city: 'Paris', address: '27 Avenue Parmentier, 75011 Paris' },
+      { client_id: 88, fullname: 'Atelier Rivage', email: 'contact@atelier-rivage.fr', phone: '04 91 22 67 40', city: 'Marseille', address: '5 Rue Sainte, 13001 Marseille' },
+      { client_id: 103, fullname: 'Lucien Morel', email: 'lucien.morel@example.fr', phone: '06 71 08 19 54', city: 'Nantes', address: '11 Rue Crébillon, 44000 Nantes' },
+      { client_id: 117, fullname: 'Élodie Carpentier', email: 'elodie.carpentier@example.fr', phone: '07 88 31 62 05', city: 'Toulouse', address: '19 Rue du Taur, 31000 Toulouse' },
+      { client_id: 134, fullname: 'Hugo Lenoir', email: 'hugo.lenoir@example.fr', phone: '06 45 90 17 63', city: 'Lille', address: '42 Rue Nationale, 59800 Lille' },
+      { client_id: 156, fullname: 'Sophie Bellanger', email: 'sophie.bellanger@example.fr', phone: '07 12 43 55 91', city: 'Strasbourg', address: '3 Rue des Juifs, 67000 Strasbourg' },
+      { client_id: 177, fullname: 'Maison Aurore', email: 'bonjour@maison-aurore.fr', phone: '05 56 22 18 70', city: 'Biarritz', address: '6 Avenue Édouard VII, 64200 Biarritz' },
+      { client_id: 201, fullname: 'Nathan Clairmont', email: 'nathan.clairmont@example.fr', phone: '06 98 27 11 84', city: 'Nice', address: '22 Rue Masséna, 06000 Nice' },
+
+      { client_id: 202, fullname: 'Claire Montfort', email: 'claire.montfort@example.fr', phone: '06 22 48 17 91', city: 'Rennes', address: '12 Rue Saint-Michel, 35000 Rennes' },
+      { client_id: 203, fullname: 'Jules Perrin', email: 'jules.perrin@example.fr', phone: '07 51 83 29 64', city: 'Grenoble', address: '4 Rue de Bonne, 38000 Grenoble' },
+      { client_id: 204, fullname: 'Atelier Horizon', email: 'contact@atelier-horizon.fr', phone: '03 88 11 54 72', city: 'Colmar', address: '9 Rue des Têtes, 68000 Colmar' },
+      { client_id: 205, fullname: 'Emma Vautrin', email: 'emma.vautrin@example.fr', phone: '06 93 20 77 14', city: 'Annecy', address: '18 Rue Royale, 74000 Annecy' },
+      { client_id: 206, fullname: 'Louis Charvet', email: 'louis.charvet@example.fr', phone: '07 67 45 10 88', city: 'Dijon', address: '7 Place Darcy, 21000 Dijon' },
+      { client_id: 207, fullname: 'Maison Boréale', email: 'bonjour@maison-boreale.fr', phone: '04 72 88 34 55', city: 'Lyon', address: '31 Rue Mercière, 69002 Lyon' },
+      { client_id: 208, fullname: 'Inès Delorme', email: 'ines.delorme@example.fr', phone: '06 18 90 65 41', city: 'Tours', address: '5 Rue Colbert, 37000 Tours' },
+      { client_id: 209, fullname: 'Gabriel Vernet', email: 'gabriel.vernet@example.fr', phone: '07 24 56 39 11', city: 'Montpellier', address: '16 Rue de l’Aiguillerie, 34000 Montpellier' },
+      { client_id: 210, fullname: 'Studio Altitude', email: 'contact@studio-altitude.fr', phone: '05 61 22 91 73', city: 'Toulouse', address: '44 Rue Peyrolières, 31000 Toulouse' },
+      { client_id: 211, fullname: 'Manon Rivière', email: 'manon.riviere@example.fr', phone: '06 47 85 12 33', city: 'Rouen', address: '21 Rue du Gros-Horloge, 76000 Rouen' }
+    ];
+
+    var clients = new TinySelectize('#clients', {
+      valueField: 'client_id',
+      labelField: 'fullname',
+      searchField: null,
+      sort: 'none',
+      minChars: 0,
+      loadThrottle: 120,
+      render: {
+        option: function (item) {
+          return '<div class="client-row"><span class="client-name">' + escapeHtml(item.fullname) + '</span><span class="client-id">#' + escapeHtml(item.client_id) + '</span><span class="client-meta"><span>' + escapeHtml(item.email) + '</span><span>' + escapeHtml(item.phone) + '</span><span>' + escapeHtml(item.city) + '</span></span></div>';
+        },
+        item: function (item) { return '<strong>#' + escapeHtml(item.client_id) + '</strong>&nbsp;' + escapeHtml(item.fullname); }
+      },
+      load: function (payload) {
+        var q = String(payload.query || '').trim();
+        var idMatch = q.match(/^#\s*(\d+)$/);
+        var result = CLIENTS.filter(function (c) {
+          if (!q) return true;
+          if (idMatch) return String(c.client_id) === idMatch[1];
+          return fold(c.fullname + ' ' + c.email + ' ' + c.phone + ' ' + c.city).indexOf(fold(q)) !== -1;
+        });
+        return Promise.resolve({ options: result });
+      },
+      onChange: function (value) { out('clientOut', { value: value, selected: clients.getSelectedOption() }); }
+    });
+    document.querySelector('[data-action="client-focus"]').onclick = function () { clients.focus(true); };
+    document.querySelector('[data-action="client-clear"]').onclick = function () { clients.val('').then(function(){ out('clientOut', { value: clients.val() }); }); };
+    out('clientOut', { tip: 'Try typing #2, Zoé, 079, or Lausanne.' });
+
+    var consoleData = [
+      { manufacturer:'Nintendo', value:'nes', name:'Nintendo Entertainment System' }, { manufacturer:'Nintendo', value:'snes', name:'Super Nintendo' }, { manufacturer:'Nintendo', value:'switch', name:'Switch' },
+      { manufacturer:'Sony', value:'ps1', name:'PlayStation' }, { manufacturer:'Sony', value:'ps5', name:'PlayStation 5' },
+      { manufacturer:'Microsoft', value:'360', name:'Xbox 360' }, { manufacturer:'Microsoft', value:'xsx', name:'Xbox Series X' }
+    ];
+    var consoleSelect = new TinySelectize('#consoleSelect', {
+      options: consoleData,
+      valueField: 'value', labelField: 'name', searchField: ['name', 'manufacturer'],
+      optgroupField: 'manufacturer', sortField: ['manufacturer', 'name'],
+      optionGroupRegister: function (group) { return { value: group, label: group }; }
+    });
+    function showConsole() { out('consoleOut', { value: consoleSelect.val(), selected: consoleSelect.getSelectedOption() }); }
+    document.querySelector('[data-action="console-get"]').onclick = showConsole;
+    document.querySelector('[data-action="console-set"]').onclick = function () { consoleSelect.val('360').then(showConsole); };
+    document.querySelector('[data-action="console-clear"]').onclick = function () { consoleSelect.val('').then(showConsole); };
+    showConsole();
+
+    var persistKey = 'TinySelectize:demo:persist:v207';
+    var persist = new TinySelectize('#persist', { minChars: 0, searchField: ['label'], storageKey: persistKey });
+    function showPersist() { out('persistOut', { value: persist.val(), storage: localStorage.getItem(persistKey) }); }
+    document.querySelector('[data-action="persist-get"]').onclick = showPersist;
+    document.querySelector('[data-action="persist-clear-storage"]').onclick = function () { persist.clearStorage(); showPersist(); };
+    document.querySelector('[data-action="persist-clear"]').onclick = function () { persist.val('').then(showPersist); };
+    document.getElementById('persist').addEventListener('change', showPersist); showPersist();
+
+    var CATEGORY_DATA = [
+      { categoryId: 10, parentCategoryId: null, title: 'Boats' }, { categoryId: 11, parentCategoryId: 10, title: 'Without permit' }, { categoryId: 12, parentCategoryId: 10, title: 'With permit' },
+      { categoryId: 13, parentCategoryId: 12, title: 'Pontoon' }, { categoryId: 14, parentCategoryId: 12, title: 'Lomac' },
+      { categoryId: 20, parentCategoryId: null, title: 'Paddle sports' }, { categoryId: 21, parentCategoryId: 20, title: 'SUP' }, { categoryId: 22, parentCategoryId: 20, title: 'Kayak' },
+      { categoryId: 30, parentCategoryId: null, title: 'Accessories' }
+    ];
+    var category = new TinySelectize('#category', {
+      valueField: 'categoryId', labelField: 'title', searchField: ['title'], sort: 'none',
+      ajax: { url: '/demo/categories', queryParam: 'q', queryMinChars: 0, mapOption: function (item) { return { value: String(item.categoryId), label: item.title, raw: item }; } },
+      load: function (payload) {
+        var q = fold(payload.query || '');
+        return Promise.resolve({ options: CATEGORY_DATA.filter(function (x) { return !q || fold(x.title).indexOf(q) !== -1; }) });
+      },
+      plugins: { tree: { parentField:'parentCategoryId', valueField:'categoryId', labelField:'title', showChildCount:true, onlyLeavesSelectable:false } },
+      onChange: function (value) { out('categoryOut', { value: value, selected: category.getSelectedOption() }); }
+    });
+    document.querySelector('[data-action="category-get"]').onclick = function () { out('categoryOut', { value: category.val(), selected: category.getSelectedOption() }); };
+    document.querySelector('[data-action="category-clear"]').onclick = function () { category.val('').then(function(){ out('categoryOut', { value: category.val() }); }); };
+    out('categoryOut', { tip: 'Open to see the hierarchy.' });
+
+    var portal = new TinySelectize('#portal', { minChars: 0, searchField: ['label'], dropdownParent: 'body', dropdownAutoFlip: true });
+    document.getElementById('portal').addEventListener('change', function () { out('portalOut', { value: portal.val(), parent: portal.dropdown.parentElement && portal.dropdown.parentElement.tagName }); });
+    out('portalOut', { parent: 'Open the control: dropdown is appended to body.' });
+
+    var dynamic = new TinySelectize('#dynamic', { minChars: 0, searchField: ['label'] });
+    var dynamicCounter = 2;
+    function showDynamic() { out('dynamicOut', { value: dynamic.val(), options: Array.from(document.getElementById('dynamic').options).map(function(o){ return { value:o.value, text:o.textContent, disabled:o.disabled }; }) }); }
+    document.querySelector('[data-action="dynamic-add"]').onclick = function () { var o = new Option('Generated ' + dynamicCounter, 'generated-' + dynamicCounter); document.getElementById('dynamic').appendChild(o); dynamicCounter++; showDynamic(); };
+    document.querySelector('[data-action="dynamic-disable"]').onclick = function () { dynamic.disable(!dynamic.state.disabled); showDynamic(); };
+    document.querySelector('[data-action="dynamic-sync"]').onclick = function () { dynamic.sync(); showDynamic(); };
+    document.getElementById('dynamic').addEventListener('change', showDynamic); showDynamic();
+  </script>
+</body>
+</html>

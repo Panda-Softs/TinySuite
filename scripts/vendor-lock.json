@@ -1,0 +1,8 @@
+{
+  "TinyDataTable/demo/vendor/tippy.css": "5969f497d9158d7682f8219c6f13fa67269cdf5bf50a3931d95327151dee5678",
+  "TinyDataTable/demo/vendor/tippy-bundle.umd.min.js": "3f0fe70eb26ccf28f6887a192e29d38dd7ef7c2f079a73304ad42ddc7bed37de",
+  "TinyDataTable/demo/vendor/mark.min.js": "21d62e1053f7589fe6365cccd7c636d1781abf7879a605d8ce5f1f5b81a7b8fa",
+  "TinyDataTable/demo/vendor/xlsx.full.min.js": "cc015130aa8521e7f088f88898eba949ccdcbfb38df0bd129b44b7273c3a6f41",
+  "TinyDataTable/demo/vendor/jspdf.umd.min.js": "85ba2cc3ff858a20fa49fe6e457bec863ea40b55a9f3725e58a940e62f6f61a4",
+  "TinyDataTable/demo/vendor/jspdf.plugin.autotable.min.js": "2223830cf9a1ec85af014cc71b37c1b1eb566f3d18b2ab8071e96af822c58bdb"
+}

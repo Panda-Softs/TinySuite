@@ -1,0 +1,125 @@
+{
+  "javascript": {
+    "TinyAutocomplete": [
+      "TinyAutocomplete.js"
+    ],
+    "TinyDataTable": [
+      "TinyDataTable.js",
+      "TinyDataTable.export.js",
+      "TinyDataTable.customSelect.js",
+      "TinyDataTable.custom_renders.js",
+      "TinyDataTable.inlineEdit.js",
+      "TinyDataTable.locale_fr.js",
+      "TinyDataTable.multiselect.js"
+    ],
+    "TinyTabs": [
+      "TinyTabs.js"
+    ],
+    "TinySwal": [
+      "TinySwal.js"
+    ],
+    "TinySideNav": [
+      "TinySideNav.js"
+    ],
+    "TinyGroupButton": [
+      "TinyGroupButton.js"
+    ],
+    "TinyChips": [
+      "TinyChips.js"
+    ],
+    "TinyDropdown": [
+      "TinyDropdown.js"
+    ],
+    "TinyLightbox": [
+      "TinyLightbox.js"
+    ],
+    "TinySortableList": [
+      "TinySortableList.js"
+    ],
+    "TinyCollapsible": [
+      "TinyCollapsible.js"
+    ],
+    "TinySelectize": [
+      "TinySelectize.js",
+      "TinySelectize.Tree.plugin.js",
+      "TinySelectize.Mark.plugin.js"
+    ],
+    "TinyDatePicker": [
+      "TinyDatePicker.js"
+    ],
+    "TinySignature": [
+      "TinySignature.js"
+    ],
+    "TinyT": [
+      "TinyT.js",
+      "TinyT.umd.js"
+    ],
+    "TinyCarousel": [
+      "TinyCarousel.js"
+    ],
+    "tinyColorPicker": [
+      "TinyColorPicker.js"
+    ],
+    "TinyInlineEditor": [
+      "TinyInlineEditor.js"
+    ],
+    "TinyGallery": [
+      "TinyGallery.js"
+    ]
+  },
+  "css": {
+    "TinyAutocomplete": [
+      "TinyAutocomplete.css"
+    ],
+    "TinyDataTable": [
+      "TinyDataTable.css"
+    ],
+    "TinyTabs": [
+      "TinyTabs.css"
+    ],
+    "TinySwal": [
+      "TinySwal.css"
+    ],
+    "TinySideNav": [
+      "TinySideNav.css"
+    ],
+    "TinyChips": [
+      "TinyChips.css"
+    ],
+    "TinyDropdown": [
+      "TinyDropdown.css"
+    ],
+    "TinyLightbox": [
+      "TinyLightbox.css"
+    ],
+    "TinySortableList": [
+      "TinySortableList.css"
+    ],
+    "TinyCollapsible": [
+      "TinyCollapsible.css",
+      "TinyCollapsibleAnim.css"
+    ],
+    "TinySelectize": [
+      "TinySelectize.css"
+    ],
+    "TinyDatePicker": [
+      "TinyDatePicker.css"
+    ],
+    "TinyCarousel": [
+      "TinyCarousel.css"
+    ],
+    "TinyInlineEditor": [
+      "TinyInlineEditor.css"
+    ],
+    "TinyGallery": [
+      "TinyGallery.css"
+    ],
+    "tinyColorPicker": [
+      "TinyColorPicker.css"
+    ]
+  },
+  "scheduler": {
+    "directory": "TinyScheduler",
+    "build": "npm run build --prefix TinyScheduler"
+  }
+}

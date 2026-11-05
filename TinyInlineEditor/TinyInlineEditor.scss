@@ -1,0 +1,493 @@
+@keyframes il_rumble {
+    0%, to { transform: translate3d(0, 0, 0); }
+    10%, 30%, 50%, 70%, 90% { transform: translate3d(-2px, 0, 0); }
+    20%, 40%, 60%, 80% { transform: translate3d(2px, 0, 0); }
+}
+
+/* ---------- Frame ---------- */
+.il__frame {
+    font-family: sans-serif;
+    font-size: 15px;
+
+    button,
+    input {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        appearance: none;
+        background: none;
+        outline: 0;
+        color: currentColor;
+        font-size: 16px;
+    }
+
+    * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+}
+
+/* ---------- Theming via CSS custom properties (conservé) ---------- */
+:root {
+    --il__panel-backgroundColor: white;
+    --il__panel-color: #252525;
+    --il-foreground-rgb: 42, 41, 49;
+    --il__button-hover-backgroundColor: rgba(0, 0, 0, .075);
+    --il__button-open-backgroundColor: rgba(0, 0, 0, .1);
+    --il__button-active-backgroundColor: #0088FF20;
+    --il__button-active-color: #0088FF;
+    --il__button-active-hover-backgroundColor: #0088FF30;
+    --il__button-active-hover-color: #0088FF;
+    --il__button-cancel-backgroundColor: #ff645c;
+    --il__button-cancel-color: white;
+    --il__button-cancel-hover-backgroundColor: #ff645c30;
+    --il__button-cancel-hover-color: #ff645c;
+    --il__button-confirm-backgroundColor: #6cd26c;
+    --il__button-confirm-color: white;
+    --il__button-confirm-hover-backgroundColor: #6cd26c30;
+    --il__button-confirm-hover-color: #6cd26c;
+    --il__tooltip-backgroundColor: #333;
+    --il__tooltip-color: white;
+    --il__dropdown-backgroundColor: white;
+    --il__dropdown-color: #252525;
+    --il__input-backgroundColor: rgba(0, 0, 0, 0.075);
+    --il__input-color: #252525;
+    --il__button-reset-color: #ff645c;
+}
+
+.il {
+    &--dark {
+        --il__panel-backgroundColor: #333333;
+        --il__panel-color: #F4F4F4;
+        --il__button-hover-backgroundColor: rgba(0, 0, 0, .15);
+        --il__button-focus-backgroundColor: rgba(255, 255, 255, .15);
+        --il__button-active-backgroundColor: #111111;
+        --il__button-active-color: #F4F4F4;
+        --il__button-active-hover-backgroundColor: #222222;
+        --il__button-active-hover-color: #F4F4F4;
+        --il__button-cancel-backgroundColor: #222222;
+        --il__button-cancel-color: white;
+        --il__button-cancel-hover-backgroundColor: #111111;
+        --il__button-cancel-hover-color: white;
+        --il__button-confirm-backgroundColor: #222222;
+        --il__button-confirm-color: white;
+        --il__button-confirm-hover-backgroundColor: #111111;
+        --il__button-confirm-hover-color: white;
+        --il__button-open-backgroundColor: rgba(0, 0, 0, .125);
+        --il__tooltip-backgroundColor: white;
+        --il__tooltip-color: #333;
+        --il__dropdown-backgroundColor: #333333;
+        --il__dropdown-color: #F4F4F4;
+        --il__input-backgroundColor: #222222;
+        --il__input-color: #F4F4F4;
+        --il__button-reset-color: #ff645c;
+    }
+
+    &--purple {
+        --il__panel-backgroundColor: linear-gradient(120deg, rgba(95,82,255,1) 0%, rgba(200,109,215,1) 100%);
+        --il__panel-color: #F4F4F4;
+        --il__button-hover-backgroundColor: rgba(0, 0, 0, .15);
+        --il__button-focus-backgroundColor: rgba(255, 255, 255, .15);
+        --il__button-active-backgroundColor: #F4F4F4;
+        --il__button-active-color: rgba(95,82,255,1);
+        --il__button-active-hover-backgroundColor: rgba(0, 0, 0, 0.2);
+        --il__button-active-hover-color: #F4F4F4;
+        --il__button-open-backgroundColor: rgba(0, 0, 0, .125);
+    }
+
+    &--rumble { animation: il_rumble .3s cubic-bezier(.7, 0, .175, 1); }
+}
+
+/* ---------- Toolbar ---------- */
+.il__toolbar {
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1rem) translateX(-50%);
+    transition:
+            opacity .6s cubic-bezier(.165, .84, .44, 1),
+            visibility .6s cubic-bezier(.165, .84, .44, 1),
+            transform .6s cubic-bezier(.165, .84, .44, 1);
+    will-change: transform, opacity, visibility;
+    pointer-events: none;
+    z-index: 1;
+
+    &.il--visible {
+        pointer-events: auto;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) translateX(-50%);
+    }
+
+    @media (max-width: 767px) {
+        top: 1rem !important;
+        left: 0 !important;
+        width: 100% !important;
+        transform: translateY(-1rem);
+
+        &.il--visible { transform: translateY(0); }
+    }
+}
+
+/* ---------- Tooltip ---------- */
+.il__tooltip {
+    position: absolute;
+    border-radius: .5rem;
+    background: var(--il__tooltip-backgroundColor);
+    color: var(--il__tooltip-color);
+    padding: .25rem .5rem;
+    top: 100%;
+    opacity: 0;
+    transition: opacity .3s ease, transform .3s ease;
+    will-change: opacity, transform;
+    transform: translateY(0) translateX(-50%);
+    font-size: 14px;
+    white-space: nowrap;
+    font-weight: bold;
+    pointer-events: none;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .1);
+    z-index: 1;
+
+    &.il--visible {
+        transform: translateY(.5rem) translateX(-50%);
+        opacity: 1;
+    }
+}
+
+/* ---------- Dropdown ---------- */
+.il__dropdown {
+    position: absolute;
+    border-radius: .5rem;
+    background: var(--il__dropdown-backgroundColor);
+    color: var(--il__dropdown-color);
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .1);
+    opacity: 0;
+    transition: opacity .3s ease, transform .3s ease;
+    will-change: opacity, transform;
+    transform: translateY(0) translateX(-50%);
+    pointer-events: none;
+    outline: 0;
+
+    &.il--visible {
+        transform: translateY(.5rem) translateX(-50%);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    input.il__input {
+        height: unset;
+        border: 0 !important;
+        box-sizing: inherit;
+        font-size: unset;
+        line-height: initial;
+        transition: none;
+    }
+
+    input.il__input, &--link input.il__input {
+        padding: .75rem;
+        border-radius: .5rem;
+        background: var(--il__input-backgroundColor);
+        color: var(--il__input-color);
+        &:focus {
+            box-shadow: none;
+            border: 0 !important;
+        }
+    }
+
+    &--link {
+        padding: .5rem;
+        width: 16rem;
+        z-index: 1;
+
+        input.il__input {
+            margin: .125rem;
+            width: 100%;
+            box-sizing: border-box !important; // !important
+        }
+
+        .il__footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            button.il__button { flex: 1; }
+
+            button.il__button--cancel {
+                background: var(--il__button-cancel-backgroundColor);
+                color: var(--il__button-cancel-color);
+
+                &:focus,
+                &:hover {
+                    background: var(--il__button-cancel-hover-backgroundColor);
+                    color: var(--il__button-cancel-hover-color);
+                }
+            }
+
+            button.il__button--confirm {
+                background: var(--il__button-confirm-backgroundColor);
+                color: var(--il__button-confirm-color);
+
+                &:focus,
+                &:hover {
+                    background: var(--il__button-confirm-hover-backgroundColor);
+                    color: var(--il__button-confirm-hover-color);
+                }
+            }
+        }
+    }
+
+    &--color {
+        padding: .5rem;
+        width: 10rem;
+        z-index: 1;
+
+        input.il__input {
+            padding: .75rem;
+            border-radius: .5rem;
+            background: var(--il__input-backgroundColor);
+            color: var(--il__input-color);
+            margin: .125rem .125rem .5rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .il__group {
+            display: flex;
+            flex-wrap: wrap;
+
+            button {
+                margin: 0;
+                flex: 0 0 20%;
+                max-width: 20%;
+                padding: .1rem;
+                cursor: pointer;
+                position: relative;
+                border: 0 !important;
+                background: none;
+
+                &.il--resetStyle {
+                    color: var(--il__button-reset-color);
+
+                    &:after {
+                        background-color: transparent;
+                        box-shadow: inset 0 0 0 2px currentColor;
+                    }
+
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        width: .75rem;
+                        height: 2px;
+                        transform: translate(-50%, -50%);
+                        background-color: currentColor;
+                        transition: transform .3s ease;
+                        will-change: transform;
+                    }
+                }
+
+                &:not(.il--resetStyle) {
+                    &:focus:after,
+                    &:hover:after { transform: scale(.75); }
+                }
+
+                &:after {
+                    display: block;
+                    content: "";
+                    padding-bottom: 99%;
+                    background-color: currentColor;
+                    border-radius: 4rem;
+                    transition: transform .3s ease;
+                    will-change: transform;
+                }
+            }
+        }
+    }
+}
+
+/* ---------- Panel ---------- */
+.il__panel {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-45%);
+    opacity: 0;
+    transition: opacity .3s ease, transform .3s ease;
+    will-change: opacity, transform;
+    pointer-events: none;
+    background: var(--il__panel-backgroundColor);
+    color: var(--il__panel-color);
+    box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .2);
+    border-radius: .5rem;
+    overflow: hidden;
+    outline: 0;
+    max-width: calc(100vw - 2rem);
+
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        width: 3rem;
+        top: 0;
+        height: 100%;
+        pointer-events: none;
+        background: var(--il__panel-backgroundColor);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s ease, visibility .3s ease;
+        will-change: opacity;
+    }
+
+    &:before {
+        left: -3rem;
+        box-shadow: 1rem 0 2rem .75rem var(--il__panel-backgroundColor);
+    }
+
+    &:after {
+        right: -3rem;
+        box-shadow: -1rem 0 2rem .75rem var(--il__panel-backgroundColor);
+    }
+
+    &--left:before,
+    &--right:after {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__container {
+        display: flex;
+        align-items: center;
+        padding: .25rem;
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    @media (max-width: 767px) {
+        box-shadow:
+                0 .5rem 1.5rem rgba(0, 0, 0, .2),
+                0 0 0 1px rgba(0, 0, 0, .1);
+    }
+
+    &.il--visible {
+        transform: translateX(-50%);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    &.il--hidden {
+        transform: translateX(-55%);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /*
+    button.il__button:last-child {
+        &:after {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 2.5rem;
+            display: inline-block;
+            margin-left: 1rem;
+        }
+    }*/
+}
+
+/* ---------- Buttons ---------- */
+button.il__button {
+    flex-shrink: 0;
+    flex: 0 0 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: .125rem;
+    border: 1px solid transparent;
+    position: relative;
+
+    &[style*=rgb] {
+        background-color: currentColor !important;
+
+        &.il--light svg { color: rgba(255, 255, 255, .75); }
+
+        svg { color: rgba(0, 0, 0, .75); }
+    }
+
+    svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    &.il--open {
+        background: var(--il__button-open-backgroundColor);
+        color: var(--il__button-open-color);
+    }
+
+    &.il--active,
+    &.il--active:hover {
+        background: var(--il__button-active-backgroundColor);
+        color: var(--il__button-active-color);
+    }
+
+    &:not(.il--active) {
+        &:focus,
+        &:hover {
+            background: var(--il__button-hover-backgroundColor);
+            color: var(--il__button-hover-color);
+        }
+    }
+
+    &.il__button--multi:before {
+        content: "";
+        position: absolute;
+        bottom: 0.35em;
+        right: 0.35em;
+        width: 0px;
+        height: 0px;
+        border-style: solid;
+        border-width: 0 0 0.35em 0.35em;
+        border-color: transparent transparent rgba(var(--il-foreground-rgb), 0.5) transparent;
+        transform: rotate(0deg);
+    }
+}
+
+/* TinyInlineEditor refinements: scoped controls, layering, themes and accessibility. */
+.il__toolbar { z-index: 1100; }
+.il__dropdown { z-index: 1101; }
+.il__tooltip { z-index: 1102; }
+.il__toolbar *, .il__dropdown *, .il__tooltip * { box-sizing: border-box; }
+.il__toolbar button.il__button, .il__dropdown button.il__button {
+  appearance: none; font: inherit; line-height: 1; padding: 0; outline: 0;
+  background-color: transparent; color: inherit; border: 1px solid transparent;
+}
+.il__toolbar button.il__button:focus-visible, .il__dropdown button:focus-visible,
+.il__dropdown input.il__input:focus-visible, .il__panel:focus-visible {
+  outline: 2px solid #5c8dff; outline-offset: 2px;
+}
+.il__dropdown input.il__input[aria-invalid="true"] { outline: 2px solid #e55c67; }
+.il__toolbar .il__panel { border: 1px solid rgba(130,144,165,.12); }
+.il--dark {
+  --il__panel-backgroundColor: #222735;
+  --il__panel-color: #f5f6fc;
+  --il__tooltip-backgroundColor: #f3f5fa;
+  --il__tooltip-color: #222735;
+  --il__dropdown-backgroundColor: #222735;
+  --il__dropdown-color: #f5f6fc;
+  --il__button-hover-backgroundColor: rgba(255,255,255,.10);
+  --il__button-open-backgroundColor: rgba(255,255,255,.13);
+  --il__button-active-backgroundColor: rgba(130,143,255,.22);
+  --il__button-active-color: #c5ceff;
+  --il__input-backgroundColor: rgba(255,255,255,.10);
+  --il__input-color: #f5f6fc;
+}
+.il__editor:focus { outline: none; }
+.il__dropdown .il__input { min-width: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .il__toolbar, .il__panel, .il__dropdown, .il__tooltip { animation: none !important; transition-duration: .01ms !important; }
+}

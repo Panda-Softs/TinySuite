@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="TinyInlineEditor : une démo interactive, élégante et accessible d'un éditeur de texte enrichi jQuery.">
+  <title>TinyInlineEditor — L'édition, sans friction</title>
+  <link rel="stylesheet" href="../dist/TinyInlineEditor.min.css">
+  <link rel="stylesheet" href="./demo.css">
+</head>
+<body>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#accueil" aria-label="TinyInlineEditor, accueil"><span class="brand-symbol">t<span class="brand-dot">.</span></span><span>Tiny<span class="brand-thin">InlineEditor</span></span></a>
+      <nav class="nav-links" aria-label="Navigation principale"><a href="#atelier">Playground</a><a href="#exemples">Exemples</a><a href="#integration">Intégration</a></nav>
+      <div class="nav-right"><span class="version">v2.1 <span class="version-dot"></span> Demo</span><a class="nav-action" href="#atelier">Essayer <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </header>
+
+  <main id="accueil">
+    <section class="hero wrap">
+      <div class="hero-main">
+        <div class="eyebrow"><span class="pulse"></span> UN ÉDITEUR DISCRET. UNE EXPÉRIENCE FLUIDE.</div>
+        <h1>Les mots au centre.<br><span class="gradient-text">L'interface en retrait.</span></h1>
+        <p class="hero-description">Un éditeur de texte enrichi qui apparaît exactement quand il faut. Sélectionnez, formatez, créez — sans quitter votre contenu.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#atelier" id="start-demo">Tester en direct <span aria-hidden="true">↗</span></a><a class="btn btn-ghost" href="#integration">Voir le code <span aria-hidden="true">→</span></a></div>
+        <div class="hero-features"><span><i class="feature-check">✓</i> Aucun build requis</span><span><i class="feature-check">✓</i> Thèmes clair &amp; sombre</span><span><i class="feature-check">✓</i> API jQuery</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-glow"></div>
+        <div class="float-pill pill-one"><span class="pill-spark">✦</span> Écrivez naturellement</div>
+        <div class="art-window">
+          <div class="art-window-dots"><i></i><i></i><i></i><span>note_01.md</span></div>
+          <div class="art-sheet"><div class="art-micro">NOTES / CRÉATIVITÉ</div><div class="art-title">Une idée <em>simple.</em></div><div class="art-para">Parfois, les meilleurs outils sont ceux que l'on finit par oublier.</div><div class="art-highlight">Laissez la place aux idées.</div><div class="art-para short"></div></div>
+          <div class="art-floating-toolbar"><b>B</b><em>I</em><u>U</u><span class="art-divider"></span><span>≡</span><span class="art-color"></span><span>↗</span></div>
+        </div>
+        <div class="float-pill pill-two"><span class="status-indicator"></span> Modifications enregistrées</div>
+      </div>
+    </section>
+
+    <section class="workspace-section" id="atelier">
+      <div class="wrap">
+        <div class="section-topline"><span class="section-number">01 / PLAYGROUND</span><span class="section-note">Sélectionnez du texte pour faire apparaître la barre</span></div>
+        <div class="section-heading-row"><div><h2>Un vrai espace de création.</h2><p>Tout est éditable. Rien n'est simulé dans ce bloc.</p></div>
+          <div class="theme-controller" role="group" aria-label="Apparence de la démo"><span>Apparence</span><div class="theme-switch" id="theme-switch"><button type="button" data-mode="light" aria-pressed="true">Clair</button><button type="button" data-mode="dark" aria-pressed="false">Sombre</button><button type="button" data-mode="system" aria-pressed="false">Auto</button></div></div>
+        </div>
+        <div class="workspace">
+          <div class="document-shell">
+            <div class="document-topbar"><div class="breadcrumb"><span class="crumb-icon">◫</span> Espace de travail <span>/</span> <strong>Ma première note</strong></div><span class="doc-live"><span></span> Édition active</span></div>
+            <div class="document-content">
+              <div class="doc-meta"><span class="doc-type">DOCUMENT</span><span>21 OCT. 2026</span><span>·</span><span>3 MIN DE LECTURE</span></div>
+              <div id="editor-main" class="editable-document js-inline" aria-label="Éditeur principal">
+                <h2>Donnez vie à <em>vos idées.</em></h2>
+                <p class="lead">Les bonnes idées méritent un espace où <strong>chaque mot compte.</strong> Ici, rien ne vient interrompre votre inspiration.</p>
+                <p>Sélectionnez une partie de ce texte : une <strong>barre d'outils flottante</strong> apparaît au bon endroit. Essayez le gras, l'italique, les couleurs, les listes ou les titres.</p>
+                <blockquote>« La simplicité est la sophistication suprême. »</blockquote>
+                <p>Vous pouvez aussi réécrire ces phrases, créer des liens et personnaliser entièrement la mise en forme. <span class="editor-highlight">L'expérience se construit autour de vos mots.</span></p>
+              </div>
+              <div class="doc-footer"><div class="avatar-stack"><span>TI</span><span>+</span></div><span>Votre terrain de jeu, sans limites</span><button id="select-sample" class="subtle-link" type="button">Sélectionner un extrait <span aria-hidden="true">↗</span></button></div>
+            </div>
+          </div>
+          <aside class="inspector" aria-label="Inspecteur de l'éditeur">
+            <div class="inspector-head"><div><span class="inspector-kicker">INSPECTEUR</span><h3>Dans les coulisses.</h3></div><span class="inspector-icon">⌘</span></div>
+            <div class="inspector-status"><span class="status-icon">✓</span><div><strong id="edit-status">Prêt à éditer</strong><small id="edit-status-description">Sélectionnez du texte pour commencer</small></div></div>
+            <div class="stat-grid"><div class="stat"><span>Mots</span><strong id="words-count">0</strong></div><div class="stat"><span>Caractères</span><strong id="chars-count">0</strong></div></div>
+            <div class="inspector-divider"></div>
+            <div class="inspector-label-row"><span>APERÇU HTML</span><span class="code-language">HTML</span></div>
+            <pre class="html-preview"><code id="html-preview">&lt;p&gt;...&lt;/p&gt;</code></pre>
+            <div class="inspector-actions"><button type="button" class="btn btn-sm" id="copy-html">Copier le HTML <span aria-hidden="true">⧉</span></button><button type="button" class="icon-button" id="reset-main" title="Restaurer le contenu" aria-label="Restaurer le texte initial">↺</button></div>
+            <p class="inspector-footnote">Le contenu HTML est mis à jour à chaque modification.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="examples wrap" id="exemples"><div class="section-topline"><span class="section-number">02 / CAS D'USAGE</span><span class="section-note">Plusieurs éditeurs, une seule API</span></div><div class="section-heading-row"><div><h2>Petit en taille. Grand en possibilités.</h2><p>Des configurations adaptées à chaque expérience.</p></div></div>
+      <div class="example-grid">
+        <article class="example-card"><div class="example-card-top"><div class="example-symbol purple">Aa</div><span class="example-counter">01 — MINIMAL</span></div><h3>L'essentiel, simplement.</h3><p>Une barre épurée : gras et italique, rien de plus.</p><div id="editor-minimal" class="example-editable js-inline" aria-label="Éditeur minimal"><strong>Écrivez avec intention.</strong> Quelques mots, une mise en forme parfaitement dosée.</div><div class="example-card-footer"><code>toolbar: ["bold", "italic"]</code><span>↗</span></div></article>
+        <article class="example-card"><div class="example-card-top"><div class="example-symbol peach">◉</div><span class="example-counter">02 — COULEURS</span></div><h3>Votre signature visuelle.</h3><p>Une palette de couleurs conçue pour vos contenus.</p><div id="editor-colors" class="example-editable js-inline" aria-label="Éditeur couleurs">De <span class="colored-phrase">petites touches de couleur</span> pour de grandes idées. Sélectionnez pour essayer.</div><div class="example-card-footer"><code>colors: ["#8b5cf6", ...]</code><span>↗</span></div></article>
+        <article class="example-card"><div class="example-card-top"><div class="example-symbol mint">↻</div><span class="example-counter">03 — AUTOSAVE</span></div><h3>Chaque mot est précieux.</h3><p>Une sauvegarde différée, sans bloquer l'édition.</p><div id="editor-autosave" class="example-editable js-inline" aria-label="Éditeur autosave">Modifiez ce texte. La sauvegarde sera <strong>simulée localement</strong> après une seconde d'inactivité.</div><div class="example-card-footer"><div class="save-state"><i id="save-indicator"></i><span id="save-label">Aucune modification</span></div><button type="button" id="save-now" class="save-now" title="Enregistrer immédiatement avec flush()">Enregistrer ↗</button></div></article>
+      </div>
+      <div class="textarea-showcase"><div class="textarea-text"><div class="textarea-index">04 — FORMULAIRES</div><h3>Et vos formulaires existants ?</h3><p>Transformez simplement un <code>&lt;textarea&gt;</code> en surface d'édition enrichie. Le champ original continue de recevoir la valeur HTML.</p><div class="field-note">La valeur est synchronisée automatiquement.</div></div><div class="textarea-display"><div class="textarea-field-label"><span>Votre message</span><span>TEXTAREA → EDITOR</span></div><textarea id="editor-textarea" class="js-inline" aria-label="Champ de message enrichi"><p>Bonjour ! Ce champ est un <strong>textarea</strong> transformé en éditeur riche.</p></textarea><div class="textarea-bottom"><span id="textarea-count">0 caractères</span><span class="valid-icon">✓</span></div></div></div>
+    </section>
+
+    <section class="integration-section" id="integration"><div class="wrap integration-grid"><div class="integration-copy"><span class="section-number">03 / INTÉGRATION</span><h2>Du HTML à l'édition.<br><span class="gradient-text">En quelques lignes.</span></h2><p>Une API volontairement simple, compatible avec l'ancien nom <code>.inLine()</code>. Aucun framework d'interface, aucun bundler.</p><div class="integration-points"><span>✓ Configuration par éditeur</span><span>✓ Changement de thème à chaud</span><span>✓ Callbacks &amp; autosave</span></div></div><div class="code-card"><div class="code-card-bar"><span><i></i><i></i><i></i></span><span>app.js</span><button id="copy-code" type="button" aria-label="Copier l'exemple JavaScript">Copier <span aria-hidden="true">⧉</span></button></div><pre><code id="integration-code"><span class="code-comment">// TinyInlineEditor en deux lignes</span>
+<span class="code-key">const</span> $editor = <span class="code-fn">$</span>(<span class="code-str">'#my-editor'</span>);
+
+$editor.<span class="code-fn">tinyInlineEditor</span>({
+  theme: <span class="code-str">'dark'</span>,
+  toolbar: [<span class="code-str">'bold'</span>, <span class="code-str">'italic'</span>, <span class="code-str">'link'</span>],
+  onChange: <span class="code-var">api</span> =&gt; console.<span class="code-fn">log</span>(api.content)
+});</code></pre><div class="code-card-footer"><span class="small-led"></span> PRÊT À INTÉGRER <span>JavaScript + jQuery</span></div></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><a class="brand" href="#accueil"><span class="brand-symbol">t<span class="brand-dot">.</span></span><span>Tiny<span class="brand-thin">InlineEditor</span></span></a><span>Une édition plus humaine, sans distraction.</span><span>Construit pour le web.</span></div></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="../vendor/jquery.min.js"></script>
+  <script src="../dist/TinyInlineEditor.min.js"></script>
+  <script src="./demo.js"></script>
+</body>
+</html>

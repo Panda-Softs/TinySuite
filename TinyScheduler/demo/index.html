@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TinyScheduler Demo</title>
+  <link rel="stylesheet" href="../dist/tiny-scheduler.min.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <div class="demo-bg"></div>
+
+  <header class="demo-hero">
+    <div>
+      <p class="demo-kicker">Plain JavaScript Scheduler</p>
+      <h1>TinyScheduler</h1>
+      <p>FullCalendar-style month, week, day, list, resource time grid, resource timeline, mini-calendar sidebar, global search and shared event store.</p>
+    </div>
+
+    <div class="demo-hero-side">
+      <div class="demo-language-switch" id="languageSwitch" role="group" aria-label="Demo language">
+        <span>Language</span>
+        <button type="button" data-locale-mode="auto">Auto</button>
+        <button type="button" data-locale-mode="fr">FR</button>
+        <button type="button" data-locale-mode="en">EN</button>
+      </div>
+
+      <div class="demo-badges">
+        <span>No jQuery</span>
+        <span>No Moment</span>
+        <span>CSS responsive</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="demo-shell">
+    <section class="demo-card demo-calendar-card">
+      <p class="demo-planning-note">Main frame example: sidebar, mini calendar, planning views and drag/drop.</p>
+      <div id="calendarApp"></div>
+    </section>
+
+    <section class="demo-card demo-calendar-card demo-ajax-card">
+      <div class="demo-section-header">
+        <div>
+          <p class="demo-kicker">AJAX source colors</p>
+          <h2>Two mocked AJAX sources</h2>
+          <p>
+            This demo works standalone, even with <code>file://</code>.
+            The calendar still uses URL event sources, but <code>window.fetch</code>
+            is mocked for the two demo JSON feeds.
+          </p>
+        </div>
+
+        <div class="demo-source-legend" aria-label="AJAX source legend">
+          <span><i class="demo-source-dot demo-source-dot--blue"></i> Blue source</span>
+          <span><i class="demo-source-dot demo-source-dot--orange"></i> Orange source</span>
+        </div>
+      </div>
+
+      <div id="ajaxCalendar"></div>
+    </section>
+
+    <section class="demo-card demo-log-card">
+      <div class="demo-log-header">
+        <div>
+          <p class="demo-kicker">Live event log</p>
+          <h2>Component events</h2>
+        </div>
+        <button id="clearLog" type="button">Clear</button>
+      </div>
+      <div id="eventLog" class="demo-log"></div>
+    </section>
+  </main>
+
+  <script>
+    window.TinySchedulerGlobal = window.TinySchedulerGlobal || {};
+  </script>
+  <script src="../dist/tiny-scheduler.min.js"></script>
+  <script src="demo.js"></script>
+</body>
+</html>

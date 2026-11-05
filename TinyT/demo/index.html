@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive TinyT 3.8.0 templating demo.">
+  <title>TinyT 3.8.0 Demo</title>
+  <link rel="stylesheet" href="demo.css">
+  <script src="vendor/jquery-3.7.1.min.js"></script>
+  <script src="../dist/TinyT.umd.min.js"></script>
+</head>
+<body>
+  <main class="tt-demo-page">
+    <section class="tt-demo-hero" aria-labelledby="demo-title">
+      <div>
+        <span class="tt-demo-eyebrow"><span class="tt-demo-dot"></span> Tiny templating · Helpers · Nested templates</span>
+        <h1 id="demo-title" class="tt-demo-title"><span>TinyT</span> 3.8.0</h1>
+        <p class="tt-demo-lead">
+          A focused browser templating engine with interpolation, conditionals, loops, reusable templates,
+          helper functions, missing-variable diagnostics, strict or loose scopes, array rendering and jQuery integration.
+        </p>
+      </div>
+
+      <div class="tt-demo-stats" aria-label="Component highlights">
+        <div class="tt-demo-stat"><strong>${...}</strong><span>Expressions</span></div>
+        <div class="tt-demo-stat"><strong>{{each}}</strong><span>Loop scopes</span></div>
+        <div class="tt-demo-stat"><strong>$index</strong><span>Reserved index</span></div>
+      </div>
+    </section>
+
+    <nav class="tt-demo-nav" aria-label="Demo sections">
+      <a href="#studio">Live studio</a>
+      <a href="#loops">Loops &amp; $index</a>
+      <a href="#features">Feature gallery</a>
+      <a href="#api">API overview</a>
+    </nav>
+
+    <section id="studio" class="tt-demo-section">
+      <div class="tt-demo-section-heading">
+        <div>
+          <h2>Live template studio</h2>
+          <p>Edit data and template content, then render it through a precompiled renderer with helpers and missing-variable reporting.</p>
+        </div>
+        <span id="studio-status" class="tt-demo-status">Ready</span>
+      </div>
+
+      <article class="tt-demo-panel">
+        <header class="tt-demo-panel-header">
+          <h3>Interactive render pipeline</h3>
+          <span class="tt-demo-pill">compileTemplateMap → renderer(data, opts)</span>
+        </header>
+
+        <div class="tt-demo-studio">
+          <div class="tt-demo-controls">
+            <div class="tt-demo-fields">
+              <div class="tt-demo-field">
+                <label for="demo-name">Name</label>
+                <input id="demo-name" class="tt-demo-input" value="Maya Laurent">
+              </div>
+
+              <div class="tt-demo-field">
+                <label for="demo-plan">Plan</label>
+                <select id="demo-plan" class="tt-demo-select">
+                  <option value="starter">Starter</option>
+                  <option value="pro" selected>Pro</option>
+                  <option value="enterprise">Enterprise</option>
+                </select>
+              </div>
+
+              <div class="tt-demo-field">
+                <label for="demo-price">Monthly price</label>
+                <input id="demo-price" class="tt-demo-input" type="number" min="0" step="1" value="49">
+              </div>
+
+              <div class="tt-demo-field">
+                <span class="tt-demo-label">Details</span>
+                <label class="tt-demo-checkbox"><input id="demo-details" type="checkbox" checked> Show account details</label>
+              </div>
+
+              <div class="tt-demo-field is-wide">
+                <label for="demo-template">Template</label>
+                <textarea id="demo-template" class="tt-demo-code-editor" spellcheck="false"></textarea>
+              </div>
+            </div>
+
+            <div class="tt-demo-toolbar">
+              <button type="button" class="tt-demo-button is-primary" data-studio-action="render">Render</button>
+              <button type="button" class="tt-demo-button" data-studio-action="reset-template">Reset template</button>
+              <button type="button" class="tt-demo-button" data-studio-action="toggle-missing">Toggle missing variable</button>
+            </div>
+          </div>
+
+          <div class="tt-demo-output-wrap">
+            <div class="tt-demo-output-header">
+              <h4>Rendered HTML</h4>
+              <span id="missing-summary" class="tt-demo-pill">No missing identifiers</span>
+            </div>
+            <div id="studio-output" class="tt-demo-output" aria-live="polite"></div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="loops" class="tt-demo-section">
+      <div class="tt-demo-section-heading">
+        <div>
+          <h2>Loop scope and nested templates</h2>
+          <p><code>$index</code> is always reserved by TinyT. An explicit alias remains available without overwriting it, and nested <code>{{tmpl}}</code> receives the current reserved index automatically.</p>
+        </div>
+      </div>
+
+      <div class="tt-demo-grid">
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header">
+            <h3>Reserved and explicit indexes</h3>
+            <span class="tt-demo-pill">{{each items as item, position}}</span>
+          </header>
+          <div class="tt-demo-card-body">
+            <div id="loop-output" class="tt-demo-result"></div>
+            <pre class="tt-demo-code"><code>{{each items as item, position}}
+  {{tmpl({ ...item, position }) "#loop-item"}}
+{{/each}}
+
+Child template:
+reserved: ${$index}
+explicit: ${position}</code></pre>
+          </div>
+        </article>
+
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header">
+            <h3>Default loop variables</h3>
+            <span class="tt-demo-pill">$value + $index</span>
+          </header>
+          <div class="tt-demo-card-body">
+            <div id="default-loop-output" class="tt-demo-result"></div>
+            <pre class="tt-demo-code"><code>{{each tags}}
+  &lt;span&gt;${$index}: ${$value}&lt;/span&gt;
+{{/each}}</code></pre>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="features" class="tt-demo-section">
+      <div class="tt-demo-section-heading">
+        <div>
+          <h2>Feature gallery</h2>
+          <p>Each card runs a real TinyT API path rather than displaying a static mockup.</p>
+        </div>
+      </div>
+
+      <div class="tt-demo-grid">
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header"><h3>Conditionals</h3><span class="tt-demo-pill">if · elsif · else</span></header>
+          <div class="tt-demo-card-body">
+            <div id="conditional-output" class="tt-demo-result"></div>
+            <pre class="tt-demo-code"><code>{{if score >= 90}}Excellent
+{{elsif score >= 70}}Good
+{{else}}Keep going{{/if}}</code></pre>
+          </div>
+        </article>
+
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header"><h3>Helpers</h3><span class="tt-demo-pill">compile + runtime merge</span></header>
+          <div class="tt-demo-card-body">
+            <div id="helper-output" class="tt-demo-result"></div>
+            <pre class="tt-demo-code"><code>${uppercase(name)}
+${formatMoney(total)}</code></pre>
+          </div>
+        </article>
+
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header"><h3>Missing identifiers</h3><span class="tt-demo-pill">missingToUndefined</span></header>
+          <div class="tt-demo-card-body">
+            <div id="missing-output" class="tt-demo-result"></div>
+            <ul id="missing-log" class="tt-missing-log"></ul>
+            <pre class="tt-demo-code"><code>TinyT.configure({
+  missingToUndefined: true,
+  onMissing: names =&gt; console.warn(names)
+});
+
+TinyT.render(template, data);</code></pre>
+          </div>
+        </article>
+
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header"><h3>Top-level array</h3><span class="tt-demo-pill">rowTransform</span></header>
+          <div class="tt-demo-card-body">
+            <div id="array-output" class="tt-demo-result"></div>
+            <pre class="tt-demo-code"><code>renderer(rows, {
+  rowTransform: (row, index) =&gt; ({
+    ...row,
+    rowNumber: index + 1
+  })
+});</code></pre>
+          </div>
+        </article>
+
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header"><h3>JavaScript delimiters</h3><span class="tt-demo-pill">3.8 lexical scanner</span></header>
+          <div class="tt-demo-card-body">
+            <div id="syntax-output" class="tt-demo-result"></div>
+            <pre class="tt-demo-code"><code>${"}"}
+${`template } literal`}
+${/}/.test("}")}
+{{if value === "}}"}}safe{{/if}}</code></pre>
+          </div>
+        </article>
+
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header"><h3>3.8 production configuration</h3><span class="tt-demo-pill">performance</span></header>
+          <div class="tt-demo-card-body">
+            <div class="tt-demo-result">Keep missing-identifier diagnostics enabled while validating templates, then disable them globally in production to avoid the Proxy/Set diagnostic path.</div>
+            <pre class="tt-demo-code"><code>TinyT.configure({
+  missingToUndefined: false,
+  onMissing: null
+});
+
+const renderRow = TinyT.compile(rowTemplate);
+output.innerHTML = renderRow(data);</code></pre>
+          </div>
+        </article>
+
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header"><h3>Registry and renderTo</h3><span class="tt-demo-pill">registerTemplate</span></header>
+          <div class="tt-demo-card-body">
+            <div id="registry-output" class="tt-demo-result"></div>
+            <pre class="tt-demo-code"><code>TinyT.registerTemplate('welcome', template);
+TinyT.renderTo(element, '#welcome', data, opts);</code></pre>
+          </div>
+        </article>
+
+        <article class="tt-demo-card">
+          <header class="tt-demo-card-header"><h3>jQuery integration</h3><span class="tt-demo-pill">$.fn.tmplTo</span></header>
+          <div class="tt-demo-card-body">
+            <div id="jquery-output" class="tt-demo-result"></div>
+            <pre class="tt-demo-code"><code>$('#jquery-output').tmplTo(
+  'jquery-message',
+  { message: 'Rendered through jQuery' }
+);</code></pre>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="api" class="tt-demo-section">
+      <div class="tt-demo-section-heading">
+        <div>
+          <h2>Public API at a glance</h2>
+          <p>The README contains complete syntax, options, lifecycle behavior, caveats and expanded examples.</p>
+        </div>
+      </div>
+
+      <article class="tt-demo-panel">
+        <div class="tt-demo-card-body">
+          <table class="tt-demo-api-table">
+            <thead><tr><th>Method</th><th>Purpose</th><th>Returns</th></tr></thead>
+            <tbody id="api-table-body"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <footer class="tt-demo-footer">
+      <span>TinyT <code>v3.8.0</code> · Demo uses the bundled local jQuery copy for the optional integration layer.</span>
+      <span>Open <code>README.md</code> for the complete reference.</span>
+    </footer>
+  </main>
+
+  <script id="dom-welcome-template" type="text/x-tinyt">
+    <strong>${title}</strong><br>
+    <span>${message}</span>
+  </script>
+  <script src="demo.js"></script>
+</body>
+</html>

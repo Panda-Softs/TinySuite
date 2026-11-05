@@ -1,0 +1,37 @@
+/**
+ * TinySortableList
+ *
+ * Generic sortable behavior only. Consumer-specific layout, colors and row content
+ * should remain in the page/component that uses TinySortableList.
+ */
+.tiny-sortable-list {
+    position: relative;
+
+    &.is-sorting {
+        user-select: none;
+    }
+
+    &.is-saving {
+        pointer-events: none;
+    }
+
+    > .tiny-sortable-list-item {
+        position: relative;
+        transition: opacity 120ms ease, transform 120ms ease, background-color 120ms ease;
+
+        &.is-dragging {
+            z-index: 1;
+            opacity: 0.45;
+        }
+
+        > .tiny-sortable-list-handle {
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+
+            &:active {
+                cursor: grabbing;
+            }
+        }
+    }
+}

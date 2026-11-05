@@ -1,0 +1,32 @@
+[
+  {
+    "package": "Tippy.js 6.3.7 (bundle includes Popper 2, MIT)",
+    "path": "TinyDataTable/demo/vendor/tippy.css",
+    "url": "https://cdn.jsdelivr.net/npm/tippy.js@6.3.7/dist/tippy.css"
+  },
+  {
+    "package": "Tippy.js 6.3.7 (bundle includes Popper 2, MIT)",
+    "path": "TinyDataTable/demo/vendor/tippy-bundle.umd.min.js",
+    "url": "https://cdn.jsdelivr.net/npm/tippy.js@6.3.7/dist/tippy-bundle.umd.min.js"
+  },
+  {
+    "package": "mark.js 8.11.1 (MIT)",
+    "path": "TinyDataTable/demo/vendor/mark.min.js",
+    "url": "https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/mark.min.js"
+  },
+  {
+    "package": "SheetJS 0.20.3 (Apache-2.0)",
+    "path": "TinyDataTable/demo/vendor/xlsx.full.min.js",
+    "url": "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
+  },
+  {
+    "package": "jsPDF 2.5.2 (MIT)",
+    "path": "TinyDataTable/demo/vendor/jspdf.umd.min.js",
+    "url": "https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"
+  },
+  {
+    "package": "jsPDF AutoTable 3.8.4 (MIT)",
+    "path": "TinyDataTable/demo/vendor/jspdf.plugin.autotable.min.js",
+    "url": "https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"
+  }
+]

@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TinyDropdown Demo</title>
+  <link rel="stylesheet" href="../dist/TinyDropdown.min.css">
+  <style>
+    :root {
+      --page-bg: #f4f7fb;
+      --page-ink: #172033;
+      --muted: #657289;
+      --line: rgba(15, 23, 42, 0.10);
+      --card: rgba(255, 255, 255, 0.86);
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --pink: #db2777;
+      --green: #059669;
+      --amber: #d97706;
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --shadow: 0 24px 70px rgba(15, 23, 42, 0.13);
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      color: var(--page-ink);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 32rem),
+        radial-gradient(circle at 85% 8%, rgba(219, 39, 119, 0.13), transparent 28rem),
+        linear-gradient(180deg, #f8fbff 0%, var(--page-bg) 46%, #eef3fb 100%);
+    }
+
+    a { color: inherit; }
+
+    .page-shell {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 96px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(32px, 5vw, 64px);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.94), rgba(255,255,255,0.66)),
+        radial-gradient(circle at 18% 12%, rgba(37,99,235,0.16), transparent 20rem),
+        radial-gradient(circle at 85% 20%, rgba(219,39,119,0.18), transparent 22rem);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -90px;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.24), rgba(219, 39, 119, 0.18));
+      filter: blur(2px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 7px 12px;
+      color: #1d4ed8;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.08);
+    }
+
+    h1, h2, h3 { line-height: 1.12; }
+
+    h1 {
+      max-width: 760px;
+      margin: 18px 0 14px;
+      font-size: clamp(42px, 8vw, 84px);
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 21px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .quick-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 28px 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .quick-nav a {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 999px;
+    }
+
+    .quick-nav a:hover { background: rgba(37, 99, 235, 0.10); color: #1d4ed8; }
+
+    .section-title {
+      display: flex;
+      gap: 16px;
+      align-items: end;
+      justify-content: space-between;
+      margin: 42px 0 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 40px);
+      letter-spacing: -0.04em;
+    }
+
+    .section-title p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+      gap: 24px;
+    }
+
+    .demo-card {
+      position: relative;
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: var(--radius-xl);
+      background: var(--card);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .demo-card.wide { grid-column: 1 / -1; }
+
+    .demo-card h3 {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 0 0 8px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .demo-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-width: 28px;
+      justify-content: center;
+      height: 28px;
+      padding: 0 9px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--pink));
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
+    }
+
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      min-height: 44px;
+      margin: 16px 0;
+    }
+
+    .btn,
+    button.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 16px;
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.20);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    .btn:active { transform: translateY(0); }
+    .btn.secondary { color: #1f2937; background: linear-gradient(135deg, #eef2f7, #dbe3ef); box-shadow: none; }
+    .btn.ghost { color: #1d4ed8; background: rgba(37, 99, 235, 0.09); box-shadow: none; }
+    .btn.danger { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+    .btn.icon { width: 42px; padding: 0; }
+
+    .log {
+      min-height: 46px;
+      margin-top: 12px;
+      padding: 12px 14px;
+      color: #475569;
+      font-size: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    .code-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 0;
+      color: #1d4ed8;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    details {
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #0f172a;
+    }
+
+    details summary {
+      padding: 12px 14px;
+      color: #bfdbfe;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    details summary::-webkit-details-marker { display: none; }
+
+    pre {
+      max-height: 340px;
+      margin: 0;
+      padding: 0 16px 16px;
+      overflow: auto;
+      color: #e5e7eb;
+      font-size: 12.5px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+
+    .scroll-box {
+      position: relative;
+      height: 280px;
+      overflow: auto;
+      padding: 24px;
+      border: 1px dashed rgba(37, 99, 235, 0.35);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.94), rgba(248,250,252,0.88)),
+        repeating-linear-gradient(45deg, rgba(37,99,235,0.05) 0 8px, transparent 8px 16px);
+    }
+
+    .spacer { height: 380px; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      white-space: nowrap;
+    }
+
+    th {
+      color: #64748b;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: #f8fafc;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+    .text-right { text-align: right; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .status.ok { color: #047857; background: #d1fae5; }
+    .status.warn { color: #b45309; background: #fef3c7; }
+    .status.danger { color: #b91c1c; background: #fee2e2; }
+
+    .checkbox-menu li label {
+      cursor: pointer;
+    }
+
+    .dropdown-content.dark-menu {
+      --tiny-dropdown-bg: #111827;
+      --tiny-dropdown-color: #f9fafb;
+      --tiny-dropdown-border: 1px solid rgba(255, 255, 255, 0.14);
+      --tiny-dropdown-shadow: 0 24px 70px rgba(17, 24, 39, 0.32);
+      --tiny-dropdown-item-hover-bg: rgba(255, 255, 255, 0.12);
+      --tiny-dropdown-item-active-bg: rgba(255, 255, 255, 0.18);
+    }
+
+    .dropdown-content.brand-menu {
+      --tiny-dropdown-bg: linear-gradient(135deg, #ffffff, #f8fbff);
+      --tiny-dropdown-color: #172033;
+      --tiny-dropdown-border: 1px solid rgba(37, 99, 235, 0.22);
+      --tiny-dropdown-shadow: 0 20px 50px rgba(37, 99, 235, 0.18);
+      --tiny-dropdown-radius: 18px;
+      --tiny-dropdown-item-hover-bg: rgba(37, 99, 235, 0.08);
+      --tiny-dropdown-item-active-bg: rgba(219, 39, 119, 0.10);
+    }
+
+    .dropdown-content.danger-menu {
+      --tiny-dropdown-bg: #fff7ed;
+      --tiny-dropdown-color: #431407;
+      --tiny-dropdown-border: 1px solid rgba(234, 88, 12, 0.24);
+      --tiny-dropdown-item-hover-bg: rgba(234, 88, 12, 0.12);
+      --tiny-dropdown-item-active-bg: rgba(234, 88, 12, 0.18);
+    }
+
+    .dropdown-content .meta {
+      display: block;
+      margin-top: 3px;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .dropdown-content.dark-menu .meta { color: #cbd5e1; }
+
+    .dropdown-content .divider {
+      height: 1px;
+      margin: 6px 0;
+      background: rgba(15, 23, 42, 0.10);
+    }
+
+    .icon-dots {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.65fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .section-title { display: block; }
+      .two-column { grid-template-columns: 1fr; }
+      .quick-nav { border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <span class="eyebrow">TinyDropdown · Vanilla JS · CSS animation</span>
+      <h1>Dropdowns for real interfaces, not toy examples.</h1>
+      <p>
+        This demo covers the original Materialize-like API plus the new contextual/shared menu model:
+        sibling resolution, virtual triggers, table-row actions, action state helpers, keyboard navigation,
+        collision handling, long menus, themes, hover, callbacks, and batch initialization.
+      </p>
+      <div class="hero-actions">
+        <button id="hero-trigger" class="btn dropdown-trigger" data-target="hero-menu" type="button">Try the hero menu</button>
+        <a class="btn ghost" href="#contextual">Jump to contextual menus</a>
+      </div>
+      <ul id="hero-menu" class="dropdown-content brand-menu">
+        <li><a href="#basic">Open the basics</a></li>
+        <li><a href="#advanced">See advanced examples</a></li>
+        <li><a href="#contextual">Contextual table actions</a></li>
+      </ul>
+    </header>
+
+    <nav class="quick-nav" aria-label="Demo sections">
+      <a href="#basic">Basic</a>
+      <a href="#targeting">Targeting</a>
+      <a href="#behavior">Behavior</a>
+      <a href="#advanced">Advanced</a>
+      <a href="#contextual">Shared contextual</a>
+      <a href="#all-code">Initialization code</a>
+    </nav>
+
+    <section id="basic">
+      <div class="section-title">
+        <div>
+          <h2>Basic usage</h2>
+          <p>These examples preserve the classic dropdown behavior while keeping the API vanilla and explicit.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <h3><span class="tag">1</span> Basic click dropdown</h3>
+          <p>Default options: left alignment, constrained width, cover trigger.</p>
+          <div class="demo-actions">
+            <button id="basic-trigger" class="btn dropdown-trigger" data-target="basic-menu" type="button">Open menu</button>
+          </div>
+          <ul id="basic-menu" class="dropdown-content">
+            <li><a href="#new">New project</a></li>
+            <li><a href="#duplicate">Duplicate</a></li>
+            <li class="divider"></li>
+            <li><button type="button">Archive</button></li>
+          </ul>
+          <details open><summary>Used code</summary><pre><code>&lt;button id=&quot;basic-trigger&quot; class=&quot;dropdown-trigger&quot; data-target=&quot;basic-menu&quot;&gt;Open menu&lt;/button&gt;
+&lt;ul id=&quot;basic-menu&quot; class=&quot;dropdown-content&quot;&gt;...&lt;/ul&gt;
+
+new TinyDropdown(&#x27;#basic-trigger&#x27;);</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">2</span> Right aligned</h3>
+          <p>Preferred alignment is right. It auto-corrects if the menu would overflow the viewport.</p>
+          <div class="demo-actions" style="justify-content:flex-end">
+            <button id="right-trigger" class="btn dropdown-trigger" data-target="right-menu" type="button">Right aligned</button>
+          </div>
+          <ul id="right-menu" class="dropdown-content">
+            <li><a href="#export">Export</a></li>
+            <li><a href="#print">Print</a></li>
+            <li><a href="#share">Share</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#right-trigger&#x27;, {
+  alignment: &#x27;right&#x27;
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">3</span> Below trigger</h3>
+          <p><code>coverTrigger: false</code> places the dropdown below or above the trigger.</p>
+          <div class="demo-actions">
+            <button id="below-trigger" class="btn dropdown-trigger" data-target="below-menu" type="button">Below trigger</button>
+          </div>
+          <ul id="below-menu" class="dropdown-content">
+            <li><a href="#one">Option one</a></li>
+            <li><a href="#two">Option two</a></li>
+            <li><a href="#three">Option three</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#below-trigger&#x27;, {
+  coverTrigger: false
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">4</span> Natural width</h3>
+          <p><code>constrainWidth: false</code> lets the dropdown use its content width.</p>
+          <div class="demo-actions">
+            <button id="natural-trigger" class="btn dropdown-trigger" data-target="natural-menu" type="button">Natural width</button>
+          </div>
+          <ul id="natural-menu" class="dropdown-content brand-menu">
+            <li><a href="#long">Very long action label that defines width</a></li>
+            <li><a href="#short">Short</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#natural-trigger&#x27;, {
+  constrainWidth: false,
+  coverTrigger: false
+});</code></pre></details>
+        </article>
+      </div>
+    </section>
+
+    <section id="targeting">
+      <div class="section-title">
+        <div>
+          <h2>Target resolution</h2>
+          <p>No more mandatory IDs everywhere. Use <code>data-target</code> when useful, or colocate the menu next to the trigger.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <h3><span class="tag">5</span> Sibling menu, no <code>data-target</code></h3>
+          <p>TinyDropdown resolves the next sibling <code>.dropdown-content</code> automatically.</p>
+          <div class="demo-actions">
+            <button id="sibling-trigger" class="btn dropdown-trigger" type="button">Sibling menu</button>
+            <ul class="dropdown-content danger-menu">
+              <li><a href="#sibling-view">View local item</a></li>
+              <li><a href="#sibling-edit">Edit local item</a></li>
+              <li><button type="button">Local button</button></li>
+            </ul>
+          </div>
+          <details><summary>Used code</summary><pre><code>&lt;button id=&quot;sibling-trigger&quot; class=&quot;dropdown-trigger&quot;&gt;Sibling menu&lt;/button&gt;
+&lt;ul class=&quot;dropdown-content&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#view&quot;&gt;View&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#edit&quot;&gt;Edit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+new TinyDropdown(&#x27;#sibling-trigger&#x27;, {
+  coverTrigger: false,
+  constrainWidth: false
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">6</span> Menu inside table cell</h3>
+          <p>This matches compact table action DOM: trigger and menu inside the same <code>td</code>.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Client</th><th>Status</th><th class="text-right">Actions</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Sophie Abassé</td>
+                  <td><span class="status ok">Active</span></td>
+                  <td class="text-right">
+                    <button id="cell-trigger" class="btn icon secondary dropdown-trigger" type="button" aria-label="Actions"><span class="icon-dots">⋮</span></button>
+                    <ul class="dropdown-content">
+                      <li><a href="#cell-view" data-action="view">View</a></li>
+                      <li><a href="#cell-edit" data-action="edit">Edit</a></li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <details><summary>Used code</summary><pre><code>&lt;td class=&quot;text-right&quot;&gt;
+  &lt;button id=&quot;cell-trigger&quot; class=&quot;dropdown-trigger&quot;&gt;⋮&lt;/button&gt;
+  &lt;ul class=&quot;dropdown-content&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;#&quot; data-action=&quot;view&quot;&gt;View&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#&quot; data-action=&quot;edit&quot;&gt;Edit&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/td&gt;
+
+new TinyDropdown(&#x27;#cell-trigger&#x27;, {
+  alignment: &#x27;right&#x27;,
+  coverTrigger: false,
+  constrainWidth: false
+});</code></pre></details>
+        </article>
+      </div>
+    </section>
+
+    <section id="behavior">
+      <div class="section-title">
+        <div>
+          <h2>Interaction behavior</h2>
+          <p>Hover, persistent menus, lifecycle callbacks, keyboard navigation, and typeahead.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <h3><span class="tag">7</span> Hover dropdown</h3>
+          <p>Opens when the pointer enters the trigger and closes when leaving both trigger and menu.</p>
+          <div class="demo-actions">
+            <button id="hover-trigger" class="btn dropdown-trigger" data-target="hover-menu" type="button">Hover me</button>
+          </div>
+          <ul id="hover-menu" class="dropdown-content">
+            <li><a href="#alpha">Alpha</a></li>
+            <li><a href="#beta">Beta</a></li>
+            <li><a href="#gamma">Gamma</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#hover-trigger&#x27;, {
+  hover: true,
+  coverTrigger: false
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">8</span> Keep open on item click</h3>
+          <p>Useful for checkboxes, filters, and custom controls. Clicking items does not close the menu.</p>
+          <div class="demo-actions">
+            <button id="keep-trigger" class="btn dropdown-trigger" data-target="keep-menu" type="button">Filters</button>
+          </div>
+          <ul id="keep-menu" class="dropdown-content checkbox-menu">
+            <li><label><input type="checkbox" checked> Active only</label></li>
+            <li><label><input type="checkbox"> Include archived</label></li>
+            <li><label><input type="checkbox"> Assigned to me</label></li>
+            <li class="divider"></li>
+            <li><button type="button" data-action="apply">Apply filters</button></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#keep-trigger&#x27;, {
+  closeOnClick: false,
+  coverTrigger: false
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">9</span> Callbacks and item click</h3>
+          <p>Logs lifecycle events and clicked items.</p>
+          <div class="demo-actions">
+            <button id="callback-trigger" class="btn dropdown-trigger" data-target="callback-menu" type="button">Callbacks</button>
+          </div>
+          <ul id="callback-menu" class="dropdown-content">
+            <li><a href="#first">First action</a></li>
+            <li><a href="#second">Second action</a></li>
+          </ul>
+          <div id="callback-log" class="log">No event yet.</div>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#callback-trigger&#x27;, {
+  onOpenStart(trigger, context) {},
+  onOpenEnd(trigger, context) {},
+  onCloseStart(trigger, context) {},
+  onCloseEnd(trigger, context) {},
+  onItemClick(item, event, context) {}
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">10</span> Keyboard and typeahead</h3>
+          <p>Open with Enter/Space/ArrowDown. Navigate with arrows, Home/End, type a first letter, press Enter.</p>
+          <div class="demo-actions">
+            <button id="keyboard-trigger" class="btn dropdown-trigger" data-target="keyboard-menu" type="button">Keyboard menu</button>
+          </div>
+          <ul id="keyboard-menu" class="dropdown-content">
+            <li><a href="#apple">Apple</a></li>
+            <li><a href="#banana">Banana</a></li>
+            <li><a href="#cherry">Cherry</a></li>
+            <li><a href="#date">Date</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#keyboard-trigger&#x27;, {
+  autoFocus: true,
+  coverTrigger: false
+});</code></pre></details>
+        </article>
+      </div>
+    </section>
+
+    <section id="advanced">
+      <div class="section-title">
+        <div>
+          <h2>Advanced layout</h2>
+          <p>The menu handles themes, explicit containers, batch initialization, and long content.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <h3><span class="tag">11</span> Custom theme</h3>
+          <p>Theme the dropdown itself. No CSS variable copying from the trigger is required.</p>
+          <div class="demo-actions">
+            <button id="theme-trigger" class="btn dropdown-trigger" data-target="theme-menu" type="button">Dark menu</button>
+          </div>
+          <ul id="theme-menu" class="dropdown-content dark-menu">
+            <li><a href="#dark-one">Dark option <span class="meta">Styled directly on the menu</span></a></li>
+            <li><a href="#dark-two">Another option</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>&lt;ul id=&quot;theme-menu&quot; class=&quot;dropdown-content dark-menu&quot;&gt;...&lt;/ul&gt;
+
+.dark-menu {
+  --tiny-dropdown-bg: #111827;
+  --tiny-dropdown-color: #f9fafb;
+}
+
+new TinyDropdown(&#x27;#theme-trigger&#x27;, {
+  coverTrigger: false,
+  constrainWidth: false
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">12</span> Explicit container</h3>
+          <p>The menu is appended to the scrollable container and recalculates while scrolling.</p>
+          <div id="container-demo" class="scroll-box">
+            <button id="container-trigger" class="btn dropdown-trigger" data-target="container-menu" type="button">Inside scroll box</button>
+            <div class="spacer"></div>
+            <p>Scroll this container and reopen the dropdown.</p>
+          </div>
+          <ul id="container-menu" class="dropdown-content brand-menu">
+            <li><a href="#container-a">Container action A</a></li>
+            <li><a href="#container-b">Container action B</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#container-trigger&#x27;, {
+  container: &#x27;#container-demo&#x27;,
+  coverTrigger: false
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">13</span> Batch initialization</h3>
+          <p>Initialize multiple triggers at once.</p>
+          <div class="demo-actions">
+            <button class="btn secondary batch-dropdown dropdown-trigger" data-target="batch-menu-1" type="button">Batch 1</button>
+            <button class="btn secondary batch-dropdown dropdown-trigger" data-target="batch-menu-2" type="button">Batch 2</button>
+          </div>
+          <ul id="batch-menu-1" class="dropdown-content">
+            <li><a href="#b1-a">Batch 1 A</a></li>
+            <li><a href="#b1-b">Batch 1 B</a></li>
+          </ul>
+          <ul id="batch-menu-2" class="dropdown-content">
+            <li><a href="#b2-a">Batch 2 A</a></li>
+            <li><a href="#b2-b">Batch 2 B</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>TinyDropdown.init(&#x27;.batch-dropdown&#x27;, {
+  coverTrigger: false
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">14</span> Long menu auto height</h3>
+          <p>When vertical space is limited, the menu becomes scrollable and stays inside the viewport.</p>
+          <div class="demo-actions">
+            <button id="long-trigger" class="btn dropdown-trigger" data-target="long-menu" type="button">Long menu</button>
+          </div>
+          <ul id="long-menu" class="dropdown-content">
+            <li><a href="#01">Item 01</a></li><li><a href="#02">Item 02</a></li><li><a href="#03">Item 03</a></li>
+            <li><a href="#04">Item 04</a></li><li><a href="#05">Item 05</a></li><li><a href="#06">Item 06</a></li>
+            <li><a href="#07">Item 07</a></li><li><a href="#08">Item 08</a></li><li><a href="#09">Item 09</a></li>
+            <li><a href="#10">Item 10</a></li><li><a href="#11">Item 11</a></li><li><a href="#12">Item 12</a></li>
+            <li><a href="#13">Item 13</a></li><li><a href="#14">Item 14</a></li><li><a href="#15">Item 15</a></li>
+          </ul>
+          <details><summary>Used code</summary><pre><code>new TinyDropdown(&#x27;#long-trigger&#x27;, {
+  coverTrigger: false
+});</code></pre></details>
+        </article>
+      </div>
+    </section>
+
+    <section id="contextual">
+      <div class="section-title">
+        <div>
+          <h2>Shared contextual dropdown</h2>
+          <p>One dropdown menu reused for every table row. This is the right model for data-heavy UIs.</p>
+        </div>
+      </div>
+
+      <article class="demo-card wide">
+        <div class="two-column">
+          <div>
+            <h3><span class="tag">15</span> TinyDataTable-style row actions</h3>
+            <p>
+              The menu reads <code>tr._data</code> when available, falls back to <code>tr.dataset</code>,
+              and exposes action helpers: <code>show()</code>, <code>hide()</code>, <code>enable()</code>, <code>disable()</code>, <code>setHref()</code>.
+            </p>
+            <div class="table-wrap">
+              <table id="clients-table">
+                <thead>
+                  <tr>
+                    <th>Client</th>
+                    <th>Plan</th>
+                    <th>Status</th>
+                    <th class="text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-id="7493" data-can-edit="true" data-can-delete="false" data-name="Sophie Abassé">
+                    <td>Sophie Abassé</td>
+                    <td>Family</td>
+                    <td><span class="status ok">Active</span></td>
+                    <td class="text-right"><button class="btn icon secondary js-client-actions" type="button" aria-label="Actions"><span class="icon-dots">⋮</span></button></td>
+                  </tr>
+                  <tr data-id="5209" data-can-edit="true" data-can-delete="true" data-name="Stéphane Delley">
+                    <td>Stéphane Delley</td>
+                    <td>Pro</td>
+                    <td><span class="status warn">Pending</span></td>
+                    <td class="text-right"><button class="btn icon secondary js-client-actions" type="button" aria-label="Actions"><span class="icon-dots">⋮</span></button></td>
+                  </tr>
+                  <tr data-id="8190" data-can-edit="false" data-can-delete="false" data-name="Camila Lynch">
+                    <td>Camila Lynch</td>
+                    <td>Trial</td>
+                    <td><span class="status danger">Locked</span></td>
+                    <td class="text-right"><button class="btn icon secondary js-client-actions" type="button" aria-label="Actions"><span class="icon-dots">⋮</span></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div id="client-action-log" class="log">Open a row action menu.</div>
+          </div>
+
+          <div>
+            <details open><summary>Used code</summary><pre><code>const sharedClientActionsDropdown = new TinyDropdown(&#x27;#client-actions-menu&#x27;, {
+  virtualTrigger: true,
+  alignment: &#x27;right&#x27;,
+  coverTrigger: false,
+  constrainWidth: false,
+
+  adjustMenuState({ data, setHref, show, hide, dropdown }) {
+    setHref(&#x27;view&#x27;, `/fxbase/clients/${data.id}`);
+    setHref(&#x27;edit&#x27;, `/fxbase/clients/${data.id}/edit`);
+
+    data.canEdit ? show(&#x27;edit&#x27;) : hide(&#x27;edit&#x27;);
+    data.canDelete ? show(&#x27;delete&#x27;) : hide(&#x27;delete&#x27;);
+
+    dropdown.dataset.currentId = data.id;
+  },
+
+  onItemClick(item, event, context) {
+    if (item.dataset.action === &#x27;delete&#x27;) {
+      event.preventDefault();
+      deleteClient(context.data.id);
+    }
+  }
+});
+
+clientsTable.addEventListener(&#x27;click&#x27;, (event) =&gt; {
+  const trigger = event.target.closest(&#x27;.js-client-actions&#x27;);
+  if (!trigger) return;
+
+  event.preventDefault();
+  sharedClientActionsDropdown.openFrom(trigger);
+});</code></pre></details>
+          </div>
+        </div>
+
+        <ul id="client-actions-menu" class="dropdown-content brand-menu">
+          <li><a href="#" data-action="view">👁 View <span class="meta">Open client details</span></a></li>
+          <li><a href="#" data-action="edit">✏️ Edit <span class="meta">Only visible when editable</span></a></li>
+          <li class="divider"></li>
+          <li><button type="button" data-action="delete">🗑 Delete <span class="meta">Only visible when deletable</span></button></li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="all-code">
+      <div class="section-title">
+        <div>
+          <h2>Full initialization script</h2>
+          <p>The demo keeps all initialization code in one place so it is easy to copy into a project.</p>
+        </div>
+      </div>
+      <article class="demo-card wide">
+        <details open><summary>Full demo JavaScript</summary><pre><code>new TinyDropdown(&#x27;#hero-trigger&#x27;, { coverTrigger: false, constrainWidth: false });
+new TinyDropdown(&#x27;#basic-trigger&#x27;);
+new TinyDropdown(&#x27;#right-trigger&#x27;, { alignment: &#x27;right&#x27; });
+new TinyDropdown(&#x27;#below-trigger&#x27;, { coverTrigger: false });
+new TinyDropdown(&#x27;#natural-trigger&#x27;, { constrainWidth: false, coverTrigger: false });
+new TinyDropdown(&#x27;#sibling-trigger&#x27;, { coverTrigger: false, constrainWidth: false });
+new TinyDropdown(&#x27;#cell-trigger&#x27;, { alignment: &#x27;right&#x27;, coverTrigger: false, constrainWidth: false });
+new TinyDropdown(&#x27;#hover-trigger&#x27;, { hover: true, coverTrigger: false });
+new TinyDropdown(&#x27;#keep-trigger&#x27;, { closeOnClick: false, coverTrigger: false, constrainWidth: false });
+new TinyDropdown(&#x27;#callback-trigger&#x27;, { ...callbacks });
+new TinyDropdown(&#x27;#keyboard-trigger&#x27;, { autoFocus: true, coverTrigger: false });
+new TinyDropdown(&#x27;#theme-trigger&#x27;, { coverTrigger: false, constrainWidth: false });
+new TinyDropdown(&#x27;#container-trigger&#x27;, { container: &#x27;#container-demo&#x27;, coverTrigger: false });
+TinyDropdown.init(&#x27;.batch-dropdown&#x27;, { coverTrigger: false });
+new TinyDropdown(&#x27;#long-trigger&#x27;, { coverTrigger: false });
+
+const sharedClientActionsDropdown = new TinyDropdown(&#x27;#client-actions-menu&#x27;, {
+  virtualTrigger: true,
+  alignment: &#x27;right&#x27;,
+  coverTrigger: false,
+  constrainWidth: false,
+  adjustMenuState(context) { ... },
+  onItemClick(item, event, context) { ... }
+});</code></pre></details>
+      </article>
+    </section>
+  </main>
+
+  <script src="../dist/TinyDropdown.min.js"></script>
+  <script>
+    const callbackLog = document.querySelector('#callback-log');
+    const clientActionLog = document.querySelector('#client-action-log');
+    const clientsTable = document.querySelector('#clients-table');
+
+    document.querySelectorAll('#clients-table tbody tr').forEach((row) => {
+      row._data = {
+        id: row.dataset.id,
+        name: row.dataset.name,
+        canEdit: row.dataset.canEdit === 'true',
+        canDelete: row.dataset.canDelete === 'true'
+      };
+    });
+
+    new TinyDropdown('#hero-trigger', {
+      coverTrigger: false,
+      constrainWidth: false
+    });
+
+    new TinyDropdown('#basic-trigger');
+
+    new TinyDropdown('#right-trigger', {
+      alignment: 'right'
+    });
+
+    new TinyDropdown('#below-trigger', {
+      coverTrigger: false
+    });
+
+    new TinyDropdown('#natural-trigger', {
+      constrainWidth: false,
+      coverTrigger: false
+    });
+
+    new TinyDropdown('#sibling-trigger', {
+      constrainWidth: false,
+      coverTrigger: false
+    });
+
+    new TinyDropdown('#cell-trigger', {
+      alignment: 'right',
+      constrainWidth: false,
+      coverTrigger: false
+    });
+
+    new TinyDropdown('#hover-trigger', {
+      hover: true,
+      coverTrigger: false
+    });
+
+    new TinyDropdown('#keep-trigger', {
+      closeOnClick: false,
+      constrainWidth: false,
+      coverTrigger: false,
+      onItemClick(item, event) {
+        if (item.dataset.action === 'apply') {
+          event.preventDefault();
+          this.close({ restoreFocus: false });
+        }
+      }
+    });
+
+    new TinyDropdown('#callback-trigger', {
+      coverTrigger: false,
+      onOpenStart() {
+        callbackLog.textContent = 'Opening started';
+      },
+      onOpenEnd() {
+        callbackLog.textContent = 'Opening finished';
+      },
+      onCloseStart() {
+        callbackLog.textContent = 'Closing started';
+      },
+      onCloseEnd() {
+        callbackLog.textContent = 'Closing finished';
+      },
+      onItemClick(item) {
+        callbackLog.textContent = 'Clicked: ' + item.textContent.trim();
+      }
+    });
+
+    new TinyDropdown('#keyboard-trigger', {
+      autoFocus: true,
+      coverTrigger: false
+    });
+
+    new TinyDropdown('#theme-trigger', {
+      constrainWidth: false,
+      coverTrigger: false
+    });
+
+    new TinyDropdown('#container-trigger', {
+      container: '#container-demo',
+      coverTrigger: false
+    });
+
+    TinyDropdown.init('.batch-dropdown', {
+      coverTrigger: false
+    });
+
+    new TinyDropdown('#long-trigger', {
+      coverTrigger: false
+    });
+
+    const sharedClientActionsDropdown = new TinyDropdown('#client-actions-menu', {
+      virtualTrigger: true,
+      alignment: 'right',
+      coverTrigger: false,
+      constrainWidth: false,
+
+      adjustMenuState({ data, setHref, show, hide, dropdown }) {
+        if (!data) {
+          return;
+        }
+
+        setHref('view', `/fxbase/clients/${data.id}`);
+        setHref('edit', `/fxbase/clients/${data.id}/edit`);
+
+        data.canEdit ? show('edit') : hide('edit');
+        data.canDelete ? show('delete') : hide('delete');
+
+        dropdown.dataset.currentId = data.id;
+        dropdown.dataset.currentName = data.name;
+      },
+
+      onBeforeOpen({ row }) {
+        return Boolean(row);
+      },
+
+      onItemClick(item, event, context) {
+        const action = item.dataset.action;
+        const data = context.data;
+
+        if (!data) {
+          return;
+        }
+
+        if (action === 'delete') {
+          event.preventDefault();
+          clientActionLog.textContent = `Delete requested for ${data.name} (#${data.id})`;
+          this.close({ restoreFocus: false });
+          return;
+        }
+
+        clientActionLog.textContent = `${action} clicked for ${data.name} (#${data.id})`;
+      }
+    });
+
+    clientsTable.addEventListener('click', (event) => {
+      const trigger = event.target.closest('.js-client-actions');
+
+      if (!trigger) {
+        return;
+      }
+
+      event.preventDefault();
+      sharedClientActionsDropdown.openFrom(trigger);
+    });
+  </script>
+</body>
+</html>

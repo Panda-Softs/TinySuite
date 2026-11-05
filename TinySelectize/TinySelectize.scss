@@ -1,0 +1,563 @@
+// TinySelectize.scss
+
+$tsz-border: #cfcfd6;
+$tsz-border-open: #b4dbed;
+$tsz-bg: #fff;
+$tsz-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+$tsz-striped-color : rgba(#0088ff,0.13);
+
+$tsz-pill-bg: #e9e9eb;
+
+$namespace : '.tsz';
+
+@keyframes tsz-loader-rotate {
+  from {
+    transform: translateY(-50%) rotate(0);
+  }
+
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+#{$namespace} {
+  position: relative;
+  font: inherit;
+
+  &#{$namespace}--open > #{$namespace}__control, > #{$namespace}__control:focus-visible {
+    border: 1px solid $tsz-border-open;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);
+    outline: none;
+  }
+
+  &.tsz--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  > #{$namespace}__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* align-content: flex-start;*/
+    flex-wrap: wrap;
+    //gap: 0.35rem;
+
+    border: 1px solid $tsz-border;
+    border-radius: 0.6rem;
+    padding: 0.45rem 2rem 0.45rem 0.55rem;
+
+    background: $tsz-bg;
+    min-height: 2rem;
+
+    > #{$namespace}__item {
+
+    }
+
+    > #{$namespace}__input {
+      border: 0;
+      outline: none;
+      margin: 0;
+      box-shadow: none;
+      font: inherit;
+
+      padding: 0; //0.15rem 0
+
+      width: 1px;
+      min-width: 3rem;   /* threshold to wrap */
+      flex: 1 1 3rem;
+
+      &#{$namespace}__input--locked {
+        max-width: 1px;
+        min-width: 1px;
+        caret-color: transparent;
+      }
+
+      &::placeholder {
+        text-overflow: ellipsis;
+      }
+    }
+
+    > #{$namespace}__clear {
+      border: 0;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
+      padding: .1rem .35rem;
+      line-height: inherit;
+      border-radius: .4rem;
+      position: absolute;
+      right: 0.5rem;
+
+      &:hover {
+        background: #f0f0f4;
+      }
+    }
+
+
+  }
+
+  // Loading state: the spinner is rendered by the control pseudo-element, with no extra DOM node.
+  &#{$namespace}--loading {
+    > #{$namespace}__control {
+      padding-right: 3rem;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: .65rem;
+        z-index: 1;
+        box-sizing: border-box;
+        width: var(--tsz-loader-size, .9rem);
+        height: var(--tsz-loader-size, .9rem);
+        border: var(--tsz-loader-border-width, 2px) solid transparent;
+        border-top-color: var(--tsz-loader-color, #7367f0);
+        border-bottom-color: var(--tsz-loader-color, #7367f0);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translateY(-50%);
+        animation: tsz-loader-rotate .75s linear infinite;
+      }
+
+      > #{$namespace}__clear:not([hidden]) {
+        right: 2rem;
+      }
+    }
+
+    &.has-items {
+      > #{$namespace}__control {
+        padding-right: 4.5rem;
+      }
+    }
+
+    &:not(#{$namespace}-multiple) {
+      &#{$namespace}-arrow {
+        > #{$namespace}__control {
+          padding-right: 3.75rem;
+
+          &::before {
+            right: 2.25rem;
+          }
+
+          > #{$namespace}__clear:not([hidden]) {
+            right: 3.65rem;
+          }
+        }
+
+        &.has-items {
+          > #{$namespace}__control {
+            padding-right: 5.4rem;
+          }
+        }
+      }
+    }
+    > #{$namespace}__control {
+      > #{$namespace}__item {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+
+        > #{$namespace}__itemLabel {
+          display: block;
+          max-width: 100%;
+
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow-wrap: normal;
+          word-break: normal;
+        }
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &#{$namespace}--loading > #{$namespace}__control::before {
+      animation: none;
+    }
+  }
+
+  &#{$namespace}-multiple {
+    > #{$namespace}__control {
+      gap: 0.35rem;
+      > #{$namespace}__pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+
+        background: $tsz-pill-bg;
+        border-radius: 0.6rem;
+        padding: 0.2rem 0.35rem;
+
+        > #{$namespace}__itemLabel {}
+        > #{$namespace}__remove {
+          border: 0;
+          background: transparent;
+          cursor: pointer;
+          line-height: 1;
+          padding: 0.05rem 0.25rem;
+          border-radius: 0.4rem;
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.06);
+          }
+        }
+      }
+
+    }
+  }
+
+  &:not(#{$namespace}-multiple) {
+    > #{$namespace}__control {
+      > #{$namespace}__item {
+        max-width: calc(100% - 4px);
+      }
+    }
+
+    &#{$namespace}-arrow {
+      > #{$namespace}__control {
+      &:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        //margin-top: -3px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 5px 5px 0 5px;
+        border-color: #808080 transparent transparent transparent;
+        transform: translateY(-50%);
+      }
+
+      > #{$namespace}__clear {
+        right: 1.6rem;
+      }
+
+    }
+      &#{$namespace}--open {
+      > #{$namespace}__control:after {
+        //margin-top: -4px;
+        border-width: 0 5px 5px 5px;
+        border-color: transparent transparent #808080 transparent
+      }
+    }
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 0.3rem);
+    z-index: 996; // under 997
+
+    background: $tsz-bg;
+    border: 1px solid $tsz-border;
+    border-radius: 0.6rem;
+    box-shadow: $tsz-shadow;
+
+    //max-height: 16rem;
+    overflow: auto;
+    visibility: hidden;
+    opacity: 0;
+
+    @keyframes tsz-fade-down {
+      0%   { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes tsz-fade-up {
+      0%   { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    &#{$namespace}--open {
+      visibility: visible;
+      animation: tsz-fade-down 200ms ease forwards;
+    }
+
+    &.dropdown-up {
+      top: auto;
+      bottom: calc(100% + 0.3rem);
+      &#{$namespace}--open {
+        animation: tsz-fade-up 200ms ease forwards;
+      }
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      &#{$namespace}--open,
+      &.dropdown-up#{$namespace}--open {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    > #{$namespace}__status {
+      padding: 0.6rem;
+      font-size: 0.95em;
+      opacity: 0.75;
+    }
+
+    > #{$namespace}__list {
+
+      //overflow-y: auto;
+      //overscroll-behavior: contain; /* prevents “scroll chaining” to body */
+
+      > #{$namespace}__optgroup {
+        padding: .2rem .6rem;
+        font-size: .75em;
+        font-weight: 600;
+        opacity: .7;
+        background: rgba(0, 0, 0, .1);
+        text-transform: uppercase;
+      }
+
+      > #{$namespace}__option {
+        padding: 0.55rem 0.6rem;
+        cursor: pointer;
+
+        &:hover {
+          background: #f6f6fa;
+        }
+
+        &--active {
+          font-weight: bold;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        &--disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+  }
+
+  /*
+  &.select-striped {
+    &__dropdown {
+      > #{$namespace}__list {
+        > #{$namespace}__option:nth-child(2n+1) {
+          background: $tsz-striped-color;
+        }
+      }
+    }
+  }
+   */
+    &__dropdown {
+      &--striped {
+        > #{$namespace}__list {
+          > #{$namespace}__option:nth-child(odd) {
+            background: $tsz-striped-color;
+          }
+        }
+      }
+    }
+}
+
+/* --------------------------------------------
+   Tree view (plugin: tree)
+   Requires TinySelectize to set:
+   - [data-depth="N"]
+   - CSS var --depth
+   - row classes .is-parent / .is-leaf on .tsz__option
+-------------------------------------------- */
+$tree_ns: '.tszTree';
+$tsz-tree-indent: 16px;
+$tsz-tree-line: #b6b6b6;
+$tsz-tree-pin: #7367f0;
+
+
+#{$namespace}--tree {
+  // Portal mode note:
+  // Dropdown is moved outside wrapper, so the dropdown itself carries the `--tree` class.
+  // Selector is `.tsz--tree.tsz__dropdown` (same element), not descendant.
+  &#{$namespace}__dropdown {
+    --indent: var(--tsz-tree-indent, #{$tsz-tree-indent});
+    --line: #{$tsz-tree-line};
+    --pin-color: #{$tsz-tree-pin};
+
+    #{$namespace}__option {
+      position: relative;
+
+      // x-position for dot/stem (column after the elbow)
+      --pin-x: calc((var(--depth, 0) + 1) * var(--indent));
+
+      // indent content
+      padding-left: calc((var(--depth, 0) + 1) * var(--indent) + 6px);
+
+      // Keep hover bg without killing the lines
+      background-color: transparent;
+
+      &:hover {
+        background-color: #f6f6fa;
+      }
+
+      // Keep content above the line layer
+      > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      // ----- Line layer (columns + elbow) -----
+      // Default (non-parent): only elbow + columns
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+
+        // Layer 1: elbow (horizontal 1px)
+        // Layer 2: ancestor columns (repeating vertical guides)
+        background-image:
+                linear-gradient(to right, var(--line), var(--line)),
+                repeating-linear-gradient(
+                                to right,
+                                var(--line) 0,
+                                var(--line) 1px,
+                                transparent 1px,
+                                transparent var(--indent)
+                );
+
+        background-repeat: no-repeat, no-repeat;
+
+        // elbow: indent wide × 1px
+        // columns: depth*indent wide × full height
+        background-size:
+                var(--indent) 1px,
+                calc(var(--indent) * var(--depth, 0)) 100%;
+
+        // elbow starts at depth*indent, centered vertically
+        // columns start at indent, from top
+        background-position:
+                calc(var(--depth, 0) * var(--indent)) 50%,
+                var(--indent) 0;
+      }
+
+      // ROOTS: no elbow/columns by default
+      &[data-depth="0"] {
+        padding-left: calc(var(--indent) + 6px);
+
+        &::before {
+          display: none;
+        }
+      }
+
+      &.is-parent {
+        // ----- Parent stem + dot -----
+        // Add STEM as a third layer (only bottom half), keep elbow + columns
+        &::before {
+          // 3 layers:
+          // 1) stem (vertical 1px; only from 50% -> 100%)
+          // 2) elbow (horizontal 1px)
+          // 3) columns (ancestor guides)
+          background-image:
+                  linear-gradient(
+                                  to bottom,
+                                  transparent 0,
+                                  transparent 50%,
+                                  var(--line) 50%,
+                                  var(--line) 100%
+                  ),
+                  linear-gradient(to right, var(--line), var(--line)),
+                  repeating-linear-gradient(
+                                  to right,
+                                  var(--line) 0,
+                                  var(--line) 1px,
+                                  transparent 1px,
+                                  transparent var(--indent)
+                  );
+
+          background-repeat: no-repeat, no-repeat, no-repeat;
+
+          background-size:
+                  1px 100%,                                  // stem (masked by gradient)
+                  var(--indent) 1px,                          // elbow
+                  calc(var(--indent) * var(--depth, 0)) 100%; // columns
+
+          background-position:
+                  var(--pin-x) 0,                             // stem at dot column
+                  calc(var(--depth, 0) * var(--indent)) 50%,   // elbow
+                  var(--indent) 0;                            // columns
+        }
+
+        // ROOT + PARENT: keep ONLY the stem (no elbow/columns)
+        &[data-depth="0"]::before {
+          display: block;
+
+          background-image:
+                  linear-gradient(
+                                  to bottom,
+                                  transparent 0,
+                                  transparent 50%,
+                                  var(--line) 50%,
+                                  var(--line) 100%
+                  );
+
+          background-repeat: no-repeat;
+          background-size: 1px 100%;
+          background-position: var(--pin-x) 0;
+        }
+
+        // DOT
+        &::after {
+          content: "";
+          position: absolute;
+          left: var(--pin-x);
+          top: 50%;
+          width: 6px;
+          height: 6px;
+          background-color: var(--pin-color);
+          border-radius: 50%;
+          transform: translate(calc(-50% + 0.5px), -50%);
+          pointer-events: none;
+          z-index: 2;
+        }
+        .tszTree__label {
+          padding-left: 5px;
+        }
+
+
+      }
+      // ----- Plugin renderer layout (inner nodes) -----
+      #{$tree_ns}__option {
+        display: inline-flex;
+        align-items: center;
+        width: 100%;
+        gap: 8px;
+      }
+
+      #{$tree_ns}__label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #{$tree_ns}__badge {
+        margin-left: auto;
+        font-size: 13px;
+        font-family: inherit;
+        padding: 0 0.4rem;
+        line-height: 18px;
+        height: 18px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.08);
+      }
+    }
+  }
+}
+
+#{$namespace} {
+  &__dropdown #{$namespace}__option {
+    mark {
+      background: yellow;
+    }
+  }
+}

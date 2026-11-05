@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TinySignature Demo</title>
+  <script src="../dist/TinySignature.min.js"></script>
+  <style>
+    :root {
+      --page-bg: #080b18;
+      --panel-bg: rgba(255, 255, 255, 0.1);
+      --panel-border: rgba(255, 255, 255, 0.18);
+      --text-main: #f8fafc;
+      --text-soft: #cbd5e1;
+      --text-muted: #94a3b8;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --accent: #8b5cf6;
+      --accent-2: #06b6d4;
+      --danger: #fb7185;
+      --success: #34d399;
+      --shadow: 0 30px 90px rgba(0, 0, 0, 0.38);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 15% 12%, rgba(139, 92, 246, 0.35), transparent 30%),
+        radial-gradient(circle at 82% 18%, rgba(6, 182, 212, 0.28), transparent 32%),
+        radial-gradient(circle at 50% 110%, rgba(244, 114, 182, 0.2), transparent 35%),
+        var(--page-bg);
+      user-select: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .ts-demo-page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 42px 0;
+    }
+
+    .ts-demo-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: 26px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .ts-demo-eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 12px;
+      color: #dbeafe;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid var(--panel-border);
+      border-radius: 999px;
+      backdrop-filter: blur(18px);
+    }
+
+    .ts-demo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.85);
+    }
+
+    .ts-demo-title {
+      margin: 18px 0 10px;
+      font-size: clamp(2.4rem, 6vw, 5.3rem);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+    }
+
+    .ts-demo-lead {
+      max-width: 680px;
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 1.06rem;
+      line-height: 1.7;
+    }
+
+    .ts-demo-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .ts-demo-stat {
+      padding: 18px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(18px);
+    }
+
+    .ts-demo-stat strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+    }
+
+    .ts-demo-stat span {
+      color: var(--text-muted);
+      font-size: 0.86rem;
+    }
+
+    .ts-demo-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .ts-demo-card,
+    .ts-demo-sidebar {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08));
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(24px);
+    }
+
+    .ts-demo-card {
+      overflow: hidden;
+    }
+
+    .ts-demo-card-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .ts-demo-card-header h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .ts-demo-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 12px;
+      color: #d1fae5;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.24);
+      border-radius: 999px;
+      font-size: 0.85rem;
+    }
+
+    .ts-demo-status.is-empty {
+      color: #fee2e2;
+      background: rgba(251, 113, 133, 0.12);
+      border-color: rgba(251, 113, 133, 0.22);
+    }
+
+    .ts-demo-board {
+      padding: 18px;
+    }
+
+    .ts-canvas-frame {
+      position: relative;
+      min-height: 430px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+        var(--surface);
+      background-size: 22px 22px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 24px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 20px 45px rgba(2, 6, 23, 0.25);
+    }
+
+    .ts-canvas-frame::before {
+      position: absolute;
+      top: 18px;
+      left: 22px;
+      z-index: 1;
+      color: rgba(15, 23, 42, 0.26);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      content: "Sign here";
+      pointer-events: none;
+    }
+
+    .ts-canvas-frame::after {
+      position: absolute;
+      right: 28px;
+      bottom: 82px;
+      left: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(15, 23, 42, 0.28), transparent);
+      content: "";
+      pointer-events: none;
+    }
+
+    .ts-signature-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+
+    .ts-demo-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 18px 20px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .ts-demo-button {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 15px;
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .ts-demo-button:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.17);
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+
+    .ts-demo-button:focus-visible,
+    .ts-color-choice:focus-visible {
+      outline: 3px solid rgba(6, 182, 212, 0.45);
+      outline-offset: 3px;
+    }
+
+    .ts-demo-button.is-primary {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-color: transparent;
+      box-shadow: 0 14px 30px rgba(6, 182, 212, 0.22);
+    }
+
+    .ts-demo-button.is-danger {
+      color: #ffe4e6;
+      background: rgba(251, 113, 133, 0.14);
+      border-color: rgba(251, 113, 133, 0.22);
+    }
+
+    .ts-demo-sidebar {
+      padding: 18px;
+    }
+
+    .ts-panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .ts-panel-title h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .ts-panel-title code {
+      color: #e0f2fe;
+      font-size: 0.78rem;
+      background: rgba(14, 165, 233, 0.13);
+      border: 1px solid rgba(14, 165, 233, 0.22);
+      border-radius: 999px;
+      padding: 6px 9px;
+    }
+
+    .ts-control-group {
+      padding: 16px;
+      margin-bottom: 14px;
+      background: rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-lg);
+    }
+
+    .ts-control-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: var(--text-soft);
+      font-size: 0.86rem;
+    }
+
+    .ts-control-label strong {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .ts-color-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .ts-color-choice {
+      width: 100%;
+      aspect-ratio: 1;
+      border: 2px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18);
+    }
+
+    .ts-color-choice.is-active {
+      border-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.18), inset 0 0 0 2px rgba(255, 255, 255, 0.22);
+    }
+
+    .ts-range {
+      width: 100%;
+      accent-color: var(--accent-2);
+      cursor: pointer;
+    }
+
+    .ts-export-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .ts-demo-hint {
+      margin: 12px 0 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+
+    .ts-demo-preview {
+      min-height: 110px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-md);
+    }
+
+    .ts-demo-preview img {
+      display: block;
+      width: 100%;
+      max-height: 120px;
+      object-fit: contain;
+      background: #ffffff;
+      border-radius: var(--radius-sm);
+    }
+
+    @media (max-width: 980px) {
+      .ts-demo-hero,
+      .ts-demo-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .ts-demo-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .ts-demo-page {
+        width: min(100% - 20px, 1180px);
+        padding: 22px 0;
+      }
+
+      .ts-demo-stats,
+      .ts-export-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ts-canvas-frame {
+        min-height: 360px;
+      }
+
+      .ts-demo-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="ts-demo-page">
+    <section class="ts-demo-hero" aria-labelledby="demo-title">
+      <div>
+        <span class="ts-demo-eyebrow"><span class="ts-demo-dot"></span> Pure JavaScript · UMD · Canvas</span>
+        <h1 id="demo-title" class="ts-demo-title">TinySignature</h1>
+        <p class="ts-demo-lead">
+          A polished signature component with smooth pressure-like strokes, undo/redo,
+          live styling, HiDPI resizing, SVG export, PNG/JPG downloads and zero dependencies.
+        </p>
+      </div>
+
+      <div class="ts-demo-stats" aria-label="Component highlights">
+        <div class="ts-demo-stat"><strong>0</strong><span>Dependencies</span></div>
+        <div class="ts-demo-stat"><strong>UMD</strong><span>Browser / bundler</span></div>
+        <div class="ts-demo-stat"><strong>HiDPI</strong><span>Crisp canvas</span></div>
+      </div>
+    </section>
+
+    <section class="ts-demo-layout">
+      <article class="ts-demo-card">
+        <header class="ts-demo-card-header">
+          <h2>Interactive signature surface</h2>
+          <span id="signature-status" class="ts-demo-status is-empty">Empty canvas</span>
+        </header>
+
+        <div class="ts-demo-board">
+          <div class="ts-canvas-frame" id="signature-frame">
+            <canvas class="ts-signature-canvas" id="tiny-signature-canvas" aria-label="Signature drawing area"></canvas>
+          </div>
+        </div>
+
+        <footer class="ts-demo-toolbar" aria-label="Signature actions">
+          <button type="button" class="ts-demo-button is-danger" data-action="clear">Clear</button>
+          <button type="button" class="ts-demo-button" data-action="undo" title="Ctrl+Z">Undo</button>
+          <button type="button" class="ts-demo-button" data-action="redo" title="Ctrl+Y">Redo</button>
+          <button type="button" class="ts-demo-button" data-action="random-ink">Random ink</button>
+          <button type="button" class="ts-demo-button" data-action="random-paper">Random paper</button>
+          <button type="button" class="ts-demo-button is-primary" data-action="open-preview">Open preview</button>
+        </footer>
+      </article>
+
+      <aside class="ts-demo-sidebar" aria-label="Signature controls">
+        <div class="ts-panel-title">
+          <h3>Studio controls</h3>
+          <code>TinySignature</code>
+        </div>
+
+        <section class="ts-control-group">
+          <div class="ts-control-label">
+            <strong>Ink color</strong>
+            <span id="ink-value">#111827</span>
+          </div>
+          <div class="ts-color-grid" id="ink-colors" aria-label="Ink colors"></div>
+        </section>
+
+        <section class="ts-control-group">
+          <div class="ts-control-label">
+            <strong>Paper color</strong>
+            <span id="paper-value">#ffffff</span>
+          </div>
+          <div class="ts-color-grid" id="paper-colors" aria-label="Paper colors"></div>
+        </section>
+
+        <section class="ts-control-group">
+          <label class="ts-control-label" for="width-range">
+            <strong>Stroke width</strong>
+            <span id="width-value">2.8 px</span>
+          </label>
+          <input id="width-range" class="ts-range" type="range" min="1" max="8" step="0.1" value="2.8">
+          <p class="ts-demo-hint">The component stores min/max width and automatically makes fast strokes thinner.</p>
+        </section>
+
+        <section class="ts-control-group">
+          <div class="ts-control-label"><strong>Export</strong><span>PNG · JPG · SVG</span></div>
+          <div class="ts-export-grid">
+            <button type="button" class="ts-demo-button" data-action="save-png">PNG</button>
+            <button type="button" class="ts-demo-button" data-action="save-jpg">JPG</button>
+            <button type="button" class="ts-demo-button" data-action="save-svg">SVG</button>
+            <button type="button" class="ts-demo-button" data-action="save-svg-bg">SVG + BG</button>
+          </div>
+        </section>
+
+        <section class="ts-control-group">
+          <div class="ts-control-label"><strong>Live preview</strong><span id="point-count">0 strokes</span></div>
+          <div class="ts-demo-preview" id="signature-preview"></div>
+          <p class="ts-demo-hint">Preview refreshes after each stroke and demonstrates <code>toDataURL()</code>.</p>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('tiny-signature-canvas');
+    const statusLabel = document.getElementById('signature-status');
+    const preview = document.getElementById('signature-preview');
+    const pointCount = document.getElementById('point-count');
+    const inkValue = document.getElementById('ink-value');
+    const paperValue = document.getElementById('paper-value');
+    const widthValue = document.getElementById('width-value');
+    const widthRange = document.getElementById('width-range');
+    const toolbar = document.querySelector('.ts-demo-toolbar');
+    const sidebar = document.querySelector('.ts-demo-sidebar');
+
+    const inkColors = ['#111827', '#7c3aed', '#0891b2', '#16a34a', '#e11d48'];
+    const paperColors = ['#ffffff', '#fff7ed', '#f8fafc', '#ecfeff', '#fdf2f8'];
+
+    const signature = new TinySignature(canvas, {
+      backgroundColor: '#ffffff',
+      penColor: '#111827',
+      minWidth: 0.8,
+      maxWidth: Number(widthRange.value),
+      minDistance: 4,
+      throttle: 12,
+    });
+
+    function buildColorButtons(containerId, colors, onSelect) {
+      const container = document.getElementById(containerId);
+
+      colors.forEach((color, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'ts-color-choice';
+        button.style.background = color;
+        button.setAttribute('aria-label', color);
+        button.dataset.color = color;
+
+        if (index === 0) {
+          button.classList.add('is-active');
+        }
+
+        button.addEventListener('click', () => {
+          container.querySelectorAll('.ts-color-choice').forEach((colorButton) => {
+            colorButton.classList.toggle('is-active', colorButton === button);
+          });
+          onSelect(color);
+        });
+
+        container.appendChild(button);
+      });
+    }
+
+    function updateStatus() {
+      const isEmpty = signature.isEmpty();
+      const strokeCount = signature.toData().length;
+
+      statusLabel.textContent = isEmpty ? 'Empty canvas' : 'Signature captured';
+      statusLabel.classList.toggle('is-empty', isEmpty);
+      pointCount.textContent = `${strokeCount} ${strokeCount === 1 ? 'stroke' : 'strokes'}`;
+    }
+
+    function updatePreview() {
+      updateStatus();
+
+      if (signature.isEmpty()) {
+        preview.innerHTML = '<p class="ts-demo-hint">Draw a signature to generate a preview.</p>';
+        return;
+      }
+
+      const image = new Image();
+      image.alt = 'Signature preview';
+      image.src = signature.toDataURL('image/png');
+      preview.replaceChildren(image);
+    }
+
+    function resizeSignatureCanvas() {
+      signature.resizeCanvas({ preserve: true });
+      updatePreview();
+    }
+
+    function randomColor(colors) {
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function requireSignature() {
+      if (!signature.isEmpty()) {
+        return true;
+      }
+
+      alert('Please provide a signature first.');
+      return false;
+    }
+
+    function openPreviewWindow() {
+      if (!requireSignature()) {
+        return;
+      }
+
+      const dataURL = signature.toDataURL('image/png');
+      const previewWindow = window.open('', 'tiny-signature-preview', 'width=900,height=560');
+
+      previewWindow.document.write(`
+        <!doctype html>
+        <html lang="en">
+          <head>
+            <title>TinySignature Preview</title>
+            <style>
+              body {
+                display: grid;
+                min-height: 100vh;
+                margin: 0;
+                place-items: center;
+                background: #0f172a;
+                font-family: system-ui, sans-serif;
+              }
+              img {
+                width: min(860px, calc(100vw - 40px));
+                max-height: calc(100vh - 40px);
+                object-fit: contain;
+                background: #fff;
+                border-radius: 24px;
+                box-shadow: 0 30px 80px rgba(0,0,0,.45);
+              }
+            </style>
+          </head>
+          <body><img alt="Signature preview" src="${dataURL}"></body>
+        </html>
+      `);
+      previewWindow.document.close();
+    }
+
+    buildColorButtons('ink-colors', inkColors, (color) => {
+      signature.setPenColor(color);
+      inkValue.textContent = color;
+    });
+
+    buildColorButtons('paper-colors', paperColors, (color) => {
+      signature.setBackgroundColor(color);
+      paperValue.textContent = color;
+      updatePreview();
+    });
+
+    widthRange.addEventListener('input', () => {
+      const maxWidth = Number(widthRange.value);
+      signature.setStrokeWidth(Math.max(0.4, maxWidth * 0.28), maxWidth);
+      widthValue.textContent = `${maxWidth.toFixed(1)} px`;
+    });
+
+    signature.addEventListener('endStroke', updatePreview);
+    signature.addEventListener('clear', updatePreview);
+    signature.addEventListener('undo', updatePreview);
+    signature.addEventListener('redo', updatePreview);
+
+    toolbar.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-action]');
+      if (!button) {
+        return;
+      }
+
+      const action = button.dataset.action;
+
+      if (action === 'clear') signature.clear();
+      if (action === 'undo') signature.undo();
+      if (action === 'redo') signature.redo();
+      if (action === 'random-ink') {
+        const color = randomColor(inkColors);
+        signature.setPenColor(color);
+        inkValue.textContent = color;
+      }
+      if (action === 'random-paper') {
+        const color = randomColor(paperColors);
+        signature.setBackgroundColor(color);
+        paperValue.textContent = color;
+        updatePreview();
+      }
+      if (action === 'open-preview') openPreviewWindow();
+    });
+
+    sidebar.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-action]');
+      if (!button || !requireSignature()) {
+        return;
+      }
+
+      const action = button.dataset.action;
+
+      if (action === 'save-png') signature.download('signature.png', 'image/png');
+      if (action === 'save-jpg') signature.download('signature.jpg', 'image/jpeg', 0.92);
+      if (action === 'save-svg') signature.download('signature.svg', 'image/svg+xml');
+      if (action === 'save-svg-bg') {
+        signature.download('signature-with-background.svg', 'image/svg+xml', {
+          includeBackgroundColor: true,
+          includeDataUrl: true,
+        });
+      }
+    });
+
+    window.addEventListener('keydown', (event) => {
+      const isMac = navigator.platform.toUpperCase().includes('MAC');
+      const modifierPressed = isMac ? event.metaKey : event.ctrlKey;
+
+      if (!modifierPressed) {
+        return;
+      }
+
+      if (event.key.toLowerCase() === 'z' && !event.shiftKey) {
+        event.preventDefault();
+        signature.undo();
+      }
+
+      if (event.key.toLowerCase() === 'y' || (event.key.toLowerCase() === 'z' && event.shiftKey)) {
+        event.preventDefault();
+        signature.redo();
+      }
+    });
+
+    window.addEventListener('resize', resizeSignatureCanvas);
+    resizeSignatureCanvas();
+  </script>
+</body>
+</html>

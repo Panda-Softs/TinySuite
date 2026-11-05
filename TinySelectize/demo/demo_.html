@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TinySelectize Demo</title>
+  <link rel="stylesheet" href="./../TinySelectize.css"/>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; max-width: 980px; }
+    hr { margin: 28px 0; border: 0; border-top: 1px solid rgba(0,0,0,.1); }
+    .muted { opacity: .75; margin-top: 6px; }
+    .card { background: #fbfbfd; border: 1px solid rgba(0,0,0,.08); padding: 16px; border-radius: 12px; }
+    pre { background:#f6f6fa; padding:12px; border-radius:10px; overflow:auto; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; }
+    .row { display:flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; margin-top: 10px; }
+    button {
+      border: 1px solid rgba(0,0,0,0.18);
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font: inherit;
+    }
+    button:hover { background: #f3f3f6; }
+    .w320 { min-width: 320px; }
+  </style>
+</head>
+<body>
+  <h1>TinySelectize demo</h1>
+  <p class="muted">Each section includes a short explanation and the exact configuration used.</p>
+
+  <hr />
+
+  <h2>1) Single select (local + optgroups) with typeahead input</h2>
+  <div class="card">
+    <p class="muted">
+      Uses the original <code>&lt;select&gt;</code> as the source of truth. Optgroups come from HTML.
+      Type to filter. Already-selected values are hidden from the dropdown.
+    </p>
+
+    <div class="row">
+      <div class="w320">
+        <label for="country">Country</label><br />
+        <select id="country" data-placeholder="Type to search…">
+          <option value=""></option>
+          <optgroup label="DACH">
+            <option value="ch">Switzerland</option>
+            <option value="de">Germany</option>
+            <option value="at">Austria</option>
+          </optgroup>
+          <optgroup label="EU">
+            <option value="fr">France</option>
+            <option value="it">Italy</option>
+            <option value="es">Spain</option>
+          </optgroup>
+        </select>
+
+        <div class="controls">
+          <button id="singleGet" type="button">single.val()</button>
+          <button id="singleSet" type="button">single.val("de")</button>
+          <button id="singleClear" type="button">single.val("")</button>
+        </div>
+
+        <pre id="singleOut"></pre>
+      </div>
+
+      <div style="flex:1 1 360px;">
+        <p><strong>Config</strong></p>
+        <pre><code id="cfgSingle"></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <h2>2) Single select without input (control typeahead)</h2>
+  <div class="card">
+    <p class="muted">
+      When <code>showTypehead:false</code> in single mode, the control still supports typeahead:
+      click the control, then type letters; the dropdown filters and jumps.
+    </p>
+
+    <div class="row">
+      <div class="w320">
+        <label for="simple">Simple</label><br />
+        <select id="simple">
+          <option value=""></option>
+          <option value="apple">Apple</option>
+          <option value="apricot">Apricot</option>
+          <option value="banana">Banana</option>
+          <option value="blueberry">Blueberry</option>
+          <option value="cherry">Cherry</option>
+        </select>
+        <p class="muted">Try: click → type <code>ap</code> or <code>bl</code>. Use ↑/↓ then Enter.</p>
+      </div>
+
+      <div style="flex:1 1 360px;">
+        <p><strong>Config</strong></p>
+        <pre><code id="cfgSimple"></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <h2>3) Multiple select with custom <code>load()</code> (AJAX simulated)</h2>
+  <div class="card">
+    <p class="muted">
+      Demonstrates async loading + abort via <code>signal</code>, and accent-insensitive matching in the mock.
+      Selected items are hidden from the dropdown by default.
+    </p>
+
+    <div class="row">
+      <div class="w320">
+        <label for="cities">Cities</label><br />
+        <select id="cities" multiple data-placeholder="Search cities…">
+          <optgroup label="CH"></optgroup>
+          <optgroup label="EU"></optgroup>
+        </select>
+
+        <div class="controls">
+          <button id="multiGet" type="button">multi.val()</button>
+          <button id="multiSet" type="button">multi.val(["zur","par"])</button>
+          <button id="multiClear" type="button">multi.val([])</button>
+        </div>
+
+        <pre id="multiOut"></pre>
+      </div>
+
+      <div style="flex:1 1 360px;">
+        <p><strong>Config</strong></p>
+        <pre><code id="cfgMulti"></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <h2>4) Optgroups from data (<code>options</code> + <code>optgroupField</code> + <code>optionGroupRegister</code>)</h2>
+  <div class="card">
+    <p class="muted">
+      Demonstrates seeding the select from a data array and generating optgroups programmatically.
+      The select is created empty in HTML and populated by TinySelectize.
+    </p>
+
+    <div class="row">
+      <div class="w320">
+        <label for="manufacturers">Consoles</label><br />
+        <select id="manufacturers" data-placeholder="Search console…"></select>
+
+        <div class="controls">
+          <button id="manufacturersGet" type="button">manufacturers.val()</button>
+          <button id="manufacturersSet" type="button">manufacturers.val("360")</button>
+          <button id="manufacturersClear" type="button">manufacturers.val("")</button>
+        </div>
+
+        <pre id="manufacturersOut"></pre>
+      </div>
+
+      <div style="flex:1 1 360px;">
+        <p><strong>Config</strong></p>
+        <pre><code id="cfgManufacturers"></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <h2>5) Persistence (<code>storageKey</code>)</h2>
+  <div class="card">
+    <p class="muted">
+      If <code>storageKey</code> is set and the select has no preset value, TinySelectize can restore the last selection
+      from localStorage. Use the buttons to test and reload the page.
+    </p>
+
+    <div class="row">
+      <div class="w320">
+        <label for="persist">Persisted single select</label><br />
+        <select id="persist" data-placeholder="Pick one…">
+          <option value=""></option>
+          <option value="alpha">Alpha</option>
+          <option value="beta">Beta</option>
+          <option value="gamma">Gamma</option>
+        </select>
+
+        <div class="controls">
+          <button id="persistGet" type="button">persist.val()</button>
+          <button id="persistClearStorage" type="button">Clear storage</button>
+          <button id="persistClear" type="button">persist.val("")</button>
+        </div>
+
+        <pre id="persistOut"></pre>
+      </div>
+
+      <div style="flex:1 1 360px;">
+        <p><strong>Config</strong></p>
+        <pre><code id="cfgPersist"></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <h2>6) AJAX + Tree plugin (categories)</h2>
+  <div class="card">
+      <p class="muted">
+          Uses built-in URL loader (<code>url</code>, <code>queryParam</code>) + plugin <code>tree</code>.
+          No server needed: this demo mocks <code>fetch()</code> for <code>/fetch-options</code>.
+      </p>
+
+      <div class="row">
+          <div class="w320">
+              <label for="category">Category</label><br />
+              <select id="category" data-placeholder="Search category…">
+                  <option value=""></option>
+              </select>
+
+              <div class="controls">
+                  <button id="categoryGet" type="button">category.val()</button>
+                  <button id="categoryClear" type="button">Clear category</button>
+                  <button id="categoryClear" type="button">category.val("")</button>
+              </div>
+              <pre id="catOut" class="note"></pre>
+          </div>
+
+          <div style="flex:1 1 360px;">
+              <p><strong>Config</strong></p>
+              <pre><code id="cfgPersist"></code></pre>
+          </div>
+      </div>
+  </div>
+
+  <script src="./../TinySelectize.js"></script>
+  <script src="./../TinySelectize.Tree.plugin.js"></script>
+
+  <script>
+    // Accent-insensitive helper for the simulated AJAX dataset in example #3.
+    function fold(str) {
+      return String(str == null ? '' : str)
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+    }
+
+    // -----------------------------
+    // Example #1
+    // -----------------------------
+    var cfgSingle = {
+      minChars: 0,
+      placeholder: 'Start typing…',
+      showSelectedInDropdown: false
+      // showTypehead defaults to true for single; input hides when selection exists (single mode behavior)
+    };
+    document.getElementById('cfgSingle').textContent = JSON.stringify(cfgSingle, null, 2);
+
+    var single = new TinySelectize('#country', cfgSingle);
+
+    function showSingle() {
+      var sel = document.getElementById('country');
+      document.getElementById('singleOut').textContent =
+        'select.value: ' + JSON.stringify(sel.value) + '\n' +
+        'single.val(): ' + JSON.stringify(single.val()) + '\n' +
+        'single.value: ' + JSON.stringify(single.value);
+    }
+
+    document.getElementById('singleGet').addEventListener('click', showSingle);
+    document.getElementById('singleSet').addEventListener('click', function () { single.val('de'); showSingle(); });
+    document.getElementById('singleClear').addEventListener('click', function () { single.val(''); showSingle(); });
+    document.getElementById('country').addEventListener('change', showSingle);
+    showSingle();
+
+    // -----------------------------
+    // Example #2
+    // -----------------------------
+    var cfgSimple = {
+      minChars: 0,
+      showTypehead: false,
+      showSelectedInDropdown: false,
+      dropdownAutoFlip: true
+    };
+    document.getElementById('cfgSimple').textContent = JSON.stringify(cfgSimple, null, 2);
+
+    var simple = new TinySelectize('#simple', cfgSimple);
+
+    // -----------------------------
+    // Example #3
+    // -----------------------------
+    var CITY_DB = [
+      { value: 'zur', label: 'Zürich', group: 'CH' },
+      { value: 'gen', label: 'Genève', group: 'CH' },
+      { value: 'bas', label: 'Basel', group: 'CH' },
+      { value: 'par', label: 'Paris', group: 'EU' },
+      { value: 'ber', label: 'Berlin', group: 'EU' },
+      { value: 'rom', label: 'Rome', group: 'EU' },
+      { value: 'mad', label: 'Madrid', group: 'EU' }
+    ];
+
+    var cfgMulti = {
+      minChars: 0,
+      debounceMs: 150,
+      showSelectedInDropdown: false,
+      dropdownAutoFlip: true,
+      load: function (payload, callback, fullPayload) {
+        // Supports Selectize-like signatures: load(query, callback, payload)
+        // (TinySelectize calls load(query, callback, payload) when fn.length >= 2)
+        var query = payload;      // in Selectize-like signature, first arg is query string
+        var p = fullPayload || {}; // contains signal
+
+        return new Promise(function (resolve, reject) {
+          var t = setTimeout(function () {
+            var q = fold(query || '');
+            var options = CITY_DB.filter(function (x) {
+              return fold(x.label).indexOf(q) !== -1 || fold(x.value).indexOf(q) !== -1;
+            });
+            callback(options);
+            resolve(true);
+          }, 220);
+
+          if (p.signal) {
+            p.signal.addEventListener('abort', function () {
+              clearTimeout(t);
+              reject(new DOMException('Aborted', 'AbortError'));
+            }, { once: true });
+          }
+        });
+      }
+    };
+    document.getElementById('cfgMulti').textContent = JSON.stringify(cfgMulti, null, 2);
+
+    var multi = new TinySelectize('#cities', cfgMulti);
+
+    function showMulti() {
+      var sel = document.getElementById('cities');
+      var selected = Array.from(sel.selectedOptions).map(function (o) { return o.value; });
+      document.getElementById('multiOut').textContent =
+        'selectedOptions: ' + JSON.stringify(selected) + '\n' +
+        'multi.val(): ' + JSON.stringify(multi.val()) + '\n' +
+        'multi.value: ' + JSON.stringify(multi.value);
+    }
+
+    document.getElementById('multiGet').addEventListener('click', showMulti);
+    document.getElementById('multiSet').addEventListener('click', function () {
+      // Demonstrate setting values that may come from remote:
+      multi.state.remoteMap.set('zur', { value:'zur', label:'Zürich', disabled:false, isRemote:true, group:'CH' });
+      multi.state.remoteMap.set('par', { value:'par', label:'Paris', disabled:false, isRemote:true, group:'EU' });
+      multi.val(['zur', 'par']);
+      showMulti();
+    });
+    document.getElementById('multiClear').addEventListener('click', function () { multi.val([]); showMulti(); });
+    document.getElementById('cities').addEventListener('change', showMulti);
+    showMulti();
+
+    // -----------------------------
+    // Example #4 (options + optgroup)
+    // -----------------------------
+    var manufacturerOptions = [
+      { manufacturer: 'nintendo', value: "nes", name: "Nintendo Entertainment System" },
+      { manufacturer: 'nintendo', value: "snes", name: "Super Nintendo Entertainment System" },
+      { manufacturer: 'nintendo', value: "n64", name: "Nintendo 64" },
+      { manufacturer: 'nintendo', value: "gamecube", name: "GameCube" },
+      { manufacturer: 'nintendo', value: "wii", name: "Wii" },
+      { manufacturer: 'microsoft', value: 'xss', name: 'Xbox Series S' },
+      { manufacturer: 'nintendo', value: "wiiu", name: "Wii U" },
+      { manufacturer: 'nintendo', value: "switch", name: "Switch" },
+      { manufacturer: 'sony', value: 'ps1', name: 'PlayStation' },
+      { manufacturer: 'sony', value: 'ps2', name: 'PlayStation 2' },
+      { manufacturer: 'sony', value: 'ps3', name: 'PlayStation 3' },
+      { manufacturer: 'sony', value: 'ps4', name: 'PlayStation 4' },
+      { manufacturer: 'sony', value: 'ps5', name: 'PlayStation 5' },
+      { manufacturer: 'microsoft', value: 'xbox', name: 'Xbox' },
+      { manufacturer: 'microsoft', value: '360', name: 'Xbox 360' },
+      { manufacturer: 'microsoft', value: 'xbone', name: 'Xbox One' },
+      { manufacturer: 'microsoft', value: 'xsx', name: 'Xbox Series X' }
+    ];
+
+    var cfgManufacturers = {
+      options: manufacturerOptions,
+      // Important: TinySelectize expects {value,label,group?} or maps via these fields:
+      valueField: 'value',
+      labelField: 'name',
+      optgroupField: 'manufacturer',
+      optionGroupRegister: function (groupValue) {
+        var capitalised = String(groupValue || '').charAt(0).toUpperCase() + String(groupValue || '').slice(1);
+        // Return { value, label } - TinySelectize will use optgroupValueField internally
+        return { value: groupValue, label: 'Manufacturer: ' + capitalised };
+      },
+      sort: 'label' // uses TinySelectize sort modes (match/label/value/custom)
+    };
+    document.getElementById('cfgManufacturers').textContent = JSON.stringify(cfgManufacturers, null, 2);
+
+    var manufacturers = new TinySelectize('#manufacturers', cfgManufacturers);
+
+    var manufacturersEl = document.getElementById('manufacturers');
+    var manufacturersOut = document.getElementById('manufacturersOut');
+
+    function showManufacturers() {
+      manufacturersOut.textContent =
+        'select.value: ' + JSON.stringify(manufacturersEl.value) + '\n' +
+        'manufacturers.val(): ' + JSON.stringify(manufacturers.val()) + '\n' +
+        'manufacturers.value: ' + JSON.stringify(manufacturers.value);
+    }
+
+    document.getElementById('manufacturersGet').addEventListener('click', showManufacturers);
+    document.getElementById('manufacturersSet').addEventListener('click', function () { manufacturers.val('360'); showManufacturers(); });
+    document.getElementById('manufacturersClear').addEventListener('click', function () { manufacturers.val(''); showManufacturers(); });
+    manufacturersEl.addEventListener('change', showManufacturers);
+    showManufacturers();
+
+    // -----------------------------
+    // Example #5 (storageKey)
+    // -----------------------------
+    var persistKey = 'TinySelectize:demo:persist';
+    var cfgPersist = {
+      minChars: 0,
+      showSelectedInDropdown: false,
+      storageKey: persistKey
+    };
+    document.getElementById('cfgPersist').textContent = JSON.stringify(cfgPersist, null, 2);
+
+    var persist = new TinySelectize('#persist', cfgPersist);
+
+    function showPersist() {
+      var sel = document.getElementById('persist');
+      var raw = null;
+      try { raw = localStorage.getItem(persistKey); } catch (e) {}
+
+      document.getElementById('persistOut').textContent =
+        'select.value: ' + JSON.stringify(sel.value) + '\n' +
+        'persist.val(): ' + JSON.stringify(persist.val()) + '\n' +
+        'localStorage[' + JSON.stringify(persistKey) + ']: ' + JSON.stringify(raw);
+    }
+
+    document.getElementById('persistGet').addEventListener('click', showPersist);
+    document.getElementById('persistClear').addEventListener('click', function () { persist.val(''); showPersist(); });
+    document.getElementById('persist').addEventListener('change', showPersist);
+    document.getElementById('persistClearStorage').addEventListener('click', function () {
+      if (typeof persist.clearStorage === 'function') persist.clearStorage();
+      else {
+        try { localStorage.removeItem(persistKey); } catch (e) {}
+      }
+      showPersist();
+    });
+    showPersist();
+
+
+    // -----------------------------
+    // Example #5 : AJAX + Tree demo (mock fetch)
+    // -----------------------------
+    var CATEGORIES = [{"categoryId": 24, "parentCategoryId": 10, "filterId": 8, "title": "Wing Foil", "abr": "WF", "desc": "Catégorie pour les Wing Foils", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 25, "parentCategoryId": 24, "filterId": 8, "title": "Wing", "abr": "WG", "desc": null, "hourPrice": "20", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 22, "parentCategoryId": 2, "filterId": 8, "title": "Windsurf", "abr": "WDS", "desc": "Windsurf", "hourPrice": "20", "dayPrice": "50", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 23, "parentCategoryId": 10, "filterId": 8, "title": "Wakeboard", "abr": "WAKE", "desc": null, "hourPrice": "20;15+", "dayPrice": "100", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 30, "parentCategoryId": 28, "filterId": 9, "title": "Vêtements", "abr": "VET", "desc": null, "hourPrice": "10", "dayPrice": "50", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 9, "parentCategoryId": 2, "filterId": 2, "title": "Tandem", "abr": "TDM", "desc": null, "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 7, "parentCategoryId": 2, "filterId": 6, "title": "Surfski monoplace", "abr": "SKI", "desc": null, "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 34, "parentCategoryId": 31, "filterId": null, "title": "Sucettes", "abr": "SU", "desc": "BONBON BUM", "hourPrice": "1", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": true, "children": []}, {"categoryId": 1, "parentCategoryId": null, "filterId": null, "title": "Standard", "abr": "STD", "desc": "Location \"Standard\" de Stand-Up-Paddles et Kayaks", "hourPrice": "20;32;10+|18;30;8+|10;18;5+", "dayPrice": "90|75|50", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 20, "parentCategoryId": 1, "filterId": 2, "title": "Stand Up Paddles RACE", "abr": "SUP-R", "desc": "Stand Up Paddles RACE", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 3, "parentCategoryId": 1, "filterId": 2, "title": "Stand Up Paddles gonflables", "abr": "SUP", "desc": "Stand Up Paddle gonflable standard", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 5, "parentCategoryId": 2, "filterId": 2, "title": "Stand Up Paddle rigide", "abr": "SUP-R", "desc": null, "hourPrice": "30;50;15+", "dayPrice": "150", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 10, "parentCategoryId": null, "filterId": null, "title": "Spéciaux", "abr": "SPC", "desc": null, "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 36, "parentCategoryId": 28, "filterId": null, "title": "Skates", "abr": "SK", "desc": null, "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 31, "parentCategoryId": null, "filterId": null, "title": "Produits en vente", "abr": null, "desc": "Produits en vente", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": true, "children": []}, {"categoryId": 2, "parentCategoryId": null, "filterId": null, "title": "Premium", "abr": "PRM", "desc": "Paddle Tandem / Canoë / Kayak biplace / Kayak mer/ Pirogue / Surfski / SUP race rigide", "hourPrice": "30;50;15+", "dayPrice": "150", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 27, "parentCategoryId": 24, "filterId": 8, "title": "Planche de Foil & Wing", "abr": "FW", "desc": null, "hourPrice": "45", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 26, "parentCategoryId": 24, "filterId": 8, "title": "Planche de Foil", "abr": "FL", "desc": null, "hourPrice": "30", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 6, "parentCategoryId": 2, "filterId": 7, "title": "Pirogue", "abr": "PRG", "desc": null, "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 13, "parentCategoryId": null, "filterId": 3, "title": "Pédalos", "abr": "PDO", "desc": "Pédalos", "hourPrice": "25;45;15+", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 38, "parentCategoryId": 14, "filterId": 1, "title": "Pédalo électrique", "abr": "PEL", "desc": "Pédalo électrique", "hourPrice": "60;100;50+", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 29, "parentCategoryId": 28, "filterId": 9, "title": "Pagaie", "abr": "PAG", "desc": "Pagaie paddle | kayak", "hourPrice": "10", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 35, "parentCategoryId": 31, "filterId": null, "title": "Lunettes", "abr": "LU", "desc": null, "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": true, "children": []}, {"categoryId": 12, "parentCategoryId": 10, "filterId": 2, "title": "Large 4p (L)", "abr": "L4P", "desc": "Red paddle L 4p / Red paddle Dragon 4p", "hourPrice": "40;70;20+", "dayPrice": "200", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 4, "parentCategoryId": 1, "filterId": 4, "title": "Kayaks", "abr": "KYK", "desc": "Kayaks", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 19, "parentCategoryId": 2, "filterId": 4, "title": "Kayak biplace/mer", "abr": "KAM", "desc": "Kayak biplace / Kayak mer", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 11, "parentCategoryId": 10, "filterId": 2, "title": "Extra large (XL)", "abr": "XL", "desc": "Paddle XL 6p / Pirogue OC2 / Surfski bi-place", "hourPrice": "60;100;30+", "dayPrice": "300", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 8, "parentCategoryId": 2, "filterId": 5, "title": "Canoë", "abr": "CAN", "desc": null, "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 32, "parentCategoryId": 31, "filterId": null, "title": "Buzz Bomb", "abr": "BB", "desc": "BZ114PM\r\n\r\n2-Tone Smoke Crystal Frame, Rose Gold Mirror Polarized Safety Lens, with Gray Foam Lining\r\nRemovable side shields\r\nCam hinges\r\n100% UVA and UVB protections\r\nMeets ANSI Z87+ safety standards only when worn with side shields", "hourPrice": "75", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": true, "children": []}, {"categoryId": 33, "parentCategoryId": 31, "filterId": null, "title": "BOOGIE", "abr": "BO", "desc": "# BG104RMRF\r\n\r\n\r\n2-Tone Crystal Smoke Frame, Red Mirrored Safety Lens with Red Foam Lining\r\nHefty safety frames that can take a beating without sacrificing style\r\nImpact-resistant lenses with a gentle curve to block wind and debris", "hourPrice": "45", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": true, "children": []}, {"categoryId": 37, "parentCategoryId": 35, "filterId": null, "title": "Bomber EYE", "abr": "LS", "desc": "Lunette Flottante", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": true, "children": []}, {"categoryId": 16, "parentCategoryId": 14, "filterId": 1, "title": "Bateaux avec permis", "abr": "BAP", "desc": "Cap 470 5 personnes (caution 1500.- fr)\r\nPonton 8 p. / Lomac 10p. (caution 1500.-)", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 18, "parentCategoryId": 16, "filterId": 1, "title": "Bateaux  avec permis | Type 2", "abr": "BAP-2", "desc": "Ponton 8p. / Lomac 10p.", "hourPrice": "180;300;60+", "dayPrice": "600", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 17, "parentCategoryId": 16, "filterId": 1, "title": "Bateaux  avec permis | Type 1", "abr": "BAP-1", "desc": "Cap camarat 470 5p.", "hourPrice": "140;250;50+", "dayPrice": "500", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 14, "parentCategoryId": null, "filterId": 1, "title": "Bateaux", "abr": "BAT", "desc": "Bateaux", "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 15, "parentCategoryId": 14, "filterId": 1, "title": "Bateau sans permis", "abr": "BSP", "desc": "Bateau sans permis", "hourPrice": "100;150;45+", "dayPrice": "320", "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 21, "parentCategoryId": 14, "filterId": 1, "title": "Bateau électrique", "abr": "BEL", "desc": "Bateau éléctrique", "hourPrice": "60;100;35+", "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}, {"categoryId": 28, "parentCategoryId": null, "filterId": 9, "title": "Accessoires", "abr": "ACC", "desc": null, "hourPrice": null, "dayPrice": null, "weekPrice": null, "creationDate": "08.11.2023 09:31", "isSale": null, "children": []}];
+
+    // Mock fetch for this demo only
+    (function () {
+        if (typeof window.fetch !== 'function') return;
+
+        var realFetch = window.fetch.bind(window);
+
+        window.fetch = function (url, opts) {
+            try {
+                if (typeof url === 'string' && url.indexOf('/fetch-options') === 0) {
+                    var u = new URL(url, window.location.href);
+                    var q = (u.searchParams.get('q') || '').toLowerCase();
+
+                    // server returns ALL categories (or filter by q)
+                    var data = CATEGORIES.filter(function (c) {
+                        return !q || String(c.title || '').toLowerCase().indexOf(q) !== -1;
+                    });
+
+                    return Promise.resolve({
+                        ok: true,
+                        json: function () { return Promise.resolve(data); }
+                    });
+                }
+            } catch (e) {
+                // fallthrough
+            }
+            return realFetch(url, opts);
+        };
+    })();
+
+    var categoriesSelect = new TinySelectize('#category', {
+        minChars: 0,
+        loadThrottle: 500,
+        showSelectedInDropdown: false,
+        //dropdownParent: 'body',
+        dropdownAutoFlip: true,
+
+        // internal default url loader
+        ajax : {
+            url: '/fetch-options',
+            queryParam: 'q',
+            queryMinChars: 0,
+            mapOption: function (item) {
+                return {
+                    value: String(item.categoryId),
+                    label: String(item.title || ''),
+                    raw: item
+                };
+            }
+        },
+
+        // Load even on empty query (show full tree on open)
+
+        // map your backend objects to TinySelectize option shape + raw data for the tree plugin
+
+
+        plugins: {
+            tree: {
+                parentField: 'parentCategoryId',
+                valueField: 'categoryId',
+                labelField: 'title',
+                indentPx: 16,
+                onlyLeavesSelectable: false,
+                showChildCount: true
+            }
+        },
+
+        onChange: function (value) {
+            document.getElementById('catOut').textContent = 'Selected category value: ' + JSON.stringify(value);
+        }
+    });
+
+    document.getElementById('catOut').textContent = 'Selected category value: ' + JSON.stringify(categoriesSelect.val());
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!doctype html><html lang="fr"><meta charset="utf-8"><title>TinyGroupButton tests</title><body><h1>TinyGroupButton tests</h1><pre id="out"></pre><div id="g"><label><input class="all" type="checkbox" checked>All</label><label><input type="checkbox" value="A">A</label><label><input type="checkbox" value="B">B</label></div><script src="../TinyGroupButton.js"></script><script>
+const out=document.querySelector('#out'), root=document.querySelector('#g'); let pass=0,fail=0;
+function test(name,fn){try{if(!fn())throw new Error('assertion');out.textContent+='✓ '+name+'\n';pass++;}catch(e){out.textContent+='✗ '+name+' — '+e.message+'\n';fail++;}}
+const g=TinyGroupButton.getInstance(root);
+test('getInstance get-or-create',()=>g===TinyGroupButton.getInstance(root));
+test('missing selector returns null',()=>TinyGroupButton.getInstance('#missing')===null);
+test('empty initial CSV',()=>g.buildValue()==='');
+test('updateValue A',()=>g.updateValue('A')==='a'&&root.querySelector('[value=A]').checked&&!root.querySelector('.all').checked);
+test('unknown values discarded',()=>g.updateValue('B,GHOST')==='b');
+test('empty activates all',()=>g.updateValue('')===''&&root.querySelector('.all').checked);
+let changes=0; root.addEventListener('onChange',()=>changes++); root.querySelector('[value=A]').click();
+test('native user change emits onChange',()=>changes===1&&g.buildValue()==='a');
+root.insertAdjacentHTML('beforeend','<label><input type="checkbox" value="C">C</label>');root.querySelector('[value=C]').click();
+test('dynamic option works without rebind',()=>g.buildValue()==='a,c');
+const old=g;g.destroy();const fresh=TinyGroupButton.getInstance(root);test('destroy allows fresh instance',()=>fresh!==old);
+out.textContent+=`\n${pass} passed, ${fail} failed`;
+document.body.dataset.result=fail?'fail':'pass';
+</script></body></html>

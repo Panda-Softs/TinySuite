@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="480" viewBox="0 0 720 480" fill="none">
+  <defs>
+    <linearGradient id="edge" x1="68" y1="60" x2="650" y2="420" gradientUnits="userSpaceOnUse"><stop stop-color="#45eaff"/><stop offset="0.55" stop-color="#6d82ff"/><stop offset="1" stop-color="#d462ff"/></linearGradient>
+    <linearGradient id="panel" x1="92" y1="72" x2="604" y2="408" gradientUnits="userSpaceOnUse"><stop stop-color="#152d59"/><stop offset="1" stop-color="#09132a"/></linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(562 372) rotate(145) scale(212 170)"><stop stop-color="#d462ff" stop-opacity="0.28"/><stop offset="1" stop-color="#d462ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(176 110) rotate(145) scale(180 150)"><stop stop-color="#45eaff" stop-opacity="0.2"/><stop offset="1" stop-color="#45eaff" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#000" flood-opacity="0.42"/></filter>
+  </defs>
+  <rect width="720" height="480" fill="transparent"/>
+  <ellipse cx="180" cy="110" rx="180" ry="140" fill="url(#glowB)"/>
+  <ellipse cx="560" cy="360" rx="230" ry="170" fill="url(#glowA)"/>
+  <g filter="url(#shadow)">
+    <rect x="68" y="58" width="584" height="364" rx="34" fill="url(#panel)" stroke="url(#edge)" stroke-width="2.5"/>
+    <rect x="112" y="96" width="496" height="28" rx="14" fill="#18335f" opacity="0.78"/>
+    <circle cx="135" cy="110" r="5.5" fill="#ff6b6b"/><circle cx="157" cy="110" r="5.5" fill="#ffc957"/><circle cx="179" cy="110" r="5.5" fill="#4ee38f"/>
+    <path d="M206 110h180" stroke="#35547f" stroke-width="3" stroke-linecap="round"/>
+    <rect x="122" y="150" width="476" height="46" rx="14" fill="#152850" stroke="#7aaaff" stroke-opacity="0.55"/><path d="M152 173h104" stroke="#7f98c8" stroke-width="7" stroke-linecap="round"/><circle cx="556" cy="172" r="11" stroke="#9bb9ff" stroke-width="3"/><path d="m563 179 16 14" stroke="#9bb9ff" stroke-width="3" stroke-linecap="round"/><rect x="122" y="208" width="476" height="36" rx="11" fill="#12254a" stroke="#ffffff" stroke-opacity="0.05"/><path d="M150 226.0h112" stroke="#EEF6FF" stroke-width="8" stroke-linecap="round"/><rect x="122" y="252" width="476" height="36" rx="11" fill="#324b8c" stroke="#ffffff" stroke-opacity="0.05"/><path d="M150 270.0h112" stroke="#EEF6FF" stroke-width="8" stroke-linecap="round"/><rect x="122" y="296" width="476" height="36" rx="11" fill="#12254a" stroke="#ffffff" stroke-opacity="0.05"/><path d="M150 314.0h112" stroke="#EEF6FF" stroke-width="8" stroke-linecap="round"/><rect x="122" y="340" width="476" height="36" rx="11" fill="#12254a" stroke="#ffffff" stroke-opacity="0.05"/><path d="M150 358.0h112" stroke="#EEF6FF" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <text x="114" y="392" fill="#E8F0FF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">TinyAutocomplete</text>
+</svg>

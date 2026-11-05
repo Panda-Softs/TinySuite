@@ -1,0 +1,51 @@
+/* TinyLightbox — styles scoped to the temporary native dialog. */
+.tiny-lightbox{--tlb-text:#f3f3f9;--tlb-muted:#acb2c5;box-sizing:border-box;position:fixed;inset:0;width:100vw;max-width:none;height:100dvh;max-height:none;margin:0;padding:0;border:0;color:var(--tlb-text);background:rgba(15,18,32,var(--tlb-drag-alpha,.97));overflow:hidden;z-index:2147483000;font:400 14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+.tiny-lightbox::backdrop{background:#070a11c0;backdrop-filter:blur(9px)}
+.tiny-lightbox *{box-sizing:border-box}
+.tiny-lightbox .tlb-shell{height:100%;display:grid;grid-template-rows:66px minmax(0,1fr) 40px}
+.tiny-lightbox .tlb-header{display:flex;align-items:center;gap:16px;min-width:0;padding:0 25px;border-bottom:1px solid #ffffff0f}
+.tiny-lightbox .tlb-counter{font-size:12px;font-variant-numeric:tabular-nums;font-weight:750;color:#bcc4d9;white-space:nowrap}
+.tiny-lightbox .tlb-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e5e7f2;font-size:13px}
+.tiny-lightbox .tlb-tools{display:flex;align-items:center;gap:5px;margin-left:auto}
+.tiny-lightbox .tlb-button{appearance:none;display:grid;place-items:center;width:40px;height:40px;flex:none;padding:0;color:inherit;background:transparent;border:1px solid transparent;border-radius:11px;cursor:pointer;transition:background .15s ease}
+.tiny-lightbox .tlb-button:hover:not(:disabled){background:#ffffff22}
+.tiny-lightbox .tlb-button:focus-visible{outline:2px solid #b6a5ff;outline-offset:2px}
+.tiny-lightbox .tlb-button[hidden]{display:none}
+.tiny-lightbox .tlb-button:disabled{opacity:.3;cursor:default}
+.tiny-lightbox .tlb-close{background:#ffffff15;margin-left:8px}
+.tiny-lightbox .tlb-stage{min-height:0;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;user-select:none}
+.tiny-lightbox .tlb-image{display:block;width:auto;height:auto;max-width:min(100%,1440px);max-height:100%;object-fit:contain;transform-origin:center;will-change:transform;cursor:zoom-in;-webkit-user-drag:none}
+.tiny-lightbox .tlb-image.is-zoomed{cursor:grab}
+.tiny-lightbox .tlb-image[hidden]{display:none}
+.tiny-lightbox .tlb-message{pointer-events:none;position:absolute;color:#ced1e1;font-size:13px;text-align:center;padding:20px}
+.tiny-lightbox .tlb-previous,.tiny-lightbox .tlb-next{position:absolute;top:50%;transform:translateY(-50%);background:#141a2a95;border:1px solid #ffffff2b;backdrop-filter:blur(10px)}
+.tiny-lightbox .tlb-previous{left:20px}.tiny-lightbox .tlb-next{right:20px}
+.tiny-lightbox .tlb-footer{display:grid;place-items:center;color:#8991aa;font-size:11px;border-top:1px solid #ffffff0f}
+@media(max-width:650px){.tiny-lightbox .tlb-shell{grid-template-rows:58px minmax(0,1fr) 34px}.tiny-lightbox .tlb-header{padding:0 10px;gap:8px}.tiny-lightbox .tlb-title{display:none}.tiny-lightbox .tlb-tools{gap:1px}.tiny-lightbox .tlb-button{width:37px;height:37px}.tiny-lightbox .tlb-previous{left:6px}.tiny-lightbox .tlb-next{right:6px}.tiny-lightbox .tlb-footer{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.tiny-lightbox .tlb-button{transition:none}}
+
+/* Images are kept in the viewer layer; transitions never touch source thumbnails. */
+.tiny-lightbox .tlb-ghost{pointer-events:none;position:absolute;z-index:1;display:block;width:auto;height:auto;max-width:min(100%,1440px);max-height:100%;object-fit:contain;transform-origin:center;will-change:transform}
+.tiny-lightbox .tlb-caption{z-index:2;position:absolute;pointer-events:none;max-width:min(590px,calc(100% - 120px));padding:12px 17px;border:1px solid #ffffff1a;border-radius:12px;background:#0d1625b9;backdrop-filter:blur(10px);color:#e4e8f3;line-height:1.55;font-size:13px;white-space:pre-line;box-shadow:0 8px 22px #0002}
+.tiny-lightbox .tlb-caption[hidden]{display:none}
+.tiny-lightbox .tlb-caption--bottom{bottom:18px;left:50%;transform:translateX(-50%)}
+.tiny-lightbox .tlb-caption--top{top:18px;left:50%;transform:translateX(-50%)}
+.tiny-lightbox .tlb-caption--left{top:50%;left:20px;transform:translateY(-50%);max-width:min(260px,32vw)}
+.tiny-lightbox .tlb-caption--right{top:50%;right:20px;transform:translateY(-50%);max-width:min(260px,32vw)}
+@media(max-width:650px){.tiny-lightbox .tlb-caption{font-size:12px;max-width:calc(100% - 90px);padding:9px 11px}.tiny-lightbox .tlb-caption--left,.tiny-lightbox .tlb-caption--right{top:auto;bottom:18px;left:50%;right:auto;transform:translateX(-50%);max-width:calc(100% - 90px)}}
+
+// Compact presentation for product galleries. The original fullscreen mode
+// remains unchanged for existing TinyLightbox consumers.
+.tiny-lightbox {
+  &.tiny-lightbox--contained {
+    width: min(94vw, 1020px);
+    height: min(88dvh, 790px);
+    margin: auto;
+    border-radius: 16px;
+    box-shadow: 0 20px 90px rgba(0, 0, 0, .35);
+
+    > .tlb-shell { height: 100%; }
+    .tlb-image { max-width: 100%; max-height: 100%; }
+    @media(max-width: 650px) { width: 96vw; height: min(87dvh, 790px); border-radius: 12px; }
+  }
+}

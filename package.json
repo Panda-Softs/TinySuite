@@ -1,0 +1,20 @@
+{
+  "name": "tinysuite-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Build scripts for standalone Tiny* distributions and offline demos",
+  "scripts": {
+    "build": "node scripts/build-dist.cjs",
+    "build:check": "node scripts/build-dist.cjs --check",
+    "vendor": "node scripts/vendor.cjs",
+    "vendor:check": "node scripts/vendor.cjs --check",
+    "check:demos": "node scripts/check-demos.cjs",
+    "verify": "npm run build:check && npm run vendor:check && npm run check:demos",
+    "check:demos:without-vendor": "node scripts/check-demos.cjs --allow-missing-vendor"
+  },
+  "devDependencies": {
+    "terser": "5.48.0",
+    "postcss": "8.5.15",
+    "cssnano": "7.1.1"
+  }
+}

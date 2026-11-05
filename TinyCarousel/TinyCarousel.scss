@@ -1,0 +1,265 @@
+.tiny-carousel {
+  --tiny-carousel-height: 400px;
+  --tiny-carousel-perspective: 500px;
+  --tiny-carousel-item-width: 220px;
+  --tiny-carousel-item-min-height: 220px;
+  --tiny-carousel-item-radius: 16px;
+  --tiny-carousel-side-padding: 0px;
+
+  --tiny-carousel-z-fixed: 2;
+  --tiny-carousel-z-controls: 3;
+  --tiny-carousel-z-arrows: 4;
+
+  --tiny-carousel-indicator-size: 9px;
+  --tiny-carousel-indicator-gap: 8px;
+  --tiny-carousel-indicator-background: rgba(0, 0, 0, 0.35);
+  --tiny-carousel-indicator-background-active: rgba(0, 0, 0, 0.85);
+  --tiny-carousel-indicator-bottom: 26px;
+  --tiny-carousel-indicator-top: 20px;
+  --tiny-carousel-indicator-side: 20px;
+
+  --tiny-carousel-arrow-size: 44px;
+  --tiny-carousel-arrow-offset: 16px;
+  --tiny-carousel-arrow-border: 1px solid rgba(0, 0, 0, 0.2);
+  --tiny-carousel-arrow-radius: 999px;
+  --tiny-carousel-arrow-background: rgba(255, 255, 255, 0.86);
+  --tiny-carousel-arrow-color: #111;
+  --tiny-carousel-arrow-disabled-opacity: 0.35;
+
+  --tiny-carousel-progress-height: 4px;
+  --tiny-carousel-progress-background: rgba(0, 0, 0, 0.15);
+  --tiny-carousel-progress-fill-background: rgba(0, 0, 0, 0.85);
+  --tiny-carousel-progress-transition: width 160ms ease;
+
+  --tiny-carousel-focus-outline: 2px solid currentColor;
+  --tiny-carousel-focus-outline-offset: 4px;
+
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--tiny-carousel-height);
+  overflow: hidden;
+  perspective: var(--tiny-carousel-perspective);
+  transform-style: preserve-3d;
+  transform-origin: 0% 50%;
+  user-select: none;
+  touch-action: pan-y;
+
+  &--full-width {
+    height: auto;
+    overflow: hidden;
+    perspective: none;
+    transform-style: flat;
+  }
+
+  &--track-layout {
+    padding-right: var(--tiny-carousel-side-padding);
+    padding-left: var(--tiny-carousel-side-padding);
+
+    .tiny-carousel__item,
+    .carousel-item {
+      min-height: 0;
+    }
+  }
+
+  &--scrolling,
+  &.scrolling {
+    .tiny-carousel__item,
+    .carousel-item {
+      pointer-events: none;
+    }
+  }
+
+  &__item,
+  .carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--tiny-carousel-item-width);
+    min-height: var(--tiny-carousel-item-min-height);
+    visibility: hidden;
+    backface-visibility: hidden;
+    cursor: grab;
+    will-change: transform, opacity;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &:focus-visible {
+      outline: var(--tiny-carousel-focus-outline);
+      outline-offset: var(--tiny-carousel-focus-outline-offset);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: var(--tiny-carousel-item-radius);
+      pointer-events: none;
+    }
+  }
+
+  &--full-width {
+    .tiny-carousel__item,
+    .carousel-item {
+      width: 100%;
+      min-height: 0;
+
+      img {
+        border-radius: 0;
+      }
+    }
+  }
+
+  &__item--active,
+  .carousel-item.active {
+    visibility: visible;
+  }
+
+  &__fixed-item,
+  .carousel-fixed-item {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    left: 0;
+    z-index: var(--tiny-carousel-z-fixed);
+    text-align: center;
+
+    &.with-indicators,
+    &--with-indicators {
+      bottom: 68px;
+    }
+  }
+
+  &__indicators,
+  .indicators {
+    position: absolute;
+    right: 0;
+    bottom: var(--tiny-carousel-indicator-bottom);
+    left: 0;
+    z-index: var(--tiny-carousel-z-controls);
+    display: flex;
+    justify-content: center;
+    gap: var(--tiny-carousel-indicator-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &--top {
+      top: var(--tiny-carousel-indicator-top);
+      bottom: auto;
+    }
+
+    &--bottom {
+      bottom: var(--tiny-carousel-indicator-bottom);
+    }
+
+    &--left,
+    &--right {
+      top: 50%;
+      right: auto;
+      bottom: auto;
+      left: var(--tiny-carousel-indicator-side);
+      flex-direction: column;
+      transform: translateY(-50%);
+    }
+
+    &--right {
+      right: var(--tiny-carousel-indicator-side);
+      left: auto;
+    }
+  }
+
+  &__indicator,
+  .indicator-item {
+    width: var(--tiny-carousel-indicator-size);
+    height: var(--tiny-carousel-indicator-size);
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: var(--tiny-carousel-indicator-background);
+    cursor: pointer;
+
+    &--active,
+    &.active {
+      background: var(--tiny-carousel-indicator-background-active);
+    }
+
+    &:focus-visible {
+      outline: var(--tiny-carousel-focus-outline);
+      outline-offset: var(--tiny-carousel-focus-outline-offset);
+    }
+  }
+
+  &__arrows {
+    pointer-events: none;
+  }
+
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: var(--tiny-carousel-z-arrows);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tiny-carousel-arrow-size);
+    height: var(--tiny-carousel-arrow-size);
+    padding: 0;
+    border: var(--tiny-carousel-arrow-border);
+    border-radius: var(--tiny-carousel-arrow-radius);
+    background: var(--tiny-carousel-arrow-background);
+    color: var(--tiny-carousel-arrow-color);
+    cursor: pointer;
+    pointer-events: auto;
+    transform: translateY(-50%);
+
+    svg {
+      display: block;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &--prev {
+      left: var(--tiny-carousel-arrow-offset);
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    &--next {
+      right: var(--tiny-carousel-arrow-offset);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: var(--tiny-carousel-arrow-disabled-opacity);
+    }
+
+    &:focus-visible {
+      outline: var(--tiny-carousel-focus-outline);
+      outline-offset: var(--tiny-carousel-focus-outline-offset);
+    }
+  }
+
+  &__progress,
+  .splide__progress {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: var(--tiny-carousel-z-controls);
+    height: var(--tiny-carousel-progress-height);
+    overflow: hidden;
+    background: var(--tiny-carousel-progress-background);
+  }
+
+  &__progress-slide,
+  .splide__progress__slide {
+    width: 0;
+    height: 100%;
+    background: var(--tiny-carousel-progress-fill-background);
+    transition: var(--tiny-carousel-progress-transition);
+  }
+}

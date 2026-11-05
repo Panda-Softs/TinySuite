@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="TinyLightbox interactive component playground"><title>TinyLightbox — effortless image viewing</title><link rel="stylesheet" href="../dist/TinyLightbox.min.css"><link rel="stylesheet" href="demo.css"></head>
+<body><div class="ambient a"></div><div class="ambient b"></div>
+<header class="header"><div class="nav wrap"><a class="brand" href="#top"><span class="brand-icon">t.</span><span>Tiny<span class="brand-light">Lightbox</span></span></a><nav class="nav-links" aria-label="Main navigation"><a href="#playground">Playground</a><a href="#features">Features</a><a href="#integration">Integration</a></nav><div class="nav-tail"><span class="version">v2.0 <i class="status-dot"></i> LIVE DEMO</span><a class="nav-cta" href="#playground">Explore ↗</a></div></div></header>
+<main id="top">
+<section class="hero wrap"><div><div class="eyebrow">THE IMAGE, FRONT AND CENTER</div><h1>Every detail.<br><span class="gradient">Beautifully in focus.</span></h1><p class="lead">A fast, intimate way to explore photographs. Fluid transitions, immersive zoom, effortless gestures — no framework required.</p><div class="hero-actions"><a class="btn primary" href="#playground">Open the playground ↗</a><a class="btn soft" href="#integration">View implementation →</a></div><div class="checks"><span>Pure JavaScript</span><span>No runtime dependencies</span><span>Keyboard &amp; touch</span></div></div><div class="hero-art"><div class="hero-glow"></div><div class="hero-frame"><img src="images/lake/lake-1.svg" alt="Illustration of a sailboat on a lake"></div><div class="float-tag one">✦ A moment in focus</div><div class="float-tag two">◉ Zoom · Swipe · Explore</div></div></section>
+<section id="playground" class="workspace-section"><div class="wrap"><div class="section-top"><span>01 / INTERACTIVE PLAYGROUND</span><span class="note">Every control below is connected to the real component</span></div><div class="section-title"><div><h2>An immersive photo experience.</h2><p>Open a photo, zoom, navigate, edit, and explore what happens under the hood.</p></div><div class="theme-tools"><span>Appearance</span><div class="theme-switch" id="theme-switch" role="group" aria-label="Demo theme"><button type="button" data-mode="light" aria-pressed="true">Light</button><button type="button" data-mode="dark" aria-pressed="false">Dark</button><button type="button" data-mode="system" aria-pressed="false">Auto</button></div></div></div>
+<div class="workspace"><div class="panel"><div class="panel-bar"><strong>Lake collection / 2026</strong><span class="live">Interactive preview</span></div><div id="gallery" class="gallery-grid" aria-label="Sample photo collection">
+<button class="gallery-trigger" type="button" data-lightbox data-lightbox-id="photo-1" data-lightbox-description="The lake wakes slowly. Soft light and quiet mountains frame the first sail." data-lightbox-src="images/lake/lake-1.svg" data-lightbox-title="Morning on the lake"><img src="images/lake/lake-1.svg" alt="Sailboat in pastel mountains"><span>01 · Sunrise</span></button>
+<button class="gallery-trigger" type="button" data-lightbox data-lightbox-id="photo-2" data-lightbox-description="Warm reflections on the water — an invitation to linger a little longer." data-lightbox-src="images/lake/lake-2.svg" data-lightbox-title="Golden afternoon"><img src="images/lake/lake-2.svg" alt="Boat in warm light"><span>02 · Warmth</span></button>
+<button class="gallery-trigger" type="button" data-lightbox data-lightbox-id="photo-3" data-lightbox-description="A bright red boat crosses the horizon against the Alpine backdrop." data-lightbox-src="images/lake/lake-3.svg" data-lightbox-title="Summer adventure"><img src="images/lake/lake-3.svg" alt="Red vessel on lake"><span>03 · Escape</span></button>
+<button class="gallery-trigger" type="button" data-lightbox data-lightbox-id="photo-4" data-lightbox-description="The shoreline turns peaceful as the breeze settles." data-lightbox-src="images/lake/lake-4.svg" data-lightbox-title="Quiet coastline"><img src="images/lake/lake-4.svg" alt="Boat and mountains"><span>04 · Calm</span></button>
+<button class="gallery-trigger" type="button" data-lightbox data-lightbox-id="photo-5" data-lightbox-description="A quiet evening, subtle colors and an unhurried journey." data-lightbox-src="images/lake/lake-5.svg" data-lightbox-title="Soft evening"><img src="images/lake/lake-5.svg" alt="Boat at evening"><span>05 · Stillness</span></button>
+<button class="gallery-trigger" type="button" data-lightbox data-lightbox-id="photo-6" data-lightbox-description="One last sail before dusk, in the calm of the lake." data-lightbox-src="images/lake/lake-6.svg" data-lightbox-title="The last sail"><img src="images/lake/lake-6.svg" alt="Sail at the lakeshore"><span>06 · Freedom</span></button>
+</div><div class="panel-foot"><span>Click any thumbnail to open TinyLightbox.</span><span>6 images · SVG demo assets</span></div></div>
+<aside class="panel inspector"><div class="kicker">LIVE INSPECTOR</div><h3>Everything in your hands.</h3><div class="status"><strong id="lb-state">Ready to explore</strong><span id="lb-description">Select a picture to begin.</span></div><div class="stat-grid"><div class="stat"><span>Current image</span><strong id="lb-index">—</strong></div><div class="stat"><span>Zoom level</span><strong id="lb-zoom">1.0×</strong></div></div><div class="settings"><div class="kicker">PREFERENCES</div><label>Loop navigation <input type="checkbox" id="loop" checked></label><label>Wheel to zoom <input type="checkbox" id="wheel" checked></label><label>Enable swipe <input type="checkbox" id="swipe" checked></label><label>Maximum zoom <select class="setting-control" id="zoom-max"><option value="3">3×</option><option value="5" selected>5×</option><option value="8">8×</option></select></label><label>Mouse drag navigation <input type="checkbox" id="mouse-swipe" checked></label><label>Swipe down to dismiss <input type="checkbox" id="vertical-close" checked></label>
+<label>Open transition <select class="setting-control" id="effect-open"><option>zoom</option><option>fade</option><option>slide</option><option>none</option></select></label>
+<label>Slide transition <select class="setting-control" id="effect-change"><option>slide</option><option>fade</option><option>zoom</option><option>none</option></select></label>
+<label>Close transition <select class="setting-control" id="effect-close"><option>fade</option><option>slide</option><option>zoom</option><option>none</option></select></label>
+<label>Swipe distance <span id="swipe-threshold-value">65 px</span><input type="range" id="swipe-threshold" min="30" max="150" step="5" value="65"></label>
+<label>Swipe velocity <span id="swipe-velocity-value">0.6 px/ms</span><input type="range" id="swipe-velocity" min="0.2" max="2" step="0.1" value="0.6"></label>
+<label>Caption position <select class="setting-control" id="caption-position"><option>bottom</option><option>top</option><option>left</option><option>right</option></select></label></div><div class="actions"><button type="button" class="btn primary" id="open-first">Open image</button><button type="button" class="btn soft" id="show-error">Broken image test</button><button type="button" class="btn soft" id="replace-set">Swap images</button><button type="button" class="btn soft" id="reset-set">Restore</button><button type="button" class="btn soft" id="insert-slide">Insert image</button><button type="button" class="btn soft" id="remove-slide">Remove image</button><button type="button" class="btn soft" id="reload">Reload DOM</button><button type="button" class="btn soft" id="once-event">once() demonstration</button><button type="button" class="btn soft" id="custom-icons">Swap SVG icons</button><button type="button" class="btn soft" id="no-zoom">Disable zoom on first</button></div><div class="settings"><div class="kicker" style="margin-bottom:10px">EVENT LOG</div><pre id="event-log" class="events" aria-live="polite">Waiting for interaction…</pre></div></aside></div>
+<details class="code-details" style="margin-top:17px"><summary>Show the code — Gallery, settings and events</summary><div class="code-head"><span>JAVASCRIPT / standalone root mode</span><button type="button" data-copy="playground-code">Copy code</button></div><pre><code id="playground-code">const viewer = new TinyLightbox('#gallery', {
+  loop: true,
+  maxZoom: 5,
+  wheelZoom: true,
+  onChange: image => console.log(image.title),
+  onZoom: ({ scale }) => console.log(scale),
+  onEdit: async image => openEditor(image)
+});
+// The root delegates clicks from [data-lightbox].
+viewer.open(0); viewer.next(); viewer.resetZoom();
+viewer.destroy();</code></pre></details>
+</div></section>
+<section class="features wrap" id="advanced-features"><div class="section-top"><span>02 / ADVANCED FEATURES</span><span class="note">Every example below works offline</span></div><div class="section-title"><div><h2>Built for the details.</h2><p>Transitions, responsive image sources, custom SVGs and a predictable JavaScript API — no server required.</p></div></div>
+<div class="feature-cards">
+<div class="feature-card"><span class="symbol">↔</span><h3>Flick, drag, dismiss</h3><p>Drag a photo horizontally with a mouse or a finger; release to navigate. Pull vertically to dismiss. Thresholds and velocity are configurable.</p></div>
+<div class="feature-card"><span class="symbol">✦</span><h3>Beautiful motion</h3><p>Choose <b>fade</b>, <b>slide</b>, <b>zoom</b> or <b>none</b> independently for opening, changing and closing.</p></div>
+<div class="feature-card"><span class="symbol">▧</span><h3>Responsive captions</h3><p>Support <code>srcset</code>, <code>sizes</code>, secure plain-text descriptions and four caption positions, with a per-image zoom option.</p></div>
+</div>
+<details class="code-details"><summary>Show the code — Gestures and configurable transitions</summary><div class="code-head"><span>JAVASCRIPT / interactions</span><button type="button" data-copy="code-gestures">Copy code</button></div><pre><code id="code-gestures">const viewer = new TinyLightbox({
+  images,
+  effects: { open: 'zoom', change: 'slide', close: 'fade' },
+  animationDuration: 240,
+  transitionDuration: 200,
+  mouseSwipe: true, verticalClose: true,
+  swipeThreshold: 65, swipeVelocity: 0.6,
+  verticalCloseThreshold: 110, closeVelocity: 0.8,
+  elasticity: 0.3
+});</code></pre></details>
+<details class="code-details"><summary>Show the code — Responsive images, captions and per-slide zoom</summary><div class="code-head"><span>JAVASCRIPT / image descriptors</span><button type="button" data-copy="code-responsive">Copy code</button></div><pre><code id="code-responsive">const viewer = new TinyLightbox({ images: [
+  { id: 'boat', src: 'images/lake/lake-1.svg',
+    srcset: 'images/lake/lake-1.svg 1x',
+    sizes: '(max-width: 640px) 100vw, 80vw',
+    alt: 'A sailboat on the lake',
+    description: 'A beautiful day on the lake',
+    captionPosition: 'bottom', zoom: true },
+  { id: 'portrait', src: 'images/lake/lake-2.svg',
+    description: 'Zoom disabled for this slide.', zoom: false }
+], captions: true, captionPosition: 'bottom' });</code></pre></details>
+<details class="code-details"><summary>Show the code — SVG icon overrides</summary><div class="code-head"><span>JAVASCRIPT / safe icon configuration</span><button type="button" data-copy="code-icons">Copy code</button></div><pre><code id="code-icons">// An SVG path string or an existing &lt;svg&gt; Element can be passed.
+const viewer = new TinyLightbox({
+  images,
+  icons: { next: 'M6 12h12m-6-6 6 6-6 6',
+           previous: 'M18 12H6m6-6-6 6 6 6' }
+});</code></pre></details>
+<details class="code-details"><summary>Show the code — Dynamic slides, reload(), once(), before/after events</summary><div class="code-head"><span>JAVASCRIPT / API</span><button type="button" data-copy="code-advanced-api">Copy code</button></div><pre><code id="code-advanced-api">viewer.insertSlide({ id: 'new', src: 'images/lake/lake-6.svg' }, 1);
+viewer.removeSlide('new');
+viewer.once('afterChange', image =&gt; console.log(image.title));
+viewer.on('beforeChange', ({ from, to }) =&gt; console.log(from, to));
+viewer.on('afterChange', image =&gt; console.log('Loaded', image.id));
+viewer.reload(); // Re-read DOM descriptors if a root is present.
+viewer.destroy(); // Always removes the dialog and listeners.</code></pre></details>
+</section>
+<section class="features wrap" id="features"><div class="section-top"><span>03 / INTERACTIONS &amp; API</span><span class="note">Specialized in images, not video or iframes</span></div><div class="section-title"><div><h2>Small footprint. Thoughtful details.</h2><p>Each feature works in a standalone viewer, with zero global thumbnail mutations.</p></div></div><div class="feature-cards">
+<article class="feature-card"><div class="symbol">↔</div><h3>Seamless navigation</h3><p>Previous / next controls, Home / End, configurable looping, arrow keys and preloading.</p><details class="code-details"><summary>Navigation API</summary><div class="code-head"><span>JAVASCRIPT</span><button data-copy="code-nav">Copy</button></div><pre><code id="code-nav">viewer.open(0);
+viewer.next();
+viewer.previous();
+viewer.goTo(4);
+viewer.options.loop = false;</code></pre></details></article>
+<article class="feature-card"><div class="symbol">⌕</div><h3>Responsive zoom</h3><p>Wheel, double-click, + / −, pinch-to-zoom and drag-to-pan with bounded movement.</p><details class="code-details"><summary>Zoom API</summary><div class="code-head"><span>JAVASCRIPT</span><button data-copy="code-zoom">Copy</button></div><pre><code id="code-zoom">viewer.zoomIn();
+viewer.zoomOut();
+viewer.zoomTo(2.5);
+viewer.resetZoom();
+console.log(viewer.scale);</code></pre></details></article>
+<article class="feature-card"><div class="symbol">✎</div><h3>External editor</h3><p>Open any custom cropper using an async callback. The lightbox closes before the editor opens.</p><details class="code-details"><summary>Editor adapter</summary><div class="code-head"><span>JAVASCRIPT</span><button data-copy="code-edit">Copy</button></div><pre><code id="code-edit">const viewer = new TinyLightbox({
+  images,
+  onEdit: async image => {
+    const newSrc = await myEditor(image.src);
+    return newSrc ? { src: newSrc } : null;
+  }
+});</code></pre></details></article>
+<article class="feature-card"><div class="symbol">⌨</div><h3>Accessible by design</h3><p>Native modal focus trap, restored focus, keyboard shortcuts, meaningful labels and reduced motion.</p><details class="code-details"><summary>Keyboard controls</summary><div class="code-head"><span>KEYBOARD</span><button data-copy="code-keys">Copy</button></div><pre><code id="code-keys">ArrowLeft / ArrowRight  navigate
+Home / End             first / last
++ / -                  zoom in / out
+0                      reset zoom
+Escape                 close</code></pre></details></article>
+<article class="feature-card"><div class="symbol">▦</div><h3>Dynamic collections</h3><p>Replace the entire list of images or open a viewer without any thumbnail DOM.</p><details class="code-details"><summary>Programmatic mode</summary><div class="code-head"><span>JAVASCRIPT</span><button data-copy="code-program">Copy</button></div><pre><code id="code-program">const standalone = new TinyLightbox({
+  images: [{ id: 'a', src: '/a.webp' }]
+});
+standalone.open('a');
+standalone.setImages(nextImages);
+standalone.destroy();</code></pre></details></article>
+<article class="feature-card"><div class="symbol">◉</div><h3>Complete lifecycle</h3><p>Multiple instances, event subscriptions, missing-image handling and deterministic teardown.</p><details class="code-details"><summary>Lifecycle</summary><div class="code-head"><span>JAVASCRIPT</span><button data-copy="code-life">Copy</button></div><pre><code id="code-life">const stop = viewer.on('load', image => {
+  console.log(image.id);
+});
+stop(); // unsubscribe
+viewer.close();
+viewer.destroy();</code></pre></details></article>
+</div></section>
+<section class="integration" id="integration"><div class="wrap"><div class="section-top"><span>03 / QUICK INTEGRATION</span><span class="note">Two files. No build step.</span></div><div class="section-title"><div><h2>Drop it into your project.</h2><p>Both auto-discovery and programmatic modes are supported.</p></div></div><div class="columns"><details class="code-details" open><summary>1. Include the assets</summary><div class="code-head"><span>HTML</span><button data-copy="code-assets">Copy</button></div><pre><code id="code-assets">&lt;link rel="stylesheet" href="TinyLightbox.css"&gt;
+&lt;script src="TinyLightbox.js"&gt;&lt;/script&gt;</code></pre></details><details class="code-details" open><summary>2. Initialize a gallery</summary><div class="code-head"><span>HTML + JAVASCRIPT</span><button data-copy="code-init">Copy</button></div><pre><code id="code-init">&lt;div id="images"&gt;
+  &lt;a data-lightbox href="boat.webp"&gt;
+    &lt;img src="boat-thumb.webp" alt="Boat"&gt;
+  &lt;/a&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  const viewer = new TinyLightbox('#images');
+&lt;/script&gt;</code></pre></details></div><p class="small-note">See README.md for all configuration options, public methods, event contracts, browser notes, and test instructions.</p></div></section>
+</main><footer class="footer"><div class="wrap"><span>TinyLightbox / TinySuite · Demo only, no external dependencies</span><span>Built to be used independently or inside TinyGallery.</span></div></footer><div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="../dist/TinyLightbox.min.js"></script><script src="demo.js"></script></body></html>

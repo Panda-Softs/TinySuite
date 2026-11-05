@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>TinyDatePicker Complete Demo</title>
+  <link rel="stylesheet" href="../dist/TinyDatePicker.min.css">
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body data-theme="dark">
+  <main class="tdp-demo-page">
+    <section class="tdp-demo-hero" aria-labelledby="demo-title">
+      <div class="tdp-demo-hero__copy">
+        <span class="tdp-demo-eyebrow">
+          <span class="tdp-demo-dot" aria-hidden="true"></span>
+          Pure JavaScript · UMD · <span data-version>v—</span>
+        </span>
+
+        <h1 id="demo-title" class="tdp-demo-title">TinyDatePicker</h1>
+        <p class="tdp-demo-lead">
+          The complete interactive showcase: inline, modal and permanent modes, date ranges,
+          local and remote event sources, restrictions, assisted input and the synchronized month/year wheel.
+        </p>
+
+        <div class="tdp-demo-actions">
+          <a class="tdp-demo-button is-primary" href="#inline-examples">Explore all examples</a>
+          <a class="tdp-demo-button" href="#starter">Copy starter code</a>
+
+          <div class="tdp-theme-control">
+            <span class="tdp-theme-control__title">Appearance</span>
+            <button id="theme-toggle" class="tdp-theme-switch" type="button" role="switch" aria-checked="true" aria-label="Switch to light mode">
+              <span class="tdp-theme-switch__track" aria-hidden="true">
+                <span class="tdp-theme-switch__thumb"></span>
+                <span class="tdp-theme-switch__icon tdp-theme-switch__icon--light">
+                  <svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="3.75"></circle><path d="M12 2.25v2.2M12 19.55v2.2M4.05 4.05l1.55 1.55M18.4 18.4l1.55 1.55M2.25 12h2.2M19.55 12h2.2M4.05 19.95l1.55-1.55M18.4 5.6l1.55-1.55"></path></svg>
+                </span>
+                <span class="tdp-theme-switch__icon tdp-theme-switch__icon--dark">
+                  <svg viewBox="0 0 24 24" focusable="false"><path d="M20.5 15.15A8.55 8.55 0 0 1 8.85 3.5a8.55 8.55 0 1 0 11.65 11.65Z"></path></svg>
+                </span>
+              </span>
+              <span id="theme-label" class="tdp-theme-switch__label">Dark mode</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="tdp-demo-stats" aria-label="Demo coverage">
+          <div class="tdp-demo-stat"><strong>15</strong><span>Complete examples</span></div>
+          <div class="tdp-demo-stat"><strong>3</strong><span>Rendering modes</span></div>
+          <div class="tdp-demo-stat"><strong>0</strong><span>Required dependencies</span></div>
+        </div>
+      </div>
+
+      <article class="tdp-demo-showcase" aria-labelledby="showcase-title">
+        <header class="tdp-demo-showcase__header">
+          <div><span class="tdp-demo-kicker">Featured interaction</span><h2 id="showcase-title">Month & year wheel</h2></div>
+          <span class="tdp-demo-status"><span></span> Live</span>
+        </header>
+        <div class="tdp-demo-calendar-stage"><div id="featured-picker" class="tdp-demo-calendar-host"></div></div>
+        <footer class="tdp-demo-showcase__footer">
+          <p>Click the visible month or year, then scroll both wheels independently.</p>
+          <button id="open-period-selector" class="tdp-demo-text-button" type="button">Open wheel selector →</button>
+        </footer>
+      </article>
+    </section>
+
+    <section class="tdp-demo-toolbar" aria-label="Demo controls">
+      <nav class="tdp-demo-nav" aria-label="Example sections">
+        <a href="#inline-examples">Inline</a><a href="#modal-examples">Modal</a><a href="#permanent-example">Permanent</a><a href="#starter">Starter</a>
+      </nav>
+      <div class="tdp-demo-toolbar__actions">
+        <label class="tdp-control-switch">
+          <input id="display-toggle" type="checkbox" checked>
+          <span class="tdp-control-switch__track" aria-hidden="true"><span></span></span>
+          <span>Show display panel</span>
+        </label>
+        <button id="toggle-code" class="tdp-demo-button is-small" type="button" aria-pressed="false">Expand all code</button>
+      </div>
+    </section>
+
+    <section class="tdp-demo-info-grid" aria-label="Demo implementation notes">
+      <article class="tdp-demo-info-card">
+        <span class="tdp-demo-kicker">Shared helpers</span><h2>Reusable date utilities</h2>
+        <p>All examples use the same compact helpers, keeping each configuration focused.</p>
+        
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show shared helpers</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const today = new Date();
+const currentYear = today.getFullYear();
+
+const addDays = (date, amount) =&gt; new Date(
+  date.getFullYear(),
+  date.getMonth(),
+  date.getDate() + amount
+);
+
+const iso = (date) =&gt; [
+  date.getFullYear(),
+  String(date.getMonth() + 1).padStart(2, &#x27;0&#x27;),
+  String(date.getDate()).padStart(2, &#x27;0&#x27;)
+].join(&#x27;-&#x27;);
+
+const holidayKeys = [
+  `${currentYear}-01-01`,
+  `${currentYear}-05-01`,
+  `${currentYear}-12-25`
+];</code></pre>
+        </div>
+      </details>
+      </article>
+      <article class="tdp-demo-info-card">
+        <span class="tdp-demo-kicker">Local file ready</span><h2>No server required</h2>
+        <p>The AJAX examples use a local fetch mock, while the small input-assist compatibility helper is bundled in <code>demo/vendor</code>.</p>
+        <div class="tdp-demo-badges"><span>file:// compatible</span><span>AJAX mock</span><span>Input assist</span></div>
+      </article>
+    </section>
+
+    <section id="inline-examples" class="tdp-demo-section" aria-labelledby="inline-title">
+      <div class="tdp-demo-section-heading">
+        <div><span class="tdp-demo-kicker">01 · Inline mode</span><h2 id="inline-title">Inputs with anchored calendars</h2></div>
+        <p>Seven scenarios cover marks, all event source types and the complete restriction API.</p>
+      </div>
+      <div class="tdp-example-grid">
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">01</span>
+        <div>
+          <span class="tdp-example-card__tag">Inline · marked dates</span>
+          <h3>Default inline picker + markDates</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">A clean inline picker with assisted numeric input, a clear action and visual date marks without event dots.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="inline-default-input">
+          <span>Choose a date</span>
+          <input id="inline-default-input" type="text" placeholder="DD/MM/YYYY">
+        </label>
+        <small>Click or focus the input to open the inline calendar.</small>
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="inline-default-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>mode: &#x27;inline&#x27;</code><code>showClearBtn: true</code><code>markDates: [...]</code><code>assistDateInput: true</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerDefault = new TinyDatePicker(&#x27;#inline-default-input&#x27;, {
+  mode: &#x27;inline&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;DD/MM/YYYY&#x27;,
+  showClearBtn: true,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  markDates: [today, addDays(today, 2), addDays(today, 6)]
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">02</span>
+        <div>
+          <span class="tdp-example-card__tag">Inline · event date array</span>
+          <h3>Events from a simple date array</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">Each date adds one event dot using the component theme color. This example also blocks past dates.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="inline-event-dates-input">
+          <span>Future event date</span>
+          <input id="inline-event-dates-input" type="text" placeholder="YYYY-MM-DD">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="inline-event-dates-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>events: [Date, ...]</code><code>dateRule: &#x27;gtNow&#x27;</code><code>selectedDate: addDays(today, 1)</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerEventDates = new TinyDatePicker(&#x27;#inline-event-dates-input&#x27;, {
+  mode: &#x27;inline&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;YYYY-MM-DD&#x27;,
+  dateRule: &#x27;gtNow&#x27;,
+  selectedDate: addDays(today, 1),
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  events: [today, addDays(today, 1), addDays(today, 4), addDays(today, 12)]
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">03</span>
+        <div>
+          <span class="tdp-example-card__tag">Inline · colored event objects</span>
+          <h3>Several events on the same day</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">Event objects can define individual colors. Multiple entries on one date create multiple dots beneath the day number.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="inline-event-objects-input">
+          <span>Event date</span>
+          <input id="inline-event-objects-input" type="text" placeholder="YYYY-MM-DD">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="inline-event-objects-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>events: [{ date, color }]</code><code>multiple dots per day</code><code>default color fallback</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerEventObjects = new TinyDatePicker(&#x27;#inline-event-objects-input&#x27;, {
+  mode: &#x27;inline&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;YYYY-MM-DD&#x27;,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  events: [
+    { date: `${iso(addDays(today, 3))} 08:48`, color: &#x27;#ef4444&#x27; },
+    { date: `${iso(addDays(today, 3))} 09:48`, color: &#x27;#22c55e&#x27; },
+    { date: `${iso(addDays(today, 3))} 11:00`, color: &#x27;#3b82f6&#x27; },
+    { date: `${iso(addDays(today, 8))} 09:00` }
+  ]
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">04</span>
+        <div>
+          <span class="tdp-example-card__tag">Inline · function source</span>
+          <h3>Generate events for the visible month</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">The event function receives the visible start and end dates, making it ideal for computed or in-memory schedules.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="inline-event-function-input">
+          <span>Generated schedule</span>
+          <input id="inline-event-function-input" type="text" placeholder="DD/MM/YYYY">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="inline-event-function-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>events(startDate, endDate)</code><code>dynamic month range</code><code>sync or Promise-compatible</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerEventFunction = new TinyDatePicker(&#x27;#inline-event-function-input&#x27;, {
+  mode: &#x27;inline&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;DD/MM/YYYY&#x27;,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  events(startDate, endDate) {
+    return [
+      { date: new Date(startDate.getFullYear(), startDate.getMonth(), 5, 10), color: &#x27;#8b5cf6&#x27; },
+      { date: new Date(startDate.getFullYear(), startDate.getMonth(), 5, 15), color: &#x27;#ec4899&#x27; },
+      { date: new Date(startDate.getFullYear(), startDate.getMonth(), 21, 8) }
+    ];
+  }
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">05</span>
+        <div>
+          <span class="tdp-example-card__tag">Inline · AJAX source</span>
+          <h3>Load events from an endpoint</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">The component sends the visible date range to the configured endpoint. The demo intercepts the request locally, so it also works through file://.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="inline-event-ajax-input">
+          <span>Remote schedule</span>
+          <input id="inline-event-ajax-input" type="text" placeholder="YYYY-MM-DD">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="inline-event-ajax-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>events: { url, method }</code><code>startParam / endParam</code><code>paramFormat: &#x27;date&#x27;</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerEventAjax = new TinyDatePicker(&#x27;#inline-event-ajax-input&#x27;, {
+  mode: &#x27;inline&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;YYYY-MM-DD&#x27;,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  events: {
+    url: &#x27;/demo-events&#x27;,
+    method: &#x27;GET&#x27;,
+    startParam: &#x27;startDate&#x27;,
+    endParam: &#x27;endDate&#x27;,
+    paramFormat: &#x27;date&#x27;
+  }
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">06</span>
+        <div>
+          <span class="tdp-example-card__tag">Inline · disabled days</span>
+          <h3>Weekends + custom business rules</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">Weekends are disabled automatically. A custom predicate blocks holidays and every 13th day.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="inline-disabled-input">
+          <span>Working day</span>
+          <input id="inline-disabled-input" type="text" placeholder="DD/MM/YYYY">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="inline-disabled-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>disableWeekends: true</code><code>disableDayFn(date)</code><code>markDates: [...]</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerDisabled = new TinyDatePicker(&#x27;#inline-disabled-input&#x27;, {
+  mode: &#x27;inline&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;DD/MM/YYYY&#x27;,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  disableWeekends: true,
+  disableDayFn(date) {
+    return holidayKeys.includes(iso(date)) || date.getDate() === 13;
+  },
+  markDates: [addDays(today, 10)]
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">07</span>
+        <div>
+          <span class="tdp-example-card__tag">Inline · advanced restrictions</span>
+          <h3>Restrict weekdays, months and years</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">This preserves the advanced example from the original demo with independent allow/deny lists that are also respected by the wheel selector.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="inline-advanced-input">
+          <span>Restricted period</span>
+          <input id="inline-advanced-input" type="text" placeholder="YYYY-MM-DD">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="inline-advanced-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>disableWeekDays: [1]</code><code>disableMonths / disableYears</code><code>allowedMonths / allowedYears</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const currentYear = today.getFullYear();
+
+const pickerAdvanced = new TinyDatePicker(&#x27;#inline-advanced-input&#x27;, {
+  mode: &#x27;inline&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;YYYY-MM-DD&#x27;,
+  selectedDate: new Date(currentYear, 3, 15),
+  showPeriodSelector: true,
+  yearRange: [currentYear - 1, currentYear + 2],
+  disableWeekDays: [1],
+  disableMonths: [0],
+  disableYears: [currentYear - 1],
+  allowedMonths: [3, 4, 5],
+  allowedYears: [currentYear, currentYear + 1]
+});</code></pre>
+        </div>
+      </details>
+    </article></div>
+    </section>
+
+    <section id="modal-examples" class="tdp-demo-section" aria-labelledby="modal-title">
+      <div class="tdp-demo-section-heading">
+        <div><span class="tdp-demo-kicker">02 · Modal mode</span><h2 id="modal-title">Focused selection workflows</h2></div>
+        <p>Single dates, remote events, restrictions, ranges and the month/year wheel in a dialog.</p>
+      </div>
+      <div class="tdp-example-grid">
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">08</span>
+        <div>
+          <span class="tdp-example-card__tag">Modal · basic</span>
+          <h3>Modal linked directly to an input</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">Clicking or focusing the input opens the modal and writes the confirmed selection back into the field.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="modal-basic-input">
+          <span>Appointment date</span>
+          <input id="modal-basic-input" type="text" placeholder="DD/MM/YYYY">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="modal-basic-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>mode: &#x27;modal&#x27;</code><code>selectedDate</code><code>showClearBtn: true</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerModalBasic = new TinyDatePicker(&#x27;#modal-basic-input&#x27;, {
+  mode: &#x27;modal&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;DD/MM/YYYY&#x27;,
+  selectedDate: addDays(today, 10),
+  showClearBtn: true,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">09</span>
+        <div>
+          <span class="tdp-example-card__tag">Modal · marks + events</span>
+          <h3>Combine marked dates and event dots</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">Visual marks and event dots are independent and can coexist on the same date. A dedicated trigger button opens this modal.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="modal-marks-events-input">
+          <span>Schedule date</span>
+          <input id="modal-marks-events-input" type="text" placeholder="YYYY-MM-DD" data-tdp-trigger="button">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="modal-marks-events-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>markDates: [...]</code><code>events: [...]</code><code>inputTriggerMode: &#x27;button&#x27;</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerModalMarksEvents = new TinyDatePicker(&#x27;#modal-marks-events-input&#x27;, {
+  mode: &#x27;modal&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;YYYY-MM-DD&#x27;,
+  inputTriggerMode: &#x27;button&#x27;,
+  showClearBtn: true,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  markDates: [addDays(today, 1), addDays(today, 5)],
+  events: [
+    { date: `${iso(addDays(today, 2))} 09:00`, color: &#x27;#06b6d4&#x27; },
+    { date: `${iso(addDays(today, 2))} 13:00`, color: &#x27;#f97316&#x27; },
+    { date: `${iso(addDays(today, 9))} 16:00` }
+  ]
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">10</span>
+        <div>
+          <span class="tdp-example-card__tag">Modal · restrictions</span>
+          <h3>Availability window + business rules</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">Dates outside the rolling window, weekends, holidays and every 13th day are unavailable.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="modal-restricted-input">
+          <span>Available appointment</span>
+          <input id="modal-restricted-input" type="text" placeholder="DD/MM/YYYY">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="modal-restricted-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>minDate / maxDate</code><code>disableWeekends: true</code><code>disableDayFn(date)</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerModalRestricted = new TinyDatePicker(&#x27;#modal-restricted-input&#x27;, {
+  mode: &#x27;modal&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;DD/MM/YYYY&#x27;,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  minDate: addDays(today, -5),
+  maxDate: addDays(today, 25),
+  disableWeekends: true,
+  disableDayFn(date) {
+    return holidayKeys.includes(iso(date)) || date.getDate() === 13;
+  }
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">11</span>
+        <div>
+          <span class="tdp-example-card__tag">Modal · AJAX events</span>
+          <h3>Remote event loading in modal mode</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">Each visible month can request its event entries from a server. The included local mock keeps this demo self-contained.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="modal-ajax-input">
+          <span>Remote event date</span>
+          <input id="modal-ajax-input" type="text" placeholder="YYYY-MM-DD">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="modal-ajax-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>events: { url, method }</code><code>paramFormat: &#x27;date&#x27;</code><code>local file-safe mock</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerModalAjax = new TinyDatePicker(&#x27;#modal-ajax-input&#x27;, {
+  mode: &#x27;modal&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;YYYY-MM-DD&#x27;,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  events: {
+    url: &#x27;/demo-events&#x27;,
+    method: &#x27;GET&#x27;,
+    startParam: &#x27;startDate&#x27;,
+    endParam: &#x27;endDate&#x27;,
+    paramFormat: &#x27;date&#x27;
+  }
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">12</span>
+        <div>
+          <span class="tdp-example-card__tag">Modal · range</span>
+          <h3>Reservation-style range selection</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">The first click starts the range, hovering previews it and the second click completes it. Reversed dates are normalized automatically.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="modal-range-basic-input">
+          <span>Check-in — Check-out</span>
+          <input id="modal-range-basic-input" type="text" placeholder="DD/MM/YYYY – DD/MM/YYYY">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="modal-range-basic-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>allowRangeSelection: true</code><code>selectedRange</code><code>showClearBtn: true</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerModalRangeBasic = new TinyDatePicker(&#x27;#modal-range-basic-input&#x27;, {
+  mode: &#x27;modal&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;DD/MM/YYYY&#x27;,
+  allowRangeSelection: true,
+  showClearBtn: true,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  selectedRange: {
+    startDate: addDays(today, 4),
+    endDate: addDays(today, 8)
+  }
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">13</span>
+        <div>
+          <span class="tdp-example-card__tag">Modal · restricted range</span>
+          <h3>Validate every date inside a range</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">A range is accepted only when every date inside it is selectable. The calendar button keeps focus behavior predictable.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="modal-range-restricted-input">
+          <span>Allowed stay</span>
+          <input id="modal-range-restricted-input" type="text" placeholder="YYYY-MM-DD – YYYY-MM-DD" data-tdp-trigger="button">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="modal-range-restricted-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>allowRangeSelection: true</code><code>inputTriggerMode: &#x27;button&#x27;</code><code>disableDayFn(date)</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerModalRangeRestricted = new TinyDatePicker(&#x27;#modal-range-restricted-input&#x27;, {
+  mode: &#x27;modal&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;YYYY-MM-DD&#x27;,
+  inputTriggerMode: &#x27;button&#x27;,
+  allowRangeSelection: true,
+  showClearBtn: true,
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;,
+  minDate: addDays(today, 1),
+  maxDate: addDays(today, 45),
+  disableDayFn(date) {
+    return holidayKeys.includes(iso(date)) || date.getDate() === 13;
+  }
+});</code></pre>
+        </div>
+      </details>
+    </article>
+    <article class="tdp-example-card " data-example-card>
+      <header class="tdp-example-card__header">
+        <span class="tdp-example-card__number" aria-hidden="true">14</span>
+        <div>
+          <span class="tdp-example-card__tag">Modal · month/year wheel</span>
+          <h3>Jump directly to a month and year</h3>
+        </div>
+      </header>
+      <p class="tdp-example-card__description">Click the current month or year to replace the day grid with synchronized iOS-style wheels. Month scrolling crosses year boundaries naturally.</p>
+      
+      <div class="tdp-example-preview">
+        <label class="tdp-demo-field" for="modal-period-input">
+          <span>Departure date</span>
+          <input id="modal-period-input" type="text" placeholder="DD/MM/YYYY" data-tdp-trigger="button">
+        </label>
+        
+        <div class="tdp-example-value"><span>Current value</span><strong data-value-for="modal-period-input">—</strong></div>
+      </div>
+      <div class="tdp-demo-option-list" aria-label="Options used"><code>showPeriodSelector: true</code><code>yearRange: [1980, 2045]</code><code>month/year wheels</code></div>
+      
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const pickerModalPeriod = new TinyDatePicker(&#x27;#modal-period-input&#x27;, {
+  mode: &#x27;modal&#x27;,
+  locale: &#x27;en&#x27;,
+  dateFormat: &#x27;DD/MM/YYYY&#x27;,
+  inputTriggerMode: &#x27;button&#x27;,
+  showClearBtn: true,
+  showPeriodSelector: true,
+  yearRange: [1980, 2045],
+  assistDateInput: true,
+  placeholderFromFormat: &#x27;overwrite&#x27;
+});</code></pre>
+        </div>
+      </details>
+    </article></div>
+    </section>
+
+    <section id="permanent-example" class="tdp-demo-section" aria-labelledby="permanent-title">
+      <div class="tdp-demo-section-heading">
+        <div><span class="tdp-demo-kicker">03 · Permanent mode</span><h2 id="permanent-title">Always-visible embedded calendar</h2></div>
+        <p>The picker remains mounted inside a responsive page region and supports the same marks, events and wheel selector.</p>
+      </div>
+
+      <div class="tdp-demo-lab">
+        <article class="tdp-demo-lab__calendar">
+          <header class="tdp-demo-panel-heading"><div><span class="tdp-demo-kicker">Permanent picker</span><h3>Embedded schedule</h3></div><span class="tdp-demo-chip">Responsive</span></header>
+          <div id="permanent-host" class="tdp-demo-embedded-host"></div>
+          
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const permanentHost = document.querySelector(&#x27;#permanent-host&#x27;);
+
+const permanentPicker = new TinyDatePicker(permanentHost, {
+  mode: &#x27;permanent&#x27;,
+  appendTo: permanentHost,
+  locale: &#x27;en&#x27;,
+  selectedDate: addDays(today, 2),
+  showClearBtn: true,
+  showPeriodSelector: true,
+  yearRange: 15,
+  markDates: [today, addDays(today, 3)],
+  events: [
+    { date: `${iso(today)} 09:00`, color: &#x27;#14b8a6&#x27; },
+    { date: `${iso(today)} 14:00`, color: &#x27;#eab308&#x27; },
+    { date: `${iso(addDays(today, 6))} 11:00`, color: &#x27;#f43f5e&#x27; }
+  ]
+});</code></pre>
+        </div>
+      </details>
+        </article>
+
+        <aside class="tdp-demo-console" aria-live="polite">
+          <header class="tdp-demo-panel-heading"><div><span class="tdp-demo-kicker">Event stream</span><h3>Live activity</h3></div><code data-version>v—</code></header>
+          <div class="tdp-demo-console__value"><span>Current value</span><strong id="current-value">No date selected</strong></div>
+          <ol id="activity-log" class="tdp-demo-log" aria-label="Recent TinyDatePicker events">
+            <li><time>Ready</time><span>Interact with any picker to see its lifecycle events.</span></li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <section id="starter" class="tdp-demo-section" aria-labelledby="starter-title">
+      <div class="tdp-demo-section-heading">
+        <div><span class="tdp-demo-kicker">04 · Integration</span><h2 id="starter-title">Everything needed to start</h2></div>
+        <p>Copy the local-file starter, dark-mode integration or expected AJAX response shape.</p>
+      </div>
+
+      <div class="tdp-starter-grid">
+        <article class="tdp-starter-card"><h3>Drop-in starter</h3><p>Minimal HTML and JavaScript for a modal picker with the wheel selector.</p>
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show complete starter</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>&lt;!-- Keep these paths relative to demo/index.html --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;../TinyDatePicker.css&quot;&gt;
+&lt;script src=&quot;../TinyDatePicker.js&quot;&gt;&lt;/script&gt;
+
+&lt;input id=&quot;my-date&quot; type=&quot;text&quot;&gt;
+
+&lt;script&gt;
+  const picker = new TinyDatePicker(&#x27;#my-date&#x27;, {
+    mode: &#x27;modal&#x27;,
+    locale: &#x27;en&#x27;,
+    dateFormat: &#x27;DD/MM/YYYY&#x27;,
+    showClearBtn: true,
+    showPeriodSelector: true,
+    yearRange: [1980, 2045]
+  });
+
+  picker.on(&#x27;tdp:select&#x27;, (event) =&gt; {
+    console.log(event.detail.value);
+  });
+&lt;/script&gt;</code></pre>
+        </div>
+      </details></article>
+        <article class="tdp-starter-card"><h3>Dark mode</h3><p>The component automatically responds to a <code>data-theme="dark"</code> ancestor.</p>
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show theme code</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>const themeToggle = document.querySelector(&#x27;#theme-toggle&#x27;);
+
+function applyTheme(theme) {
+  const isDark = theme === &#x27;dark&#x27;;
+  document.body.dataset.theme = isDark ? &#x27;dark&#x27; : &#x27;light&#x27;;
+  document.documentElement.style.colorScheme = isDark ? &#x27;dark&#x27; : &#x27;light&#x27;;
+  themeToggle.setAttribute(&#x27;aria-checked&#x27;, String(isDark));
+}
+
+// The demo deliberately starts in dark mode.
+applyTheme(&#x27;dark&#x27;);</code></pre>
+        </div>
+      </details></article>
+        <article class="tdp-starter-card"><h3>AJAX response contract</h3><p>Return an array directly, or wrap it in an <code>events</code> or <code>data</code> property.</p>
+      <details class="tdp-code-sample">
+        <summary>
+          <span>Show JSON response</span>
+          <span class="tdp-code-sample__hint">Copy-ready</span>
+        </summary>
+        <div class="tdp-code-sample__body">
+          <button class="tdp-copy-button" type="button" data-copy-code>Copy</button>
+          <pre><code>// Expected endpoint response. An array is also accepted directly.
+{
+  &quot;events&quot;: [
+    { &quot;date&quot;: &quot;2026-08-03 09:00&quot;, &quot;color&quot;: &quot;#e11d48&quot; },
+    { &quot;date&quot;: &quot;2026-08-03 14:30&quot;, &quot;color&quot;: &quot;#f97316&quot; },
+    { &quot;date&quot;: &quot;2026-08-12 10:00&quot;, &quot;color&quot;: &quot;#0ea5e9&quot; }
+  ]
+}</code></pre>
+        </div>
+      </details></article>
+      </div>
+    </section>
+
+    <footer class="tdp-demo-footer">
+      <strong>TinyDatePicker <span data-version>v—</span></strong>
+      <span>Complete demo · dark mode by default · keyboard and touch friendly</span>
+    </footer>
+  </main>
+
+  <script src="vendor/cleave-lite.js"></script>
+  <script src="../dist/TinyDatePicker.min.js"></script>
+  <script src="demo.js"></script>
+</body>
+</html>

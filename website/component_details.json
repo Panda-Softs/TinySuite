@@ -1,0 +1,1002 @@
+{
+  "TinyDataTable": {
+    "summary": "Feature-rich data tables for business interfaces, with search, filters, pagination, grouping and AJAX workflows.",
+    "badges": [
+      "Vanilla JS",
+      "AJAX ready",
+      "Responsive",
+      "No framework"
+    ],
+    "features": [
+      "Advanced data tables",
+      "Column sorting",
+      "Global search",
+      "Column filters",
+      "Pagination",
+      "Row selection",
+      "Dynamic grouping",
+      "Child rows",
+      "Aggregations",
+      "AJAX loading"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyDataTable.min.js + dist/TinyDataTable.min.css.",
+      "Works with HTML tables, arrays or AJAX endpoints.",
+      "Fits dashboards, back-offices and admin apps."
+    ],
+    "use_cases": [
+      "Admin dashboards",
+      "CRM / ERP screens",
+      "Reporting views",
+      "Operational tables"
+    ],
+    "quickstart": {
+      "html": "<table id=\"users-table\"></table>",
+      "js": "const table = new TinyDataTable(\"#users-table\", {\n  ajax: \"/api/users\",\n  sortable: true,\n  searchable: true,\n  paginated: true\n});",
+      "css": "#users-table { width: 100%; }"
+    },
+    "strengths": [
+      {
+        "title": "Explore complex datasets",
+        "description": "Sorting, global search and column filters help users locate relevant records without leaving the table."
+      },
+      {
+        "title": "Keep context close",
+        "description": "Selected rows, grouped data, child rows and aggregates keep detail and summary in the same workspace."
+      },
+      {
+        "title": "Connect to real data",
+        "description": "AJAX loading makes the table suitable for interfaces backed by application APIs."
+      }
+    ]
+  },
+  "TinyScheduler": {
+    "summary": "Interactive calendars and scheduling views for teams, bookings and resources, with month, week, day, list and timeline layouts.",
+    "badges": [
+      "Month / Week / Day",
+      "Resources",
+      "Timeline",
+      "Planning"
+    ],
+    "features": [
+      "Month view",
+      "Week view",
+      "Day view",
+      "List view",
+      "Resource scheduling",
+      "Timeline view",
+      "Event management",
+      "Conflict detection",
+      "Planning interactions"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyScheduler.min.js + dist/TinyScheduler.min.css.",
+      "Works with local events or AJAX-loaded resources.",
+      "Fits booking, staffing and planning tools."
+    ],
+    "use_cases": [
+      "Meeting planning",
+      "Room booking",
+      "Staff scheduling",
+      "Resource allocation"
+    ],
+    "quickstart": {
+      "html": "<div id=\"scheduler\"></div>",
+      "js": "new TinyScheduler(\"#scheduler\", {\n  view: \"week\",\n  resources: true,\n  events: myEvents\n});",
+      "css": "#scheduler { min-height: 640px; }"
+    },
+    "strengths": [
+      {
+        "title": "Choose the right time scale",
+        "description": "Month, week, day and list views provide different levels of planning detail."
+      },
+      {
+        "title": "Plan by resource",
+        "description": "Timeline and resource views bring people, rooms or equipment into the scheduling picture."
+      },
+      {
+        "title": "Spot scheduling conflicts",
+        "description": "Conflict detection and event interactions support clearer planning workflows."
+      }
+    ]
+  },
+  "TinyAutocomplete": {
+    "summary": "Smart suggestions for inputs with local or AJAX search, highlighted matches and strong keyboard support.",
+    "badges": [
+      "Local or AJAX",
+      "Keyboard first",
+      "Highlighted matches",
+      "Custom render"
+    ],
+    "features": [
+      "Automatic suggestions",
+      "Local search",
+      "AJAX search",
+      "Highlighted matches",
+      "Keyboard navigation",
+      "Custom item rendering",
+      "Debounced input",
+      "Cancel obsolete requests"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyAutocomplete.min.js + dist/TinyAutocomplete.min.css.",
+      "Works with arrays, objects or async endpoints.",
+      "Fits search bars, smart forms and command-like inputs."
+    ],
+    "use_cases": [
+      "Search forms",
+      "Entity pickers",
+      "Smart filters",
+      "Command palettes"
+    ],
+    "quickstart": {
+      "html": "<input id=\"city-search\" type=\"text\" placeholder=\"Search a city\">",
+      "js": "new TinyAutocomplete(\"#city-search\", {\n  source: q => fetch(`/api/cities?q=${q}`).then(r => r.json()),\n  minChars: 2\n});",
+      "css": ".tiny-autocomplete { max-width: 420px; }"
+    },
+    "strengths": [
+      {
+        "title": "Reduce search friction",
+        "description": "Suggestions and highlighted matches make long choices easier to find."
+      },
+      {
+        "title": "Local or remote data",
+        "description": "Use a local source or connect suggestions to AJAX search."
+      },
+      {
+        "title": "Keyboard-friendly flow",
+        "description": "Keyboard navigation and cancellation of outdated requests keep fast input usable."
+      }
+    ]
+  },
+  "TinySelectize": {
+    "summary": "Enhanced selection fields with search, AJAX options, single or multiple modes and an API for value management.",
+    "badges": [
+      "Single / multiple",
+      "Searchable",
+      "AJAX options",
+      "Value API"
+    ],
+    "features": [
+      "Rich select UI",
+      "Single selection",
+      "Multiple selection",
+      "Search among options",
+      "AJAX loading",
+      "Keyboard navigation",
+      "Custom option rendering",
+      "Value management API"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinySelectize.min.js + dist/TinySelectize.min.css.",
+      "Works from native select markup, arrays or remote data.",
+      "Fits complex forms and admin tools."
+    ],
+    "use_cases": [
+      "Settings forms",
+      "Multi-select filters",
+      "Entity pickers",
+      "Form builders"
+    ],
+    "quickstart": {
+      "html": "<select id=\"team-select\" multiple></select>",
+      "js": "new TinySelectize(\"#team-select\", {\n  multiple: true,\n  searchable: true,\n  options: teams\n});",
+      "css": "#team-select { width: 100%; }"
+    },
+    "strengths": [
+      {
+        "title": "Search instead of scrolling",
+        "description": "Searchable options work better than a long conventional select."
+      },
+      {
+        "title": "Pick one or several",
+        "description": "Single and multiple selection modes cover different kinds of forms."
+      },
+      {
+        "title": "Dynamic option sources",
+        "description": "AJAX loading and a value API make selections manageable in richer applications."
+      }
+    ]
+  },
+  "TinyChips": {
+    "summary": "Token and tag input management with add/remove flows, structured values and JSON / CSV synchronization.",
+    "badges": [
+      "Tags & tokens",
+      "Autocomplete ready",
+      "JSON / CSV",
+      "Form synced"
+    ],
+    "features": [
+      "Tags / chips",
+      "Add & remove values",
+      "Structured input",
+      "Autocomplete support",
+      "HTML field sync",
+      "JSON export",
+      "CSV export",
+      "Editable tokens"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyChips.min.js + dist/TinyChips.min.css.",
+      "Optional pairing with TinyAutocomplete.",
+      "Fits tagging UIs and multi-value forms."
+    ],
+    "use_cases": [
+      "Tag editors",
+      "Recipient entry",
+      "Keyword capture",
+      "Metadata forms"
+    ],
+    "quickstart": {
+      "html": "<input id=\"topics\" type=\"text\" name=\"topics\">",
+      "js": "new TinyChips(\"#topics\", {\n  separator: \",\",\n  autocomplete: [\"UI\", \"JavaScript\", \"Design\"]\n});",
+      "css": ".tiny-chips { min-height: 48px; }"
+    },
+    "strengths": [
+      {
+        "title": "Make multi-value input visible",
+        "description": "Each tag becomes an easy-to-read, editable token."
+      },
+      {
+        "title": "Guide entry",
+        "description": "Autocomplete support can help users reuse known values."
+      },
+      {
+        "title": "Keep values portable",
+        "description": "HTML-field synchronization and JSON/CSV formats connect chip input to forms and APIs."
+      }
+    ]
+  },
+  "TinyDatePicker": {
+    "summary": "Flexible date selection for single dates or ranges, with inline, modal or permanent display modes.",
+    "badges": [
+      "Single / range",
+      "Inline / modal",
+      "Localized",
+      "Themed"
+    ],
+    "features": [
+      "Single date selection",
+      "Date range selection",
+      "Inline mode",
+      "Modal mode",
+      "Permanent mode",
+      "Month / year pickers",
+      "Event markers",
+      "Localization",
+      "Light / dark themes"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyDatePicker.min.js + dist/TinyDatePicker.min.css.",
+      "Optional event markers or disabled dates.",
+      "Fits booking, analytics and planning workflows."
+    ],
+    "use_cases": [
+      "Booking forms",
+      "Date filters",
+      "Scheduling forms",
+      "Reporting ranges"
+    ],
+    "quickstart": {
+      "html": "<input id=\"start-date\" type=\"text\" placeholder=\"Pick a date\">",
+      "js": "new TinyDatePicker(\"#start-date\", {\n  mode: \"range\",\n  theme: \"dark\"\n});",
+      "css": "#start-date { width: 260px; }"
+    },
+    "strengths": [
+      {
+        "title": "Select dates or ranges",
+        "description": "A single calendar can support precise dates and longer periods."
+      },
+      {
+        "title": "Fit the surrounding UI",
+        "description": "Inline, modal and permanent modes suit different screen layouts."
+      },
+      {
+        "title": "Offer contextual dates",
+        "description": "Event markers, localization and light/dark themes bring useful context to the picker."
+      }
+    ]
+  },
+  "tinyColorPicker": {
+    "summary": "A theme-aware color picker with presets, custom colors and CSS variable output for creative interfaces.",
+    "badges": [
+      "Palettes",
+      "Theme aware",
+      "CSS variables",
+      "Embeddable"
+    ],
+    "features": [
+      "Color selection",
+      "Custom colors",
+      "Palette presets",
+      "Light / dark themes",
+      "CSS variable output",
+      "Embeddable UI",
+      "TinySwal integration"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/tinyColorPicker.min.js + dist/tinyColorPicker.min.css.",
+      "Outputs values or CSS custom properties.",
+      "Fits editors, theme settings and design tools."
+    ],
+    "use_cases": [
+      "Theme settings",
+      "Brand color pickers",
+      "Editors",
+      "Design utilities"
+    ],
+    "quickstart": {
+      "html": "<div id=\"theme-color\"></div>",
+      "js": "new tinyColorPicker(\"#theme-color\", {\n  theme: \"dark\",\n  cssVar: \"--brand-color\"\n});",
+      "css": ":root { --brand-color: #5d90ff; }"
+    },
+    "strengths": [
+      {
+        "title": "Make choices visual",
+        "description": "The user can inspect and select colors rather than enter raw color codes."
+      },
+      {
+        "title": "Adapt to your theme",
+        "description": "Custom palettes and light/dark presentation support different applications."
+      },
+      {
+        "title": "Connect to UI styling",
+        "description": "CSS custom properties and embedded usage make selected colors useful elsewhere."
+      }
+    ]
+  },
+  "TinySignature": {
+    "summary": "Canvas-based signature capture with smooth Bézier strokes, mouse/touch input and PNG, JPEG or SVG export.",
+    "badges": [
+      "Canvas capture",
+      "Mouse & touch",
+      "Undo / redo",
+      "PNG / JPG / SVG"
+    ],
+    "features": [
+      "Signature capture",
+      "Smooth Bézier curves",
+      "Mouse support",
+      "Touch support",
+      "Undo / redo",
+      "Export PNG",
+      "Export JPEG",
+      "Export SVG",
+      "Import / export points"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinySignature.min.js + dist/TinySignature.min.css.",
+      "Exports raster images, SVG or raw points.",
+      "Fits approvals, contracts and onboarding flows."
+    ],
+    "use_cases": [
+      "Digital approvals",
+      "Checkout confirmation",
+      "Internal validation",
+      "Document signing"
+    ],
+    "quickstart": {
+      "html": "<div id=\"signature-pad\"></div>",
+      "js": "const signature = new TinySignature(\"#signature-pad\", {\n  width: 540,\n  height: 240\n});",
+      "css": "#signature-pad { max-width: 560px; }"
+    },
+    "strengths": [
+      {
+        "title": "Capture natural input",
+        "description": "Smooth Bézier strokes and mouse/touch support help create readable signatures."
+      },
+      {
+        "title": "Correct mistakes",
+        "description": "Undo and redo let users amend a signature without restarting their entire flow."
+      },
+      {
+        "title": "Export the result",
+        "description": "PNG, JPEG, SVG and point-data formats cover several storage and display needs."
+      }
+    ]
+  },
+  "TinyTabs": {
+    "summary": "Tabbed navigation for organizing dense content with active indicators, disabled tabs, swipe support and a selection API.",
+    "badges": [
+      "Accessible tabs",
+      "Keyboard support",
+      "Swipeable",
+      "Selection API"
+    ],
+    "features": [
+      "Tabbed navigation",
+      "Associated panels",
+      "Active tab indicator",
+      "Disabled tabs",
+      "Keyboard navigation",
+      "Swipeable touch mode",
+      "Selection API"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyTabs.min.js + dist/TinyTabs.min.css.",
+      "Works with semantic tab / panel markup.",
+      "Fits dashboards, settings and mobile content groups."
+    ],
+    "use_cases": [
+      "Dashboard sections",
+      "Settings panels",
+      "Detail pages",
+      "Mobile content groups"
+    ],
+    "quickstart": {
+      "html": "<div id=\"account-tabs\"></div>",
+      "js": "new TinyTabs(\"#account-tabs\", {\n  tabs: [\"Overview\", \"Members\", \"Billing\"]\n});",
+      "css": "#account-tabs { width: 100%; }"
+    },
+    "strengths": [
+      {
+        "title": "Organize complex screens",
+        "description": "Separate content into focused panels without moving to another page."
+      },
+      {
+        "title": "Support keyboard and touch",
+        "description": "Keyboard navigation and swipeable mode serve different input devices."
+      },
+      {
+        "title": "Control state from code",
+        "description": "A selection API makes tabs usable as part of a larger application workflow."
+      }
+    ]
+  },
+  "TinyDropdown": {
+    "summary": "Contextual dropdown menus with automatic positioning, viewport collision handling and keyboard navigation.",
+    "badges": [
+      "Auto positioning",
+      "Collision aware",
+      "Keyboard nav",
+      "Action menus"
+    ],
+    "features": [
+      "Contextual dropdowns",
+      "Automatic positioning",
+      "Viewport collision handling",
+      "Keyboard navigation",
+      "Typeahead search",
+      "Custom actions",
+      "Configurable triggers"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyDropdown.min.js + dist/TinyDropdown.min.css.",
+      "Uses a trigger plus menu items.",
+      "Fits toolbars, cards, forms and table row actions."
+    ],
+    "use_cases": [
+      "Action menus",
+      "Table row controls",
+      "Toolbar commands",
+      "Compact filters"
+    ],
+    "quickstart": {
+      "html": "<button id=\"actions-btn\">Actions</button>",
+      "js": "new TinyDropdown(\"#actions-btn\", {\n  items: [{ label: \"Edit\" }, { label: \"Archive\" }]\n});",
+      "css": "#actions-btn { min-width: 140px; }"
+    },
+    "strengths": [
+      {
+        "title": "Fit compact actions",
+        "description": "Contextual menus keep commands available without consuming permanent layout space."
+      },
+      {
+        "title": "Respect viewport edges",
+        "description": "Automatic positioning and collision handling reduce clipped menus."
+      },
+      {
+        "title": "Support quick selection",
+        "description": "Keyboard navigation and typeahead make larger option menus easier to use."
+      }
+    ]
+  },
+  "TinySideNav": {
+    "summary": "Side navigation and panel layouts for apps, with left/right placement, touch gestures, fixed modes and optional scroll locking.",
+    "badges": [
+      "Left or right",
+      "Animated",
+      "Touch gestures",
+      "Scroll lock"
+    ],
+    "features": [
+      "Left / right side navigation",
+      "Animated open / close",
+      "Touch gestures",
+      "Fixed navigation mode",
+      "Optional scroll lock",
+      "Overlay support",
+      "State callbacks"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinySideNav.min.js + dist/TinySideNav.min.css.",
+      "Uses a nav container plus trigger controls.",
+      "Fits dashboards, docs and app shells."
+    ],
+    "use_cases": [
+      "Dashboard navigation",
+      "Mobile drawers",
+      "Settings panels",
+      "Secondary navigation"
+    ],
+    "quickstart": {
+      "html": "<aside id=\"main-sidenav\"></aside>",
+      "js": "new TinySideNav(\"#main-sidenav\", {\n  position: \"left\",\n  lockScroll: true\n});",
+      "css": "#main-sidenav { width: 320px; }"
+    },
+    "strengths": [
+      {
+        "title": "Save screen space",
+        "description": "Overlay navigation keeps secondary information available only when needed."
+      },
+      {
+        "title": "Work on mobile",
+        "description": "Animated opening and touch gestures support smaller devices."
+      },
+      {
+        "title": "Control the backdrop",
+        "description": "Fixed modes and optional scroll locking help match app navigation patterns."
+      }
+    ]
+  },
+  "TinyCollapsible": {
+    "summary": "Expandable content sections and accordions with configurable animation, keyboard support and open/close callbacks.",
+    "badges": [
+      "Accordion mode",
+      "Smooth animations",
+      "Keyboard ready",
+      "Callbacks"
+    ],
+    "features": [
+      "Expandable sections",
+      "Collapsible sections",
+      "Accordion mode",
+      "Configurable animations",
+      "Open / closed state control",
+      "Callbacks",
+      "Keyboard support"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyCollapsible.min.js + dist/TinyCollapsible.min.css.",
+      "Uses trigger / content markup.",
+      "Fits FAQs, settings groups and docs."
+    ],
+    "use_cases": [
+      "FAQ blocks",
+      "Settings groups",
+      "Progressive disclosure",
+      "Compact documentation"
+    ],
+    "quickstart": {
+      "html": "<div id=\"faq-list\"></div>",
+      "js": "new TinyCollapsible(\"#faq-list\", {\n  accordion: true,\n  duration: 220\n});",
+      "css": "#faq-list { max-width: 720px; }"
+    },
+    "strengths": [
+      {
+        "title": "Reveal details progressively",
+        "description": "Collapsed panels reduce visual noise when information is secondary."
+      },
+      {
+        "title": "Build accordion flows",
+        "description": "Grouped panels can offer one-section-at-a-time interaction."
+      },
+      {
+        "title": "Tune the experience",
+        "description": "Animation settings, callbacks and keyboard controls support different UX needs."
+      }
+    ]
+  },
+  "TinyGroupButton": {
+    "summary": "Grouped button controls for toggles, segmented views and filter bars with single or multiple selection modes.",
+    "badges": [
+      "Grouped actions",
+      "Single / multi-select",
+      "Select all",
+      "Value sync"
+    ],
+    "features": [
+      "Grouped button selection",
+      "Checkbox-style states",
+      "Multiple choice",
+      "Select all option",
+      "Value synchronization",
+      "Change events",
+      "Compact controls"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyGroupButton.min.js + dist/TinyGroupButton.min.css.",
+      "Works from grouped buttons or generated options.",
+      "Fits filters, settings and segmented controls."
+    ],
+    "use_cases": [
+      "Filter toggles",
+      "View switchers",
+      "Segmented controls",
+      "Compact settings"
+    ],
+    "quickstart": {
+      "html": "<div id=\"view-switch\"></div>",
+      "js": "new TinyGroupButton(\"#view-switch\", {\n  multiple: false,\n  options: [\"Day\", \"Week\", \"Month\"]\n});",
+      "css": "#view-switch { width: fit-content; }"
+    },
+    "strengths": [
+      {
+        "title": "Group related decisions",
+        "description": "Keep related toggles in one compact control."
+      },
+      {
+        "title": "Handle one or many values",
+        "description": "Choice modes and select-all behavior serve filters and configuration screens."
+      },
+      {
+        "title": "Keep state in sync",
+        "description": "Value synchronization and change events connect the group to the rest of the UI."
+      }
+    ]
+  },
+  "TinyGallery": {
+    "summary": "Responsive image galleries with uploads, drag-and-drop, reordering, undo and optional TinyLightbox integration.",
+    "badges": [
+      "Responsive gallery",
+      "Drag & drop",
+      "Undo removal",
+      "Lightbox ready"
+    ],
+    "features": [
+      "Responsive galleries",
+      "Multiple file add",
+      "Drag-and-drop upload",
+      "Reordering",
+      "Remove with undo",
+      "File validation",
+      "Edit callbacks",
+      "TinyLightbox integration"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyGallery.min.js + dist/TinyGallery.min.css.",
+      "Optional pairing with TinyLightbox.",
+      "Fits CMS screens, product galleries and media managers."
+    ],
+    "use_cases": [
+      "CMS media libraries",
+      "Product galleries",
+      "Portfolio uploads",
+      "Visual asset managers"
+    ],
+    "quickstart": {
+      "html": "<div id=\"portfolio-gallery\"></div>",
+      "js": "new TinyGallery(\"#portfolio-gallery\", {\n  reorderable: true,\n  lightbox: true\n});",
+      "css": "#portfolio-gallery { min-height: 320px; }"
+    },
+    "strengths": [
+      {
+        "title": "Manage collections visually",
+        "description": "Responsive gallery layouts help users browse groups of media."
+      },
+      {
+        "title": "Edit the collection",
+        "description": "Adding files, dragging to reorder and undoing removals support everyday workflows."
+      },
+      {
+        "title": "Inspect media in detail",
+        "description": "TinyLightbox integration provides a path from thumbnail to focused viewing."
+      }
+    ]
+  },
+  "TinyLightbox": {
+    "summary": "A fullscreen media viewer with next/previous navigation, zoom, pan, touch gestures and captions.",
+    "badges": [
+      "Fullscreen viewer",
+      "Zoom & pan",
+      "Touch gestures",
+      "Keyboard shortcuts"
+    ],
+    "features": [
+      "Fullscreen viewing",
+      "Next / previous navigation",
+      "Zoom",
+      "Pan",
+      "Touch gestures",
+      "Keyboard shortcuts",
+      "Configurable transitions",
+      "Caption support"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyLightbox.min.js + dist/TinyLightbox.min.css.",
+      "Works with image lists or TinyGallery collections.",
+      "Fits product media, portfolios and screenshot viewers."
+    ],
+    "use_cases": [
+      "Product detail views",
+      "Portfolio showcases",
+      "Screenshot viewers",
+      "Photo collections"
+    ],
+    "quickstart": {
+      "html": "<div class=\"gallery\"><a href=\"image-1.jpg\">View image</a></div>",
+      "js": "new TinyLightbox(\".gallery\", {\n  captions: true,\n  zoom: true\n});",
+      "css": ".gallery a { display: inline-flex; }"
+    },
+    "strengths": [
+      {
+        "title": "Focus on imagery",
+        "description": "Fullscreen viewing gives media a dedicated, distraction-free presentation."
+      },
+      {
+        "title": "Inspect fine detail",
+        "description": "Zoom and pan support more than simple next/previous navigation."
+      },
+      {
+        "title": "Navigate naturally",
+        "description": "Touch gestures, keyboard shortcuts and captions work across device types."
+      }
+    ]
+  },
+  "TinyCarousel": {
+    "summary": "Configurable carousels for media or content, with 3D effects, indicators, progress bars and responsive layouts.",
+    "badges": [
+      "Content or media",
+      "3D animations",
+      "Indicators",
+      "Responsive"
+    ],
+    "features": [
+      "Image or content carousel",
+      "3D animations",
+      "Full-width mode",
+      "Multiple visible slides",
+      "Arrow controls",
+      "Indicators",
+      "Progress bar",
+      "Responsive settings"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyCarousel.min.js + dist/TinyCarousel.min.css.",
+      "Works with slides of any content type.",
+      "Fits marketing sites, onboarding flows and showcases."
+    ],
+    "use_cases": [
+      "Homepage showcases",
+      "Image sliders",
+      "Onboarding sequences",
+      "Feature highlights"
+    ],
+    "quickstart": {
+      "html": "<div id=\"hero-carousel\"></div>",
+      "js": "new TinyCarousel(\"#hero-carousel\", {\n  autoplay: false,\n  visibleSlides: 1\n});",
+      "css": "#hero-carousel { width: 100%; }"
+    },
+    "strengths": [
+      {
+        "title": "Present a sequence clearly",
+        "description": "Arrows, indicators and progress feedback help visitors understand slide position."
+      },
+      {
+        "title": "Tune visual energy",
+        "description": "Configurable 3D animations and full-width layouts support different styles."
+      },
+      {
+        "title": "Adapt to viewport width",
+        "description": "Responsive options and multiple visible slides work for different screen sizes."
+      }
+    ]
+  },
+  "TinySwal": {
+    "summary": "Polished dialogs, alerts, confirmations and toasts with theming, async validation, timers and draggable windows.",
+    "badges": [
+      "Dialogs & toasts",
+      "Async validation",
+      "Timers",
+      "Draggable"
+    ],
+    "features": [
+      "Modals",
+      "Alerts",
+      "Confirmations",
+      "Toasts",
+      "Embedded forms",
+      "Async validation",
+      "Timers",
+      "Progress bars",
+      "Draggable windows",
+      "Custom themes"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinySwal.min.js + dist/TinySwal.min.css.",
+      "Can embed custom form markup or controls.",
+      "Fits feedback, confirmation and async save flows."
+    ],
+    "use_cases": [
+      "Confirmations",
+      "Toast notifications",
+      "Prompt dialogs",
+      "Async save flows"
+    ],
+    "quickstart": {
+      "html": "<button id=\"delete-btn\">Delete item</button>",
+      "js": "document.querySelector(\"#delete-btn\").addEventListener(\"click\", () => {\n  TinySwal.fire({ title: \"Delete item?\", confirmButtonText: \"Confirm\" });\n});",
+      "css": "#delete-btn { min-width: 180px; }"
+    },
+    "strengths": [
+      {
+        "title": "Upgrade feedback",
+        "description": "Alerts, confirmations and toasts share a consistent visual language."
+      },
+      {
+        "title": "Support richer workflows",
+        "description": "Embedded forms and asynchronous validation go beyond basic alert dialogs."
+      },
+      {
+        "title": "Fit different contexts",
+        "description": "Timers, progress indicators, dragging and themes offer flexible presentation."
+      }
+    ]
+  },
+  "TinyInlineEditor": {
+    "summary": "Inline editing for text content with rich toolbar controls, HTML formatting and optional autosave.",
+    "badges": [
+      "In-place editing",
+      "Rich toolbar",
+      "Formatting",
+      "Autosave"
+    ],
+    "features": [
+      "Inline text editing",
+      "Rich toolbar",
+      "HTML formatting",
+      "Links",
+      "Lists",
+      "Color controls",
+      "Multiple editors",
+      "Optional autosave"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyInlineEditor.min.js + dist/TinyInlineEditor.min.css.",
+      "Works on text blocks and editable content areas.",
+      "Fits CMS, notes and admin content editing."
+    ],
+    "use_cases": [
+      "CMS editing",
+      "Knowledge bases",
+      "Notes interfaces",
+      "Admin copy updates"
+    ],
+    "quickstart": {
+      "html": "<div id=\"article-intro\">Click to edit this content.</div>",
+      "js": "new TinyInlineEditor(\"#article-intro\", {\n  toolbar: true,\n  autosave: true\n});",
+      "css": "#article-intro { min-height: 120px; }"
+    },
+    "strengths": [
+      {
+        "title": "Edit without changing context",
+        "description": "Users can update displayed content directly where they read it."
+      },
+      {
+        "title": "Go beyond plain text",
+        "description": "Toolbar actions, links, lists, colors and HTML formatting cover richer documents."
+      },
+      {
+        "title": "Manage several editing areas",
+        "description": "Independent editors and optional autosave suit content-management screens."
+      }
+    ]
+  },
+  "TinySortableList": {
+    "summary": "Reorderable lists with drag-and-drop, mouse, touch, stylus and keyboard support, even for dynamic content.",
+    "badges": [
+      "Drag & drop",
+      "Mouse / touch / pen",
+      "Keyboard move",
+      "Dynamic items"
+    ],
+    "features": [
+      "Drag-and-drop reordering",
+      "Mouse support",
+      "Touch support",
+      "Pen support",
+      "Keyboard reordering",
+      "Dynamic item support",
+      "Order callbacks"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinySortableList.min.js + dist/TinySortableList.min.css.",
+      "Works with list items or card stacks.",
+      "Fits task ordering, settings and prioritization UIs."
+    ],
+    "use_cases": [
+      "Task prioritization",
+      "Custom ordering",
+      "Playlist management",
+      "Settings arrangement"
+    ],
+    "quickstart": {
+      "html": "<ul id=\"task-order\"><li>Backlog</li><li>In progress</li><li>Done</li></ul>",
+      "js": "new TinySortableList(\"#task-order\", {\n  handle: null,\n  keyboard: true\n});",
+      "css": "#task-order { max-width: 420px; }"
+    },
+    "strengths": [
+      {
+        "title": "Manipulate ordering directly",
+        "description": "Drag-and-drop makes prioritization and ordering easy to understand."
+      },
+      {
+        "title": "Support multiple input devices",
+        "description": "Mouse, touch, stylus and keyboard interactions widen usability."
+      },
+      {
+        "title": "Handle evolving lists",
+        "description": "Items added dynamically can be included in reordering flows."
+      }
+    ]
+  },
+  "TinyT": {
+    "summary": "A lightweight JavaScript template engine with expressions, conditions, loops, nested templates and DOM rendering.",
+    "badges": [
+      "Template engine",
+      "Conditions & loops",
+      "DOM rendering",
+      "Optional jQuery"
+    ],
+    "features": [
+      "Dynamic expressions",
+      "Conditional rendering",
+      "Loops",
+      "Nested reusable templates",
+      "Utility functions",
+      "DOM rendering",
+      "Global configuration",
+      "Optional jQuery integration"
+    ],
+    "dependencies": [
+      "Standalone JavaScript runtime.",
+      "dist/TinyT.min.js.",
+      "Optional jQuery integration, not required.",
+      "Fits widgets, dashboards and lightweight apps."
+    ],
+    "use_cases": [
+      "Template rendering",
+      "Widget generation",
+      "Static hydration",
+      "Lightweight JS apps"
+    ],
+    "quickstart": {
+      "html": "<div id=\"users-view\"></div>",
+      "js": "const tpl = `<ul>{{#each users}}<li>{{name}}</li>{{/each}}</ul>`;\nTinyT.render(\"#users-view\", tpl, { users });",
+      "css": "#users-view ul { margin: 0; padding-left: 18px; }"
+    },
+    "strengths": [
+      {
+        "title": "Render dynamic content",
+        "description": "Expressions and DOM rendering add data-driven output to lightweight pages."
+      },
+      {
+        "title": "Keep templates expressive",
+        "description": "Conditions, loops and nested templates support repeated UI structures."
+      },
+      {
+        "title": "Choose your integration",
+        "description": "The engine supports utility functions and an optional jQuery integration."
+      }
+    ]
+  }
+}

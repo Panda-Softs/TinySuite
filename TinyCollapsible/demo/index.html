@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TinyCollapsible Demo</title>
+  <link rel="stylesheet" href="../dist/TinyCollapsible.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172033;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 32rem),
+        linear-gradient(135deg, #f8fafc, #eef2ff 70%, #f8fafc);
+    }
+    main { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 80px; }
+    .hero { display: grid; grid-template-columns: 1.2fr .8fr; gap: 32px; align-items: center; margin-bottom: 32px; }
+    .eyebrow { display: inline-flex; padding: 6px 10px; border-radius: 999px; color: #155eef; background: #dbeafe; font-weight: 700; font-size: 13px; }
+    h1 { margin: 16px 0 12px; font-size: clamp(2rem, 6vw, 4.2rem); line-height: .95; letter-spacing: -0.055em; }
+    .lead { max-width: 720px; color: #475569; font-size: 1.08rem; }
+    .hero-panel { padding: 22px; border: 1px solid rgba(15,23,42,.08); border-radius: 28px; background: rgba(255,255,255,.72); box-shadow: 0 24px 80px rgba(15,23,42,.14); backdrop-filter: blur(14px); }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 22px; }
+    .card { padding: 22px; border: 1px solid rgba(15,23,42,.08); border-radius: 24px; background: rgba(255,255,255,.86); box-shadow: 0 18px 50px rgba(15,23,42,.08); }
+    .card.wide { grid-column: 1 / -1; }
+    .card h2 { margin: 0 0 8px; letter-spacing: -0.025em; }
+    .card p { color: #64748b; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 15px; border: 0; border-radius: 12px; color: #fff; background: #2563eb; box-shadow: 0 10px 24px rgba(37,99,235,.24); font: inherit; font-weight: 700; cursor: pointer; }
+    .btn:hover { filter: brightness(.97); }
+    .btn.secondary { color: #172033; background: #e2e8f0; box-shadow: none; }
+    .btn.danger { background: #dc2626; box-shadow: 0 10px 24px rgba(220,38,38,.18); }
+    pre { margin: 16px 0 0; padding: 16px; overflow: auto; color: #e5e7eb; background: #0f172a; border-radius: 16px; font-size: 13px; line-height: 1.5; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .demo-note { padding: 12px 14px; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; }
+    .log { min-height: 44px; margin-top: 12px; padding: 12px; color: #475569; background: #f1f5f9; border-radius: 12px; }
+    .split { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start; }
+    .side-demo { max-height: 560px; overflow: auto; padding: 14px; border-radius: 20px; background: #f8fafc; border: 1px solid #e2e8f0; }
+    .preview { min-height: 560px; padding: 24px; border-radius: 20px; background: linear-gradient(135deg,#eff6ff,#fff); border: 1px solid #dbeafe; }
+    .sidenav-list { margin: 0; padding: 0; list-style: none; }
+    .sidenav-list > li { list-style: none; }
+    .badge { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; padding: 0 8px; border-radius: 999px; color: #155eef; background: #dbeafe; font-size: 12px; font-weight: 800; }
+    .avatar { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; background: #dbeafe; color: #155eef; font-size: 12px; font-weight: 800; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .stat { padding: 16px; border-radius: 18px; background: rgba(255,255,255,.8); border: 1px solid rgba(15,23,42,.08); }
+    .stat strong { display: block; font-size: 1.6rem; }
+    @media (max-width: 860px) { .hero, .split { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Vanilla JS · CSS transition · menu controller</span>
+      <h1>TinyCollapsible</h1>
+      <p class="lead">A dependency-free collapsible component that keeps Materialize-style markup, removes jQuery/anime.js, and adds a dedicated menu controller for side menus with many collapsibles.</p>
+      <div class="toolbar">
+        <button class="btn" type="button" id="expand-menu">Expand menu</button>
+        <button class="btn secondary" type="button" id="close-menu">Close menu</button>
+        <button class="btn secondary" type="button" id="expand-active">Expand active path</button>
+      </div>
+    </div>
+    <div class="hero-panel">
+      <div class="stats">
+        <div class="stat"><strong>0</strong><span>jQuery</span></div>
+        <div class="stat"><strong>2</strong><span>Classes</span></div>
+        <div class="stat"><strong>CSS</strong><span>Animation</span></div>
+      </div>
+      <p class="demo-note">Use <code>TinyCollapsible</code> for one accordion. Use <code>TinyCollapsibleMenu</code> to control a whole menu.</p>
+    </div>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>1. Basic accordion</h2>
+      <p>One open item per instance.</p>
+      <ul id="basic" class="collapsible tiny-collapsible--card">
+        <li class="active">
+          <button type="button" class="collapsible-header"><span class="title">Account</span><i class="chevron"></i></button>
+          <div class="collapsible-body"><p>Profile, billing and account settings.</p></div>
+        </li>
+        <li>
+          <button type="button" class="collapsible-header"><span class="title">Security</span><i class="chevron"></i></button>
+          <div class="collapsible-body"><p>Password, sessions and two-factor authentication.</p></div>
+        </li>
+        <li>
+          <button type="button" class="collapsible-header"><span class="title">Notifications</span><i class="chevron"></i></button>
+          <div class="collapsible-body"><p>Email, SMS and push notification preferences.</p></div>
+        </li>
+      </ul>
+      <pre>new TinyCollapsible('#basic', {
+  accordion: true
+});</pre>
+    </article>
+
+    <article class="card">
+      <h2>2. Expandable mode</h2>
+      <p>Several sections can stay open at the same time.</p>
+      <ul id="expandable" class="collapsible tiny-collapsible--card">
+        <li>
+          <button type="button" class="collapsible-header"><span class="title">Planning</span><i class="chevron"></i></button>
+          <div class="collapsible-body"><p>Define scope, constraints and expected output.</p></div>
+        </li>
+        <li>
+          <button type="button" class="collapsible-header"><span class="title">Build</span><i class="chevron"></i></button>
+          <div class="collapsible-body"><p>Implement the component and API.</p></div>
+        </li>
+        <li>
+          <button type="button" class="collapsible-header"><span class="title">Validate</span><i class="chevron"></i></button>
+          <div class="collapsible-body"><p>Test keyboard, callbacks and nested menu behavior.</p></div>
+        </li>
+      </ul>
+      <div class="toolbar">
+        <button class="btn secondary" type="button" id="expandable-open-all">Open all</button>
+        <button class="btn secondary" type="button" id="expandable-close-all">Close all</button>
+      </div>
+      <pre>const expandable = new TinyCollapsible('#expandable', {
+  accordion: false
+});
+
+expandable.openAll();
+expandable.closeAll();</pre>
+    </article>
+
+    <article class="card">
+      <h2>3. Callbacks</h2>
+      <p>Callbacks can veto opening/closing by returning <code>false</code>.</p>
+      <ul id="callbacks" class="collapsible tiny-collapsible--card">
+        <li>
+          <button type="button" class="collapsible-header"><span class="title">Open me</span><i class="chevron"></i></button>
+          <div class="collapsible-body"><p>This section logs lifecycle events.</p></div>
+        </li>
+        <li class="disabled">
+          <button type="button" class="collapsible-header"><span class="title">Disabled</span><i class="chevron"></i></button>
+          <div class="collapsible-body"><p>This should not open.</p></div>
+        </li>
+      </ul>
+      <div id="callback-log" class="log">No event yet.</div>
+      <pre>new TinyCollapsible('#callbacks', {
+  onOpenStart(item, index) {},
+  onOpenEnd(item, index) {},
+  onCloseStart(item, index) {},
+  onCloseEnd(item, index) {}
+});</pre>
+    </article>
+
+    <article class="card">
+      <h2>4. Keyboard</h2>
+      <p>Focus a header and use Enter, Space, Arrow Up/Down, Home and End.</p>
+      <ul id="keyboard" class="collapsible tiny-collapsible--card">
+        <li><a class="collapsible-header"><span class="title">Alpha</span><i class="chevron"></i></a><div class="collapsible-body"><p>First body.</p></div></li>
+        <li><a class="collapsible-header"><span class="title">Beta</span><i class="chevron"></i></a><div class="collapsible-body"><p>Second body.</p></div></li>
+        <li><a class="collapsible-header"><span class="title">Gamma</span><i class="chevron"></i></a><div class="collapsible-body"><p>Third body.</p></div></li>
+      </ul>
+      <pre>new TinyCollapsible('#keyboard');</pre>
+    </article>
+
+    <article class="card wide">
+      <h2>5. Full menu controller</h2>
+      <p>This mirrors your menu use case: many independent <code>.collapsible</code> blocks inside one side menu. The controller can expand all, close all, expand to an active product, or set a new active link.</p>
+      <div class="toolbar">
+        <button class="btn" type="button" id="menu-expand-all">Expand all</button>
+        <button class="btn secondary" type="button" id="menu-close-all">Close all</button>
+        <button class="btn secondary" type="button" id="menu-expand-kayak">Open “Kayak”</button>
+        <button class="btn secondary" type="button" id="menu-set-active">Set active product 8</button>
+      </div>
+      <div class="split">
+        <aside class="side-demo tiny-collapsible-menu">
+          <ul id="product_menu" class="sidenav-list has-chevron no-autoinit" role="list">
+            <li class="no-padding">
+              <ul class="collapsible collapsible-accordion">
+                <li class="active">
+                  <a class="collapsible-header" data-category-id="21"><span class="title">Bateau électrique</span><span class="badge">1</span><i class="chevron"></i></a>
+                  <div class="collapsible-body"><ul><li><a href="?id=77" data-product-id="77" class="active"><span class="avatar">EB</span><span class="title">E-BOAT</span></a></li></ul></div>
+                </li>
+              </ul>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header" data-category-id="18"><span class="title">Bateaux avec permis | Type 2</span><span class="badge">2</span><i class="chevron"></i></a>
+                  <div class="collapsible-body"><ul><li><a href="?id=8" data-product-id="8"><span class="avatar">L</span><span class="title">Lomac 560 10p</span></a></li><li><a href="?id=7" data-product-id="7"><span class="avatar">U</span><span class="title">US Diamond 8p</span></a></li></ul></div>
+                </li>
+              </ul>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header" data-category-id="19"><span class="title">Kayak biplace/mer</span><span class="badge">4</span><i class="chevron"></i></a>
+                  <div class="collapsible-body"><ul><li><a href="?id=54" data-product-id="54"><span class="avatar">B</span><span class="title">BIWOK KAYAK 2P MER</span></a></li><li><a href="?id=55" data-product-id="55"><span class="avatar">D</span><span class="title">DUETTO</span></a></li><li><a href="?id=53" data-product-id="53"><span class="avatar">M</span><span class="title">MIWOK HI-LUXE</span></a></li><li><a href="?id=56" data-product-id="56"><span class="avatar">O</span><span class="title">OCEAN QUATRO</span></a></li></ul></div>
+                </li>
+              </ul>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header" data-category-id="4"><span class="title">Kayaks</span><span class="badge">5</span><i class="chevron"></i></a>
+                  <div class="collapsible-body"><ul><li><a href="?id=52" data-product-id="52"><span class="avatar">M</span><span class="title">KAYAK 1P MIDWAY</span></a></li><li><a href="?id=57" data-product-id="57"><span class="avatar">V</span><span class="title">KAYAK 1P VERSO</span></a></li><li><a href="?id=46" data-product-id="46"><span class="avatar">D</span><span class="title">KAYAK DISCO+</span></a></li><li><a href="?id=58" data-product-id="58"><span class="avatar">T</span><span class="title">KAYAK TEMPO</span></a></li><li><a href="?id=67" data-product-id="67"><span class="avatar">M</span><span class="title">Mambo</span></a></li></ul></div>
+                </li>
+              </ul>
+            </li>
+            <li class="no-padding">
+              <ul class="collapsible collapsible-accordion">
+                <li>
+                  <a class="collapsible-header" data-category-id="3"><span class="title">Stand Up Paddles gonflables</span><span class="badge">6</span><i class="chevron"></i></a>
+                  <div class="collapsible-body"><ul><li><a href="?id=3" data-product-id="3"><span class="avatar">10</span><span class="title">10’6″ iSUP</span></a></li><li><a href="?id=4" data-product-id="4"><span class="avatar">R</span><span class="title">10’6″ RIDE MSL SUP</span></a></li><li><a href="?id=136" data-product-id="136"><span class="avatar">A</span><span class="title">Activ</span></a></li><li><a href="?id=149" data-product-id="149"><span class="avatar">A</span><span class="title">Anomy David de ramon</span></a></li><li><a href="?id=85" data-product-id="85"><span class="avatar">L</span><span class="title">LARA COSTAFREDA</span></a></li><li><a href="?id=135" data-product-id="135"><span class="avatar">Y</span><span class="title">Yoann Fournier</span></a></li></ul></div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </aside>
+        <section class="preview">
+          <h3>Menu API</h3>
+          <p>The menu controller owns every nested collapsible instance. It is designed for side menus like your product menu.</p>
+          <pre>const productMenu = new TinyCollapsibleMenu('#product_menu', {
+  accordion: true
+});
+
+productMenu.expandAll();
+productMenu.closeAll();
+productMenu.expandUntil(document.querySelector('[data-product-id="77"]'));
+productMenu.setActiveLink('[data-product-id="8"]');
+productMenu.openByHeaderText('Kayak');</pre>
+        </section>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script src="../dist/TinyCollapsible.min.js"></script>
+<script>
+  new TinyCollapsible('#basic', { accordion: true });
+
+  const expandable = new TinyCollapsible('#expandable', { accordion: false });
+  document.querySelector('#expandable-open-all').addEventListener('click', () => expandable.openAll());
+  document.querySelector('#expandable-close-all').addEventListener('click', () => expandable.closeAll());
+
+  const callbackLog = document.querySelector('#callback-log');
+  new TinyCollapsible('#callbacks', {
+    onOpenStart(item, index) { callbackLog.textContent = `Opening item ${index + 1}: ${item.textContent.trim()}`; },
+    onOpenEnd(item, index) { callbackLog.textContent = `Opened item ${index + 1}`; },
+    onCloseStart(item, index) { callbackLog.textContent = `Closing item ${index + 1}`; },
+    onCloseEnd(item, index) { callbackLog.textContent = `Closed item ${index + 1}`; }
+  });
+
+  new TinyCollapsible('#keyboard');
+
+  const productMenu = new TinyCollapsibleMenu('#product_menu', { accordion: true }, {
+    expandActivePathOnInit: true,
+    scrollIntoView: false
+  });
+
+  document.querySelector('#expand-menu').addEventListener('click', () => productMenu.expandAll());
+  document.querySelector('#close-menu').addEventListener('click', () => productMenu.closeAll());
+  document.querySelector('#expand-active').addEventListener('click', () => productMenu.expandActivePath());
+  document.querySelector('#menu-expand-all').addEventListener('click', () => productMenu.expandAll());
+  document.querySelector('#menu-close-all').addEventListener('click', () => productMenu.closeAll());
+  document.querySelector('#menu-expand-kayak').addEventListener('click', () => productMenu.openByHeaderText('Kayak'));
+  document.querySelector('#menu-set-active').addEventListener('click', () => productMenu.setActiveLink('[data-product-id="8"]', { scrollIntoView: true }));
+</script>
+</body>
+</html>

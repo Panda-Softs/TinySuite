@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TinySideNav Complete Demo</title>
+  <link rel="stylesheet" href="../dist/TinySideNav.min.css">
+  <style>
+    :root {
+      --page-bg: #f6f7f9;
+      --card-bg: #fff;
+      --border: #dbe1ea;
+      --muted: #667085;
+      --code-bg: #111827;
+      --code-color: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      background: var(--page-bg);
+      color: #1f2937;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+    }
+
+    h1 { margin: 0 0 8px; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; }
+    h2 { margin: 0 0 12px; }
+    h3 { margin: 0 0 8px; }
+    p { margin: 0 0 16px; color: var(--muted); }
+
+    .hero {
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--card-bg);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .button,
+    .sidenav-trigger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background: #fff;
+      color: #111827;
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .button:hover,
+    .sidenav-trigger:hover,
+    .button:focus-visible,
+    .sidenav-trigger:focus-visible {
+      background: #eef2ff;
+      outline: 2px solid #6366f1;
+      outline-offset: 2px;
+    }
+
+    pre {
+      max-width: 100%;
+      overflow: auto;
+      margin: 14px 0 0;
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--code-bg);
+      color: var(--code-color);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+    .brand {
+      padding: 24px;
+      font-size: 18px;
+      font-weight: 800;
+      border-bottom: 1px solid #e5e7eb;
+      background: #f8fafc;
+    }
+
+    .sidenav-section-title {
+      padding: 18px 24px 8px;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .log-box {
+      min-height: 70px;
+      padding: 12px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      background: #f8fafc;
+      color: #475467;
+      font-size: 14px;
+    }
+
+    #custom-nav {
+      --tiny-sidenav-width: 360px;
+      --tiny-sidenav-bg: #111827;
+      --tiny-sidenav-color: #f9fafb;
+      --tiny-sidenav-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    #custom-nav .brand,
+    #custom-nav li > a:hover,
+    #custom-nav li > button:hover {
+      background: rgba(255,255,255,.08);
+    }
+
+    #custom-nav .brand { border-bottom-color: rgba(255,255,255,.12); }
+  </style>
+</head>
+<body>
+  <aside id="left-nav" class="sidenav" aria-label="Left navigation">
+    <div class="brand">Left SideNav</div>
+    <ul>
+      <li class="sidenav-section-title">Main</li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#settings">Settings</a></li>
+      <li><button type="button" class="sidenav-close">Close</button></li>
+    </ul>
+  </aside>
+
+  <aside id="right-nav" class="sidenav" aria-label="Right navigation">
+    <div class="brand">Right SideNav</div>
+    <ul>
+      <li class="sidenav-section-title">Account</li>
+      <li><a href="#profile">Profile</a></li>
+      <li><a href="#billing">Billing</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><button type="button" class="sidenav-close">Close</button></li>
+    </ul>
+  </aside>
+
+  <aside id="no-drag-nav" class="sidenav" aria-label="No drag navigation">
+    <div class="brand">No Drag</div>
+    <ul>
+      <li><a href="#one">Swipe disabled</a></li>
+      <li><a href="#two">Overlay still works</a></li>
+      <li><button type="button" class="sidenav-close">Close</button></li>
+    </ul>
+  </aside>
+
+  <aside id="custom-nav" class="sidenav" aria-label="Custom styled navigation">
+    <div class="brand">Custom Styled</div>
+    <ul>
+      <li><a href="#theme">CSS variables</a></li>
+      <li><a href="#callbacks">Callbacks</a></li>
+      <li><a href="#api">API opening</a></li>
+      <li><button type="button" class="sidenav-close">Close</button></li>
+    </ul>
+  </aside>
+
+  <main>
+    <section class="hero">
+      <h1>TinySideNav Complete Demo</h1>
+      <p>Pure JavaScript sidenav with overlay, left/right edges, triggers, API control, callbacks, close buttons, swipe support, body scroll lock, and CSS variable customization.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>1. Basic left sidenav</h2>
+        <p>Default left edge, draggable, overlay click close, and body scroll prevention.</p>
+        <div class="actions">
+          <a class="sidenav-trigger" href="#left-nav">Open with trigger</a>
+          <button type="button" class="button" id="open-left-api">Open with API</button>
+          <button type="button" class="button" id="close-left-api">Close with API</button>
+        </div>
+        <pre><code>const left = new TinySideNav('#left-nav', {
+  edge: 'left',
+  draggable: true,
+  preventScrolling: true
+});</code></pre>
+      </article>
+
+      <article class="card">
+        <h2>2. Right sidenav</h2>
+        <p>Same component, right edge. The trigger uses <code>data-target</code>.</p>
+        <div class="actions">
+          <a class="sidenav-trigger" data-target="right-nav" href="#right-nav">Open with trigger</a>
+          <button type="button" class="button" id="open-right-api">Open with API</button>
+        </div>
+        <pre><code>const right = new TinySideNav('#right-nav', {
+  edge: 'right',
+  inDuration: 300,
+  outDuration: 180
+});</code></pre>
+      </article>
+
+      <article class="card">
+        <h2>3. Draggable disabled</h2>
+        <p>Useful when horizontal gestures conflict with another component.</p>
+        <div class="actions">
+          <a class="sidenav-trigger" href="#no-drag-nav">Open no-drag nav</a>
+        </div>
+        <pre><code>const noDrag = new TinySideNav('#no-drag-nav', {
+  draggable: false
+});</code></pre>
+      </article>
+
+      <article class="card">
+        <h2>4. Custom style + callbacks</h2>
+        <p>Uses CSS variables and logs lifecycle callbacks.</p>
+        <div class="actions">
+          <a class="sidenav-trigger" href="#custom-nav">Open custom nav</a>
+          <button type="button" class="button" id="clear-log">Clear log</button>
+        </div>
+        <div class="log-box" id="callback-log">Callback log appears here.</div>
+        <pre><code>const custom = new TinySideNav('#custom-nav', {
+  edge: 'left',
+  onOpenStart: logCallback,
+  onOpenEnd: logCallback,
+  onCloseStart: logCallback,
+  onCloseEnd: logCallback
+});</code></pre>
+      </article>
+
+      <article class="card">
+        <h2>5. Batch initialization</h2>
+        <p>Use this when multiple sidenavs should share the same options.</p>
+        <pre><code>const instances = TinySideNav.init('.sidenav', {
+  draggable: true,
+  preventScrolling: true
+});</code></pre>
+      </article>
+
+      <article class="card">
+        <h2>6. Available options</h2>
+        <pre><code>{
+  edge: 'left',
+  draggable: true,
+  inDuration: 250,
+  outDuration: 200,
+  onOpenStart: null,
+  onOpenEnd: null,
+  onCloseStart: null,
+  onCloseEnd: null,
+  preventScrolling: true
+}</code></pre>
+      </article>
+    </section>
+  </main>
+
+  <script src="../dist/TinySideNav.min.js"></script>
+  <script>
+    const logBox = document.querySelector('#callback-log');
+
+    const writeLog = (message) => {
+      const time = new Date().toLocaleTimeString();
+      logBox.textContent = `[${time}] ${message}\n` + logBox.textContent;
+    };
+
+    const left = new TinySideNav('#left-nav', {
+      edge: 'left',
+      draggable: true,
+      preventScrolling: true
+    });
+
+    const right = new TinySideNav('#right-nav', {
+      edge: 'right',
+      draggable: true,
+      inDuration: 300,
+      outDuration: 180
+    });
+
+    const noDrag = new TinySideNav('#no-drag-nav', {
+      draggable: false
+    });
+
+    const custom = new TinySideNav('#custom-nav', {
+      edge: 'left',
+      draggable: true,
+      onOpenStart(el) {
+        writeLog(`${el.id}: onOpenStart`);
+      },
+      onOpenEnd(el) {
+        writeLog(`${el.id}: onOpenEnd`);
+      },
+      onCloseStart(el) {
+        writeLog(`${el.id}: onCloseStart`);
+      },
+      onCloseEnd(el) {
+        writeLog(`${el.id}: onCloseEnd`);
+      }
+    });
+
+    document.querySelector('#open-left-api').addEventListener('click', () => left.open());
+    document.querySelector('#close-left-api').addEventListener('click', () => left.close());
+    document.querySelector('#open-right-api').addEventListener('click', () => right.open());
+    document.querySelector('#clear-log').addEventListener('click', () => {
+      logBox.textContent = 'Callback log cleared.';
+    });
+  </script>
+</body>
+</html>

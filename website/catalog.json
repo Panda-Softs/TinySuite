@@ -1,0 +1,202 @@
+[
+  {
+    "name": "TinyDataTable",
+    "slug": "tiny-data-table",
+    "category": "Data & Scheduling",
+    "description": "Feature-rich data tables with sorting, filtering and pagination.",
+    "icon": "table",
+    "demo": "demo.html",
+    "body": "A powerful, flexible table component for complex data-heavy interfaces.",
+    "featured_features": "Advanced data tables, column sorting, global search, filtering, pagination, row selection, dynamic grouping, child rows, aggregations, and AJAX data loading."
+  },
+  {
+    "name": "TinyScheduler",
+    "slug": "tiny-scheduler",
+    "category": "Data & Scheduling",
+    "description": "Interactive calendars and resource scheduling.",
+    "icon": "calendar",
+    "demo": "demo/demo.html",
+    "body": "Build flexible scheduling experiences with a dedicated JavaScript component.",
+    "featured_features": "Calendar views for month, week, day, and list; resource scheduling, timeline views, event management, conflict detection, and interactive planning."
+  },
+  {
+    "name": "TinyAutocomplete",
+    "slug": "tiny-autocomplete",
+    "category": "Forms & Inputs",
+    "description": "Fast, configurable suggestion lists for inputs.",
+    "icon": "search",
+    "demo": "demo/demo.html",
+    "body": "Make text inputs more efficient with suggestions and configurable options.",
+    "featured_features": "Autocomplete suggestions, local or AJAX search, highlighted matches, keyboard navigation, custom rendering, and cancellation of outdated requests."
+  },
+  {
+    "name": "TinySelectize",
+    "slug": "tiny-selectize",
+    "category": "Forms & Inputs",
+    "description": "Rich selection interfaces for forms.",
+    "icon": "select",
+    "demo": "demo/demo.html",
+    "body": "Make advanced select fields easier to work with.",
+    "featured_features": "Enhanced select controls with single or multiple selection, option search, AJAX loading, keyboard navigation, and a programmatic value-management API."
+  },
+  {
+    "name": "TinyChips",
+    "slug": "tiny-chips",
+    "category": "Forms & Inputs",
+    "description": "Compact tags and structured inputs.",
+    "icon": "chips",
+    "demo": "demo/demo.html",
+    "body": "Manage labels and tokens in forms.",
+    "featured_features": "Tag and chip management, adding and removing values, structured input, autocomplete, HTML-field synchronization, and JSON/CSV data formats."
+  },
+  {
+    "name": "TinyDatePicker",
+    "slug": "tiny-date-picker",
+    "category": "Forms & Inputs",
+    "description": "Flexible date picking for web interfaces.",
+    "icon": "calendar",
+    "demo": "demo/index.html",
+    "body": "Pick dates with a focused JavaScript UI.",
+    "featured_features": "Single-date and date-range selection, inline/modal/persistent modes, month and year selection, event markers, localization, and light/dark themes."
+  },
+  {
+    "name": "tinyColorPicker",
+    "slug": "tiny-color-picker",
+    "category": "Forms & Inputs",
+    "description": "Color selection for creative interfaces.",
+    "icon": "palette",
+    "demo": "demo/demo.html",
+    "body": "Bring intuitive color selection to your forms.",
+    "featured_features": "Customizable color picker, custom palettes, light/dark themes, CSS variables for the selected color, and optional integration with TinySwal."
+  },
+  {
+    "name": "TinySignature",
+    "slug": "tiny-signature",
+    "category": "Forms & Inputs",
+    "description": "Capture handwritten signatures in the browser.",
+    "icon": "signature",
+    "demo": "demo/demo.html",
+    "body": "Capture signatures with a dedicated JavaScript component.",
+    "featured_features": "Canvas signature capture, smooth Bézier strokes, mouse and touch support, undo/redo, PNG/JPEG/SVG export, and point import/export."
+  },
+  {
+    "name": "TinyTabs",
+    "slug": "tiny-tabs",
+    "category": "Navigation & Layout",
+    "description": "Organize content into elegant tabbed panels.",
+    "icon": "tabs",
+    "demo": "demo/demo.html",
+    "body": "Keep dense pages navigable with tabs.",
+    "featured_features": "Tab navigation with associated panels, active-tab indicator, disabled tabs, keyboard navigation, swipe gestures, and a selection API."
+  },
+  {
+    "name": "TinyDropdown",
+    "slug": "tiny-dropdown",
+    "category": "Navigation & Layout",
+    "description": "Lightweight, configurable dropdown controls.",
+    "icon": "select",
+    "demo": "demo/demo.html",
+    "body": "Create clear contextual menus and dropdowns.",
+    "featured_features": "Contextual dropdown menus, automatic positioning, viewport collision handling, keyboard navigation, typeahead search, and customizable actions."
+  },
+  {
+    "name": "TinySideNav",
+    "slug": "tiny-side-nav",
+    "category": "Navigation & Layout",
+    "description": "Side navigation for complex applications.",
+    "icon": "sidebar",
+    "demo": "demo/demo.html",
+    "body": "Build compact navigation structures.",
+    "featured_features": "Left or right side navigation, animated opening/closing, touch gestures, persistent navigation mode, and optional scroll locking while open."
+  },
+  {
+    "name": "TinyCollapsible",
+    "slug": "tiny-collapsible",
+    "category": "Navigation & Layout",
+    "description": "Expandable and collapsible content sections.",
+    "icon": "tabs",
+    "demo": "demo/demo.html",
+    "body": "Organize large information sets with collapsible panels.",
+    "featured_features": "Expandable and collapsible sections, accordion mode, configurable animations, open/closed state management, callbacks, and keyboard interaction."
+  },
+  {
+    "name": "TinyGroupButton",
+    "slug": "tiny-group-button",
+    "category": "Navigation & Layout",
+    "description": "Compact groups of related actions.",
+    "icon": "chips",
+    "demo": "demo/index.html",
+    "body": "Present related controls as a cohesive group.",
+    "featured_features": "Grouped selection buttons, checkbox support, multiple choices, Select All option, synchronized values, and change events."
+  },
+  {
+    "name": "TinyGallery",
+    "slug": "tiny-gallery",
+    "category": "Media",
+    "description": "Flexible image galleries and previews.",
+    "icon": "image",
+    "demo": "demo/index.html",
+    "body": "Display and organize images with a reusable gallery.",
+    "featured_features": "Responsive image galleries, multiple uploads, drag and drop, reordering, undoable removal, file validation, editing callbacks, and TinyLightbox integration."
+  },
+  {
+    "name": "TinyLightbox",
+    "slug": "tiny-lightbox",
+    "category": "Media",
+    "description": "Immersive media viewing overlays.",
+    "icon": "image",
+    "demo": "demo/index.html",
+    "body": "Open media in a focused viewing experience.",
+    "featured_features": "Full-screen image viewer, image navigation, zoom, panning, touch gestures, keyboard shortcuts, configurable transitions, and captions."
+  },
+  {
+    "name": "TinyCarousel",
+    "slug": "tiny-carousel",
+    "category": "Media",
+    "description": "Responsive and configurable carousels.",
+    "icon": "image",
+    "demo": "demo/demo.html",
+    "body": "Present media and content as a compact carousel.",
+    "featured_features": "Image and content carousels, 3D animations, full-width mode, multiple visible slides, navigation arrows, indicators, progress bar, and responsive configuration."
+  },
+  {
+    "name": "TinySortableList",
+    "slug": "tiny-sortable-list",
+    "category": "Interactions",
+    "description": "Drag-to-reorder list interactions.",
+    "icon": "drag",
+    "demo": "demo/demo.html",
+    "body": "Give users intuitive drag-and-drop ordering.",
+    "featured_features": "Drag-and-drop reordering, mouse/touch/stylus support, keyboard movement, dynamically added items, and list order management."
+  },
+  {
+    "name": "TinyInlineEditor",
+    "slug": "tiny-inline-editor",
+    "category": "Interactions",
+    "description": "Edit content directly in context.",
+    "icon": "edit",
+    "demo": "demo.html",
+    "body": "Turn displayed content into editable fields.",
+    "featured_features": "Inline text editing, rich text toolbar, HTML formatting, links, lists, colors, independent editing instances, and optional auto-save."
+  },
+  {
+    "name": "TinySwal",
+    "slug": "tiny-swal",
+    "category": "Interactions",
+    "description": "Beautiful dialogs, alerts and confirmations.",
+    "icon": "bell",
+    "demo": "demo/demo.html",
+    "body": "Display contextual feedback and action dialogs.",
+    "featured_features": "Modal dialogs, alerts, confirmations, toasts, embedded forms, asynchronous validation, timers, progress bars, draggable windows, and custom themes."
+  },
+  {
+    "name": "TinyT",
+    "slug": "tiny-t",
+    "category": "Developer Tools",
+    "description": "Focused development utility for JavaScript.",
+    "icon": "code",
+    "demo": "demo/index.html",
+    "body": "A focused JavaScript tool for developer workflows.",
+    "featured_features": "JavaScript template engine with dynamic expressions, conditions, loops, reusable nested templates, helper functions, DOM rendering, global configuration, and optional jQuery integration."
+  }
+]

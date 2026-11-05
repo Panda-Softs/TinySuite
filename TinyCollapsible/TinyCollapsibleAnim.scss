@@ -1,0 +1,39 @@
+:root {
+  --tiny-collapsible-in-duration: 300ms;
+  --tiny-collapsible-out-duration: 300ms;
+  --tiny-collapsible-easing: cubic-bezier(.4, 0, .2, 1);
+}
+
+.tiny-collapsible,
+.collapsible {
+
+
+  > li {
+
+    > .collapsible-body {
+      display: none;
+      max-height: 0;
+      overflow: hidden;
+      transition-property: max-height;
+      transition-duration: var(--tiny-collapsible-out-duration);
+      transition-timing-function: var(--tiny-collapsible-easing);
+
+      &.is-opening {
+        transition-duration: var(--tiny-collapsible-in-duration);
+      }
+
+      &.is-closing {
+        transition-duration: var(--tiny-collapsible-out-duration);
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tiny-collapsible,
+  .collapsible {
+    > li > .collapsible-body {
+      transition-duration: 1ms !important;
+    }
+  }
+}

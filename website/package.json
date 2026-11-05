@@ -1,0 +1,10 @@
+{
+  "name": "tinysuite-website-design-system",
+  "private": true,
+  "scripts": {
+    "sass": "sass --no-source-map src/scss/main.scss assets/site.css"
+  },
+  "devDependencies": {
+    "sass": "1.93.2"
+  }
+}

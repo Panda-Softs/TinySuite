@@ -1,0 +1,25 @@
+# Never commit dependencies, temporary build output or OS metadata.
+**/node_modules/
+**/.DS_Store
+**/.git/
+.build/
+.preview/
+*.log
+# Component dist/ and demo/vendor/ ARE intentionally versioned for file:// usage.
+
+# Python build/check cache directories and bytecode.
+**/__pycache__/
+**/*.pyc
+/TinySwal/Archive
+
+# Ignorer les fichiers dont le nom commence par _
+_*
+
+# Ignorer les fichiers dont le nom commence par !
+\!*
+
+# Ignorer toutes les archives ZIP
+*.zip
+
+# Ignorer les fichiers avec ! juste avant l'extension
+*!.* 

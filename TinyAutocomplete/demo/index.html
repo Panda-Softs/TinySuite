@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TinyAutocomplete Demo</title>
+  <link rel="stylesheet" href="../dist/TinyAutocomplete.min.css">
+  <style>
+    :root {
+      --page-bg: #f4f7fb;
+      --page-ink: #172033;
+      --muted: #657289;
+      --line: rgba(15, 23, 42, 0.10);
+      --card: rgba(255, 255, 255, 0.86);
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --pink: #db2777;
+      --green: #059669;
+      --amber: #d97706;
+      --red: #dc2626;
+      --radius-xl: 24px;
+      --radius-lg: 16px;
+      --shadow: 0 24px 70px rgba(15, 23, 42, 0.13);
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      color: var(--page-ink);
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 32rem),
+        radial-gradient(circle at 85% 8%, rgba(219, 39, 119, 0.13), transparent 28rem),
+        linear-gradient(180deg, #f8fbff 0%, var(--page-bg) 46%, #eef3fb 100%);
+    }
+
+    a { color: inherit; }
+
+    .page-shell {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 96px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(32px, 5vw, 64px);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 32px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.94), rgba(255,255,255,0.66)),
+        radial-gradient(circle at 18% 12%, rgba(37,99,235,0.16), transparent 20rem),
+        radial-gradient(circle at 85% 20%, rgba(219,39,119,0.18), transparent 22rem);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      bottom: -90px;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.24), rgba(219, 39, 119, 0.18));
+      filter: blur(2px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 7px 12px;
+      color: #1d4ed8;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.08);
+    }
+
+    h1, h2, h3 { line-height: 1.12; }
+
+    h1 {
+      max-width: 780px;
+      margin: 18px 0 14px;
+      font-size: clamp(42px, 8vw, 84px);
+      letter-spacing: -0.075em;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 21px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .quick-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 28px 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .quick-nav a {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 999px;
+    }
+
+    .quick-nav a:hover { background: rgba(37, 99, 235, 0.10); color: #1d4ed8; }
+
+    .section-title {
+      display: flex;
+      gap: 16px;
+      align-items: end;
+      justify-content: space-between;
+      margin: 42px 0 18px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 40px);
+      letter-spacing: -0.04em;
+    }
+
+    .section-title p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+      gap: 24px;
+    }
+
+    .demo-card {
+      position: relative;
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: var(--radius-xl);
+      background: var(--card);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(12px);
+    }
+
+    .demo-card.wide { grid-column: 1 / -1; }
+
+    .demo-card h3 {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 0 0 8px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .demo-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-width: 28px;
+      justify-content: center;
+      height: 28px;
+      padding: 0 9px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blue), var(--pink));
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
+    }
+
+    .demo-form {
+      display: grid;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .demo-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    input.demo-input {
+      display: block;
+      width: 100%;
+      min-height: 46px;
+      padding: 0 14px;
+      color: #111827;
+      font: inherit;
+      font-size: 15px;
+      border: 1px solid rgba(100, 116, 139, .32);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .94);
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    input.demo-input:focus {
+      border-color: var(--blue);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, .13);
+    }
+
+    .btn,
+    button.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 16px;
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.20);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    .btn:active { transform: translateY(0); }
+    .btn.ghost { color: #1d4ed8; background: rgba(37, 99, 235, 0.09); box-shadow: none; }
+
+    .result,
+    .log {
+      min-height: 46px;
+      margin-top: 12px;
+      padding: 12px 14px;
+      color: #475569;
+      font-size: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    details {
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #0f172a;
+    }
+
+    details summary {
+      padding: 12px 14px;
+      color: #bfdbfe;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    details summary::-webkit-details-marker { display: none; }
+
+    pre {
+      max-height: 340px;
+      margin: 0;
+      padding: 0 16px 16px;
+      overflow: auto;
+      color: #e5e7eb;
+      font-size: 12.5px;
+      line-height: 1.6;
+      white-space: pre;
+    }
+
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .option-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: rgba(37, 99, 235, .10);
+      flex: 0 0 auto;
+    }
+
+    .option-main { display: block; font-weight: 800; color: #172033; }
+    .option-sub { display: block; color: #64748b; font-size: 12px; margin-top: 2px; }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 999px;
+      color: #0369a1;
+      background: #e0f2fe;
+    }
+
+    .pill.ok { color: #047857; background: #d1fae5; }
+    .pill.warn { color: #b45309; background: #fef3c7; }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.75fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .tac__dropdown {
+      border: 1px solid rgba(15, 23, 42, .10);
+      box-shadow: 0 22px 48px rgba(15, 23, 42, .16);
+    }
+
+    .highlight {
+      font-weight: 900;
+      color: #1d4ed8;
+      background: rgba(37, 99, 235, .12);
+      border-radius: 5px;
+      padding: 0 2px;
+    }
+
+    @media (max-width: 900px) {
+      .section-title { display: block; }
+      .two-column, .demo-row { grid-template-columns: 1fr; }
+      .quick-nav { border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <span class="eyebrow">TinyAutocomplete · Vanilla JS · no dependency</span>
+      <h1>Autocomplete input rapide pour interfaces réelles.</h1>
+      <p>
+        Une démo complète pour le composant autonome : données locales, format Materialize,
+        renderer riche avec objet complet, champ lié, tri par défaut, tri custom, limitation,
+        AJAX simulé, <code>data-url</code>, <code>url</code> attribute, <code>responsePath</code> et highlight rapide.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="#basic">Voir les exemples</a>
+        <a class="btn ghost" href="#all-code">Voir le script complet</a>
+      </div>
+    </header>
+
+    <nav class="quick-nav" aria-label="Sections de démonstration">
+      <a href="#basic">Basic</a>
+      <a href="#rendering">Rendering</a>
+      <a href="#sorting">Sorting</a>
+      <a href="#remote">AJAX</a>
+      <a href="#all-code">Full code</a>
+    </nav>
+
+    <section id="basic">
+      <div class="section-title">
+        <div>
+          <h2>Basic usage</h2>
+          <p>Les exemples de base gardent une API proche de Materialize tout en retournant l’objet complet au callback.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <h3><span class="tag">1</span> Local simple</h3>
+          <p>Recherche dans une liste locale d’objets simples. L’input prend la valeur du champ <code>name</code>.</p>
+          <div class="demo-form">
+            <div><label for="ex1">Fruit</label><input id="ex1" class="demo-input" placeholder="Tapez ap..."></div>
+            <div id="out1" class="result">Aucune sélection.</div>
+          </div>
+          <details open><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex1', {
+  data: fruits,
+  valueField: 'name',
+  onAutocomplete: item =&gt; setOut('out1', `Sélection: ${item.name}`)
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">2</span> Données type Materialize</h3>
+          <p>Supporte un objet simple <code>{ Apple: null }</code> pour faciliter la migration.</p>
+          <div class="demo-form">
+            <div><label for="ex2">Entreprise</label><input id="ex2" class="demo-input" placeholder="Tapez go..."></div>
+            <div id="out2" class="result">Aucune sélection.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex2', {
+  data: { Apple: null, Google: null, Microsoft: null },
+  onAutocomplete: item =&gt; setOut('out2', `Sélection: ${item.value}`)
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">3</span> Static data + limit</h3>
+          <p>Limite à 4 résultats sans AJAX. Utile quand la liste est petite et déjà disponible.</p>
+          <div class="demo-form">
+            <div><label for="ex3">Ville</label><input id="ex3" class="demo-input" placeholder="Tapez l..."></div>
+            <div id="out3" class="result">Maximum 4 résultats.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex3', {
+  data: locations,
+  valueField: 'location',
+  searchFields: ['postcode', 'location'],
+  limit: 4
+});</code></pre></details>
+        </article>
+      </div>
+    </section>
+
+    <section id="rendering">
+      <div class="section-title">
+        <div>
+          <h2>Rendering & linked fields</h2>
+          <p>Le renderer reçoit l’objet complet et un helper <code>highlight()</code> qui injecte <code>&lt;span class="highlight"&gt;</code>.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <h3><span class="tag">4</span> Renderer complet</h3>
+          <p>Affiche NPA, localité et canton. Le champ sélectionné reste le postcode.</p>
+          <div class="demo-form">
+            <div><label for="ex4">NPA</label><input id="ex4" class="demo-input" placeholder="Tapez pla..."></div>
+            <div id="out4" class="result">Aucune sélection.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex4', {
+  data: locations,
+  valueField: 'postcode',
+  searchFields: ['postcode', 'location'],
+  renderer: locationRenderer,
+  onAutocomplete: item =&gt; setOut('out4', `${item.postcode} · ${item.location}`)
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">5</span> Remplir un champ lié</h3>
+          <p>Cas NPA classique : la sélection remplit automatiquement le champ localité.</p>
+          <div class="demo-form">
+            <div class="demo-row">
+              <div><label for="ex5">NPA</label><input id="ex5" class="demo-input" placeholder="Tapez 12 ou pla..."></div>
+              <div><label for="ex5-city">Localité</label><input id="ex5-city" class="demo-input" placeholder="Rempli automatiquement"></div>
+            </div>
+            <div id="out5" class="result">Sélectionnez un NPA.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex5', {
+  data: locations,
+  valueField: 'postcode',
+  searchFields: ['postcode', 'location'],
+  renderer: locationRenderer,
+  onAutocomplete(item) {
+    city.value = item.location || '';
+  }
+});</code></pre></details>
+        </article>
+      </div>
+    </section>
+
+    <section id="sorting">
+      <div class="section-title">
+        <div>
+          <h2>Sorting behavior</h2>
+          <p>Sans <code>sortFunction</code>, le tri par défaut remonte les matches au début du texte, puis applique un fallback alphabétique.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <h3><span class="tag">6</span> Tri par défaut</h3>
+          <p><code>Plan</code>, <code>Plaffeien</code> et <code>Plasselb</code> passent avant <code>Montplaisir</code>.</p>
+          <div class="demo-form">
+            <div><label for="ex6">Recherche</label><input id="ex6" class="demo-input" placeholder="Tapez pla..."></div>
+            <div id="out6" class="result">Le meilleur match remonte naturellement.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex6', {
+  data: places,
+  valueField: 'name'
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">7</span> Tri custom</h3>
+          <p>Priorise les produits premium avant le tri naturel.</p>
+          <div class="demo-form">
+            <div><label for="ex7">Produit</label><input id="ex7" class="demo-input" placeholder="Tapez pro..."></div>
+            <div id="out7" class="result">Aucune sélection.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex7', {
+  data: products,
+  valueField: 'name',
+  searchFields: ['name'],
+  sortFunction(a, b) {
+    return Number(b.priority || 0) - Number(a.priority || 0);
+  }
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">8</span> Auto-select first</h3>
+          <p>Affiche 3 résultats et pré-sélectionne le premier. Tapez puis appuyez sur Entrée.</p>
+          <div class="demo-form">
+            <div><label for="ex8">Localité</label><input id="ex8" class="demo-input" placeholder="Tapez l..."></div>
+            <div id="out8" class="result">Entrée sélectionne le premier résultat.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex8', {
+  data: locations,
+  valueField: 'location',
+  searchFields: ['location'],
+  limit: 3,
+  autoSelectFirst: true
+});</code></pre></details>
+        </article>
+      </div>
+    </section>
+
+    <section id="remote">
+      <div class="section-title">
+        <div>
+          <h2>AJAX and URL sources</h2>
+          <p>Les appels réseau sont simulés dans la démo pour que le fichier fonctionne sans backend.</p>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <h3><span class="tag">9</span> AJAX via option <code>url</code></h3>
+          <p>Utilise <code>url</code> dans les options. En production, remplacez par votre endpoint.</p>
+          <div class="demo-form">
+            <div><label for="ex9">Remote location</label><input id="ex9" class="demo-input" placeholder="Tapez pla..."></div>
+            <div id="out9" class="result">Aucune sélection.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex9', {
+  url: '/api/locations',
+  valueField: 'postcode',
+  searchFields: ['postcode', 'location'],
+  renderer: locationRenderer
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">10</span> AJAX via <code>data-url</code></h3>
+          <p>L’URL peut venir directement de l’attribut HTML <code>data-url</code>.</p>
+          <div class="demo-form">
+            <div><label for="ex10">Remote data-url</label><input id="ex10" class="demo-input" data-url="/api/locations" placeholder="Tapez pla..."></div>
+            <div id="out10" class="result">Aucune sélection.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>&lt;input id="ex10" data-url="/api/locations"&gt;
+
+TinyAutocomplete.init('#ex10', {
+  valueField: 'postcode',
+  searchFields: ['postcode', 'location'],
+  renderer: locationRenderer
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card">
+          <h3><span class="tag">11</span> AJAX via attribut <code>url</code></h3>
+          <p>Compatibilité avec un attribut <code>url</code> non standard quand le projet legacy l’utilise déjà.</p>
+          <div class="demo-form">
+            <div><label for="ex11">Remote url attr</label><input id="ex11" class="demo-input" url="/api/locations" placeholder="Tapez gen..."></div>
+            <div id="out11" class="result">Aucune sélection.</div>
+          </div>
+          <details><summary>Code utilisé</summary><pre><code>&lt;input id="ex11" url="/api/locations"&gt;
+
+TinyAutocomplete.init('#ex11', {
+  valueField: 'postcode',
+  searchFields: ['postcode', 'location']
+});</code></pre></details>
+        </article>
+
+        <article class="demo-card wide">
+          <div class="two-column">
+            <div>
+              <h3><span class="tag">12</span> responsePath + requestData</h3>
+              <p>Ajoute des paramètres de requête et lit une réponse imbriquée. Ici le backend simulé renvoie <code>{ payload: { items: [...] } }</code>.</p>
+              <div class="demo-form">
+                <div><label for="ex12">Location filtrée</label><input id="ex12" class="demo-input" placeholder="Tapez pla..."></div>
+                <div id="out12" class="result">Aucune sélection.</div>
+              </div>
+              <div class="pill-row">
+                <span class="pill ok">requestData: canton=GE</span>
+                <span class="pill warn">responsePath: payload.items</span>
+              </div>
+            </div>
+            <details open><summary>Code utilisé</summary><pre><code>TinyAutocomplete.init('#ex12', {
+  url: '/api/nested-locations',
+  responsePath: 'payload.items',
+  requestData: () =&gt; ({ canton: 'GE' }),
+  valueField: 'postcode',
+  searchFields: ['postcode', 'location'],
+  renderer: locationRenderer
+});</code></pre></details>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="all-code">
+      <div class="section-title">
+        <div>
+          <h2>Full initialization script</h2>
+          <p>Tout le JavaScript de la démo est regroupé ici pour copie rapide.</p>
+        </div>
+      </div>
+      <article class="demo-card wide">
+        <details open><summary>Full demo JavaScript</summary><pre><code>const locationRenderer = (item, { highlight, escape }) =&gt; `
+  &lt;span class="option-row"&gt;
+    &lt;span class="option-icon"&gt;📍&lt;/span&gt;
+    &lt;span&gt;
+      &lt;span class="option-main"&gt;${highlight(item.postcode)}&lt;/span&gt;
+      &lt;span class="option-sub"&gt;${highlight(item.location)} · ${escape(item.canton || '-')}&lt;/span&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+`;
+
+TinyAutocomplete.init('#ex1', { data: fruits, valueField: 'name' });
+TinyAutocomplete.init('#ex2', { data: { Apple: null, Google: null } });
+TinyAutocomplete.init('#ex4', { data: locations, valueField: 'postcode', renderer: locationRenderer });
+TinyAutocomplete.init('#ex9', { url: '/api/locations', valueField: 'postcode' });
+TinyAutocomplete.init('#ex10', { valueField: 'postcode' }); // URL from data-url
+TinyAutocomplete.init('#ex11', { valueField: 'postcode' }); // URL from url attr
+TinyAutocomplete.init('#ex12', {
+  url: '/api/nested-locations',
+  responsePath: 'payload.items',
+  requestData: () =&gt; ({ canton: 'GE' }),
+  valueField: 'postcode'
+});</code></pre></details>
+      </article>
+    </section>
+  </main>
+
+  <script src="../dist/TinyAutocomplete.min.js"></script>
+  <script>
+    const fruits = [
+      { name: 'Apple' }, { name: 'Apricot' }, { name: 'Avocado' },
+      { name: 'Banana' }, { name: 'Blackberry' }, { name: 'Blueberry' },
+      { name: 'Cherry' }, { name: 'Clementine' }, { name: 'Grape' }, { name: 'Pineapple' }
+    ];
+
+    const locations = [
+      { postcode: 1228, location: 'Plan-les-Ouates', description: null, canton: 'GE' },
+      { postcode: 1716, location: 'Plaffeien', description: null, canton: 'FR' },
+      { postcode: 1737, location: 'Plasselb', description: null, canton: 'FR' },
+      { postcode: 2536, location: 'Plagne', description: null, canton: 'BE' },
+      { postcode: 7185, location: 'Platta', description: null, canton: 'GR' },
+      { postcode: 1003, location: 'Lausanne', description: null, canton: 'VD' },
+      { postcode: 1201, location: 'Genève', description: null, canton: 'GE' },
+      { postcode: 1950, location: 'Sion', description: null, canton: 'VS' },
+      { postcode: 8001, location: 'Zürich', description: null, canton: 'ZH' },
+      { postcode: 1820, location: 'Montreux', description: null, canton: 'VD' }
+    ];
+
+    const places = [
+      { name: 'Montplaisir' }, { name: 'Plan-les-Ouates' },
+      { name: 'Plaffeien' }, { name: 'Plasselb' }, { name: 'La Plagne' }
+    ];
+
+    const products = [
+      { name: 'Projector Pro', priority: 10 },
+      { name: 'Basic Projector', priority: 1 },
+      { name: 'Pro Keyboard', priority: 6 },
+      { name: 'Desk Profile Lamp', priority: 4 },
+      { name: 'Prototype Kit', priority: 8 }
+    ];
+
+    const setOut = (id, text) => document.getElementById(id).textContent = text;
+
+    const locationRenderer = (item, { highlight, escape }) => `
+      <span class="option-row">
+        <span class="option-icon">📍</span>
+        <span>
+          <span class="option-main">${highlight(item.postcode)}</span>
+          <span class="option-sub">${highlight(item.location)} · ${escape(item.canton || '-')}</span>
+        </span>
+      </span>
+    `;
+
+    TinyAutocomplete.init('#ex1', {
+      data: fruits,
+      valueField: 'name',
+      onAutocomplete: item => setOut('out1', `Sélection: ${item.name}`)
+    });
+
+    TinyAutocomplete.init('#ex2', {
+      data: { Apple: null, Google: null, Microsoft: null, OpenAI: null, Meta: null, Netflix: null },
+      onAutocomplete: item => setOut('out2', `Sélection: ${item.value}`)
+    });
+
+    TinyAutocomplete.init('#ex3', {
+      data: locations,
+      valueField: 'location',
+      searchFields: ['postcode', 'location'],
+      limit: 4,
+      renderer: locationRenderer,
+      onAutocomplete: item => setOut('out3', `${item.location} · ${item.postcode}`)
+    });
+
+    TinyAutocomplete.init('#ex4', {
+      data: locations,
+      valueField: 'postcode',
+      searchFields: ['postcode', 'location'],
+      renderer: locationRenderer,
+      onAutocomplete: item => setOut('out4', `${item.postcode} · ${item.location}`)
+    });
+
+    TinyAutocomplete.init('#ex5', {
+      data: locations,
+      valueField: 'postcode',
+      searchFields: ['postcode', 'location'],
+      renderer: locationRenderer,
+      onAutocomplete(item) {
+        document.getElementById('ex5-city').value = item.location || '';
+        setOut('out5', `${item.postcode} · ${item.location}`);
+      }
+    });
+
+    TinyAutocomplete.init('#ex6', {
+      data: places,
+      valueField: 'name',
+      onAutocomplete: item => setOut('out6', `Sélection: ${item.name}`)
+    });
+
+    TinyAutocomplete.init('#ex7', {
+      data: products,
+      valueField: 'name',
+      searchFields: ['name'],
+      sortFunction(a, b) {
+        return Number(b.priority || 0) - Number(a.priority || 0);
+      },
+      renderer(item, { highlight, escape }) {
+        return `<span class="option-row"><span class="option-icon">⭐</span><span><span class="option-main">${highlight(item.name)}</span><span class="option-sub">Priority ${escape(item.priority)}</span></span></span>`;
+      },
+      onAutocomplete: item => setOut('out7', `${item.name} · priority ${item.priority}`)
+    });
+
+    TinyAutocomplete.init('#ex8', {
+      data: locations,
+      valueField: 'location',
+      searchFields: ['location'],
+      limit: 3,
+      autoSelectFirst: true,
+      onAutocomplete: item => setOut('out8', `Sélection: ${item.location}`)
+    });
+
+    const originalFetch = window.fetch;
+    window.fetch = function (url, options) {
+      const parsed = new URL(url, window.location.href);
+      const q = (parsed.searchParams.get('q') || '').toLowerCase();
+      const canton = parsed.searchParams.get('canton');
+      let filtered = locations.filter(item => `${item.postcode} ${item.location}`.toLowerCase().includes(q));
+
+      if (canton) filtered = filtered.filter(item => item.canton === canton);
+
+      if (parsed.pathname === '/api/locations') {
+        return Promise.resolve(new Response(JSON.stringify(filtered), { status: 200, headers: { 'Content-Type': 'application/json' } }));
+      }
+
+      if (parsed.pathname === '/api/nested-locations') {
+        return Promise.resolve(new Response(JSON.stringify({ payload: { items: filtered } }), { status: 200, headers: { 'Content-Type': 'application/json' } }));
+      }
+
+      return originalFetch(url, options);
+    };
+
+    TinyAutocomplete.init('#ex9', {
+      url: '/api/locations',
+      valueField: 'postcode',
+      searchFields: ['postcode', 'location'],
+      renderer: locationRenderer,
+      onAutocomplete: item => setOut('out9', `${item.postcode} · ${item.location}`)
+    });
+
+    TinyAutocomplete.init('#ex10', {
+      valueField: 'postcode',
+      searchFields: ['postcode', 'location'],
+      renderer: locationRenderer,
+      onAutocomplete: item => setOut('out10', `${item.postcode} · ${item.location}`)
+    });
+
+    TinyAutocomplete.init('#ex11', {
+      valueField: 'postcode',
+      searchFields: ['postcode', 'location'],
+      renderer: locationRenderer,
+      onAutocomplete: item => setOut('out11', `${item.postcode} · ${item.location}`)
+    });
+
+    TinyAutocomplete.init('#ex12', {
+      url: '/api/nested-locations',
+      responsePath: 'payload.items',
+      requestData: () => ({ canton: 'GE' }),
+      valueField: 'postcode',
+      searchFields: ['postcode', 'location'],
+      renderer: locationRenderer,
+      onAutocomplete: item => setOut('out12', `${item.postcode} · ${item.location}`)
+    });
+  </script>
+</body>
+</html>

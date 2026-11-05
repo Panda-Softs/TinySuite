@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>TinyChips Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../dist/TinyChips.min.css">
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #111827;
+            background: #f3f6fb;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+        }
+
+        .demo-page {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 4rem 1.25rem 7rem;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+            gap: 1.5rem;
+            align-items: stretch;
+            margin-bottom: 2rem;
+        }
+
+        .hero__main,
+        .hero__side,
+        .card {
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            border-radius: 1.5rem;
+            background: rgba(255, 255, 255, 0.86);
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+        }
+
+        .hero__main {
+            padding: 2rem;
+        }
+
+        .hero__side,
+        .card {
+            padding: 1.35rem;
+        }
+
+        .eyebrow {
+            margin: 0 0 0.75rem;
+            color: #2563eb;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.2rem, 5vw, 4.6rem);
+            line-height: 0.95;
+            letter-spacing: -0.06em;
+        }
+
+        h2 {
+            margin: 0 0 0.7rem;
+            font-size: 1.15rem;
+        }
+
+        p {
+            color: #475467;
+            line-height: 1.65;
+        }
+
+        code {
+            border-radius: 0.4rem;
+            background: #eef2ff;
+            padding: 0.1rem 0.35rem;
+            color: #3730a3;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+
+        .card {
+            min-height: 18rem;
+        }
+
+        .card__note {
+            min-height: 3.4rem;
+            margin: 0 0 1.25rem;
+            font-size: 0.95rem;
+        }
+
+        .output {
+            min-height: 12rem;
+            margin: 1rem 0 0;
+            padding: 1rem;
+            overflow: auto;
+            border-radius: 1rem;
+            background: #0f172a;
+            color: #dbeafe;
+            font-size: 0.85rem;
+        }
+
+        .theme-warm {
+            --tiny-chips-border-color-focus: #ea580c;
+            --tiny-chips-chip-background: #ffedd5;
+            --tiny-chips-chip-text-color: #7c2d12;
+            --tiny-chips-chip-background-selected: #fed7aa;
+            --tiny-chips-dropdown-option-active-background: #fed7aa;
+        }
+
+        .theme-dark {
+            --tiny-chips-border-color: #475569;
+            --tiny-chips-border-color-focus: #38bdf8;
+            --tiny-chips-chip-background: #1e293b;
+            --tiny-chips-chip-text-color: #e0f2fe;
+            --tiny-chips-chip-background-selected: #075985;
+            --tiny-chips-text-color: #f8fafc;
+            --tiny-chips-placeholder-color: #94a3b8;
+            --tiny-chips-dropdown-background: #0f172a;
+            --tiny-chips-dropdown-border-color: #334155;
+            --tiny-chips-dropdown-option-hover-background: #1e293b;
+            --tiny-chips-dropdown-option-active-background: #075985;
+            background: #020617;
+            color: #e2e8f0;
+        }
+
+        .theme-dark p { color: #94a3b8; }
+
+        .spacer-demo {
+            display: grid;
+            place-items: center;
+            min-height: 28rem;
+            color: #64748b;
+        }
+
+        @media (max-width: 780px) {
+            .hero,
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="demo-page">
+        <section class="hero">
+            <div class="hero__main">
+                <p class="eyebrow">Standalone Vanilla JS</p>
+                <h1>TinyChips</h1>
+                <p>
+                    Chips input with input-source mode, JSON/CSV serialization, data transforms,
+                    autocomplete, AJAX data, validation and smart dropdown placement.
+                </p>
+            </div>
+            <aside class="hero__side">
+                <h2>What to test</h2>
+                <p>
+                    Submit-source input mode, <code>val()</code>, duplicate handling,
+                    pattern validation, object field mapping, load-once AJAX and <code>onChange</code>.
+                </p>
+            </aside>
+        </section>
+
+        <section class="grid">
+            <article class="card">
+                <h2>Input source mode: JSON default</h2>
+                <p class="card__note">
+                    TinyChips is instantiated directly on the real form input.
+                    The input value stays JSON.
+                </p>
+                <input
+                    id="reservation_tags_json"
+                    name="reservation[tags_json]"
+                    value='["Frontend","Design, UX"]'
+                    data-autocomplete-url="/demo-api/skills"
+                    placeholder="Liste de balises">
+            </article>
+
+            <article class="card">
+                <h2>Input source mode: CSV</h2>
+                <p class="card__note">
+                    Uses <code>valueMode: 'csv'</code> and <code>separator: '|'</code>.
+                </p>
+                <input
+                    id="reservation_tags_csv"
+                    name="reservation[tags_csv]"
+                    value="Frontend|Security"
+                    data-value-mode="csv"
+                    data-separator="|"
+                    data-autocomplete-url="/demo-api/skills"
+                    placeholder="CSV tags">
+            </article>
+
+            <article class="card">
+                <h2>AJAX loaded once</h2>
+                <p class="card__note">
+                    Uses <code>data-autocomplete-source-url</code>. The endpoint is fetched once without <code>?q=</code>, then filtered locally.
+                </p>
+                <input
+                    id="load_once_chips"
+                    name="reservation[load_once]"
+                    value="Architecture"
+                    data-value-mode="csv"
+                    data-autocomplete-source-url="/demo-api/skills"
+                    placeholder="Type to filter cached skills">
+            </article>
+
+            <article class="card">
+                <h2>Object data with field mapping</h2>
+                <p class="card__note">
+                    AJAX returns objects. <code>valueField: 'value'</code> tells TinyChips what to store/display.
+                </p>
+                <input
+                    id="people_tags"
+                    name="reservation[people]"
+                    value='["Ada Lovelace"]'
+                    data-autocomplete-url="/demo-api/people"
+                    data-autocomplete-value-field="value"
+                    data-autocomplete-label-field="label"
+                    data-autocomplete-image-field="image"
+                    placeholder="Search people">
+            </article>
+
+            <article class="card theme-warm">
+                <h2>Validation</h2>
+                <p class="card__note">
+                    Duplicate clears silently. <code>;..--</code> turns the input red until typing again.
+                </p>
+                <div id="validation-chips"></div>
+            </article>
+
+            <article class="card theme-dark">
+                <h2>Container mode</h2>
+                <p class="card__note">
+                    Classic div mode still works. No source input is synchronized.
+                </p>
+                <div id="container-chips"></div>
+            </article>
+
+            <article class="card">
+                <h2>val() API</h2>
+                <p class="card__note">
+                    Buttons call <code>chips.val()</code> and <code>chips.val(value)</code>.
+                </p>
+                <input
+                    id="val_api_chips"
+                    name="reservation[val_api]"
+                    value='["Initial"]'
+                    data-autocomplete-url="/demo-api/skills"
+                    placeholder="Test val()">
+                <p>
+                    <button type="button" id="set-val">Set val()</button>
+                    <button type="button" id="get-val">Get val()</button>
+                </p>
+            </article>
+        </section>
+
+        <div class="spacer-demo">Scroll further down: the last autocomplete dropdown should open upward.</div>
+
+        <section class="card">
+            <h2>Bottom of page: dropdown opens upward</h2>
+            <p class="card__note">Type <code>a</code>. The dropdown automatically flips above the field.</p>
+            <input id="bottom-chips" data-autocomplete-url="/demo-api/skills" placeholder="Type near bottom">
+        </section>
+
+        <section class="card" style="margin-top: 1.25rem;">
+            <h2>Current data</h2>
+            <pre class="output" id="output">[]</pre>
+        </section>
+    </main>
+
+    <script src="../dist/TinyChips.min.js"></script>
+    <script>
+        const output = document.querySelector('#output');
+        const renderOutput = (label, data, instance) => {
+            output.textContent = `${label}\nvalue: ${instance ? instance.val() : ''}\ndata:\n${JSON.stringify(data, null, 2)}`;
+        };
+
+        const mockData = {
+            '/demo-api/skills': [
+                'Accessibility', 'Animation', 'Architecture', 'Async State', 'CSS', 'Design System',
+                'DOM APIs', 'Event Delegation', 'Forms', 'JavaScript', 'Performance', 'Security',
+                'Testing', 'Vanilla JS', 'Web Components'
+            ],
+            '/demo-api/people': [
+                { label: 'Ada Lovelace', value: 'Ada Lovelace', image: 'https://i.pravatar.cc/80?img=1' },
+                { label: 'Grace Hopper', value: 'Grace Hopper', image: 'https://i.pravatar.cc/80?img=5' },
+                { label: 'Margaret Hamilton', value: 'Margaret Hamilton', image: 'https://i.pravatar.cc/80?img=9' },
+                { label: 'Katherine Johnson', value: 'Katherine Johnson', image: 'https://i.pravatar.cc/80?img=10' },
+                { label: 'Barbara Liskov', value: 'Barbara Liskov', image: 'https://i.pravatar.cc/80?img=16' }
+            ]
+        };
+
+        const nativeFetch = window.fetch.bind(window);
+        window.fetch = async (url, options) => {
+            const parsedUrl = new URL(url, window.location.href);
+            const items = mockData[parsedUrl.pathname];
+
+            if (!items) {
+                return nativeFetch(url, options);
+            }
+
+            const query = (parsedUrl.searchParams.get('q') || '').toLowerCase();
+            const results = items.filter((item) => {
+                const label = typeof item === 'string' ? item : item.label;
+                return label.toLowerCase().includes(query);
+            });
+
+            await new Promise((resolve) => window.setTimeout(resolve, 180));
+
+            return new Response(JSON.stringify({ results }), {
+                headers: { 'Content-Type': 'application/json' }
+            });
+        };
+
+        const jsonChips = new TinyChips(document.querySelector('#reservation_tags_json'), {
+            autocompleteOptions: {
+                minLength: 1,
+                limit: 8
+            },
+            onChange(data, action, instance) {
+                renderOutput(`JSON input mode changed: ${action}`, data, instance);
+            }
+        });
+
+        const csvChips = new TinyChips(document.querySelector('#reservation_tags_csv'), {
+            autocompleteOptions: {
+                minLength: 1,
+                limit: 8
+            },
+            onChange(data, action, instance) {
+                renderOutput(`CSV input mode changed: ${action}`, data, instance);
+            }
+        });
+
+        new TinyChips(document.querySelector('#load_once_chips'), {
+            autocompleteOptions: {
+                minLength: 1,
+                limit: 8
+            },
+            onChange(data, action, instance) {
+                renderOutput(`Load-once autocomplete changed: ${action}`, data, instance);
+            }
+        });
+
+        new TinyChips(document.querySelector('#people_tags'), {
+            autocompleteOptions: {
+                minLength: 1,
+                limit: 5
+            },
+            onChange(data, action, instance) {
+                renderOutput(`People changed: ${action}`, data, instance);
+            }
+        });
+
+        new TinyChips(document.querySelector('#validation-chips'), {
+            data: [{ tag: 'Élodie' }],
+            placeholder: 'Try duplicate Élodie or invalid ;..--',
+            secondaryPlaceholder: '+ Tag',
+            onChipInvalid(event) {
+                console.warn('Invalid chip:', event);
+            },
+            onChange(data, action, instance) {
+                renderOutput(`Validation changed: ${action}`, data, instance);
+            }
+        });
+
+        new TinyChips(document.querySelector('#container-chips'), {
+            data: [
+                { tag: 'Ada Lovelace', image: 'https://i.pravatar.cc/80?img=1' },
+                { tag: 'Grace Hopper', image: 'https://i.pravatar.cc/80?img=5' }
+            ],
+            placeholder: 'Add person',
+            autocompleteOptions: {
+                data: mockData['/demo-api/people'],
+                valueField: 'value',
+                labelField: 'label',
+                imageField: 'image'
+            },
+            onChange(data, action, instance) {
+                renderOutput(`Container changed: ${action}`, data, instance);
+            }
+        });
+
+        const valApiChips = new TinyChips(document.querySelector('#val_api_chips'), {
+            autocompleteOptions: {
+                minLength: 1
+            },
+            onChange(data, action, instance) {
+                renderOutput(`val() demo changed: ${action}`, data, instance);
+            }
+        });
+
+        document.querySelector('#set-val').addEventListener('click', () => {
+            valApiChips.val('["Updated","From val()","Design, UX"]');
+        });
+
+        document.querySelector('#get-val').addEventListener('click', () => {
+            renderOutput('val() current value:', valApiChips.getData(), valApiChips);
+        });
+
+        new TinyChips(document.querySelector('#bottom-chips'), {
+            autocompleteOptions: {
+                minLength: 1,
+                limit: 10
+            },
+            onChange(data, action, instance) {
+                renderOutput(`Bottom changed: ${action}`, data, instance);
+            }
+        });
+    </script>
+</body>
+</html>

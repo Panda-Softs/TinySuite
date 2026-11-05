@@ -1,0 +1,197 @@
+/*
+|--------------------------------------------------------------------------
+| Tabs Root
+|--------------------------------------------------------------------------
+*/
+
+.tabs.tiny-tabs {
+
+  /*
+  |--------------------------------------------------------------------------
+  | Core theme variables
+  |--------------------------------------------------------------------------
+  */
+
+  --tiny-tabs-height: 48px;
+  --tiny-tabs-bg: #fff;
+  --tiny-tabs-text-color: rgba(238, 110, 115, 0.7);
+  --tiny-tabs-active-color: #ee6e73;
+  //--tiny-tabs-active-bg-color:;
+  --tiny-tabs-hover-color: #ee6e73;
+  //--tiny-tabs-hover-bg-color:;
+  --tiny-tabs-disabled-color: rgba(238, 110, 115, 0.4);
+
+  --tiny-tabs-indicator-height: 2px;
+  --tiny-tabs-indicator-bg: #f6b2b5;
+  --tiny-tabs-panel-bg: #fafafa;
+  --tiny-tabs-transition-speed: 300ms;
+  --tiny-tabs-transition-easing: ease;
+
+
+  position: relative;
+
+  display: flex;
+
+  width: 100%;
+  min-height: var(--tiny-tabs-height);
+
+  margin: 0;
+  padding: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  list-style: none;
+
+  white-space: nowrap;
+
+  background: var(--tiny-tabs-bg);
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | Single Tab
+  |--------------------------------------------------------------------------
+  */
+
+  .tab {
+    flex: 1 0 auto;
+
+    margin: 0;
+    padding: 0;
+
+    text-align: center;
+    text-transform: uppercase;
+
+    height: var(--tiny-tabs-height);
+    line-height: var(--tiny-tabs-height);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tab Link
+    |--------------------------------------------------------------------------
+    */
+
+    a {
+      display: flex;
+      height: 100%;
+      padding: 0 24px;
+      color: var(--tiny-tabs-text-color);
+      text-decoration: none;
+      outline: none;
+
+      transition:
+        color var(--tiny-tabs-transition-speed)
+        var(--tiny-tabs-transition-easing);
+
+
+      &:hover,
+      &:focus-visible {
+        color: var(--tiny-tabs-hover-color);
+        background-color: var(--tiny-tabs-hover-bg-color);
+      }
+
+      &.active {
+        color: var(--tiny-tabs-active-color);
+        background-color: var(--tiny-tabs-active-bg-color);
+      }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disabled State
+    |--------------------------------------------------------------------------
+    */
+
+    &.disabled {
+      a {
+        color: var(--tiny-tabs-disabled-color);
+
+        cursor: default;
+        pointer-events: none;
+      }
+    }
+  }
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | Active Indicator
+  |--------------------------------------------------------------------------
+  */
+
+  .indicator {
+    position: absolute;
+
+    bottom: 0;
+
+    height: var(--tiny-tabs-indicator-height);
+
+    background: var(--tiny-tabs-indicator-bg);
+
+    transition:
+      left var(--tiny-tabs-transition-speed)
+      var(--tiny-tabs-transition-easing),
+
+      width var(--tiny-tabs-transition-speed)
+      var(--tiny-tabs-transition-easing);
+
+    will-change: left, width;
+  }
+
+  /*
+|--------------------------------------------------------------------------
+| Swipeable Content Wrapper
+|--------------------------------------------------------------------------
+*/
+
+  ~ .tabs-content {
+    &.carousel {
+      &.carousel-slider {
+        display: flex;
+
+        width: 100%;
+
+        overflow: hidden;
+
+        transition:
+                transform var(--tiny-tabs-transition-speed)
+                var(--tiny-tabs-transition-easing);
+
+        will-change: transform;
+
+
+        .carousel-item {
+          flex: 0 0 100%;
+
+          width: 100%;
+        }
+      }
+    }
+  }
+
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | Panels
+  |--------------------------------------------------------------------------
+  */
+
+  ~ .tab-panel, ~ .tabs-content .tab-panel {
+    display: none;
+
+    padding: 24px;
+
+    background: var(--tiny-tabs-panel-bg);
+
+
+    &.active {
+      display: block;
+    }
+  }
+}
+
+
+

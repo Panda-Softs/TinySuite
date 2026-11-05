@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" style="color-scheme: light;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TinyColorPicker Demo</title>
+    <link rel="stylesheet" href="../dist/TinyColorPicker.min.css">
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<main class="tcp-demo-page">
+    <section class="tcp-demo-hero" aria-labelledby="demo-title">
+        <div>
+            <div class="tcp-demo-topline">
+                <span class="tcp-demo-eyebrow"><span class="tcp-demo-dot"></span> Pure JavaScript · ES6 · Zero dependencies</span>
+
+                <div class="tcp-demo-scheme-control">
+                    <span class="tcp-demo-scheme-caption">Color scheme</span>
+                    <div
+                        id="scheme-switch"
+                        class="tcp-demo-scheme-switch"
+                        role="button"
+                        tabindex="0"
+                        data-scheme="light"
+                        aria-pressed="false"
+                        aria-label="Switch to dark color scheme"
+                    >
+                        <span class="tcp-demo-scheme-icon" aria-hidden="true">☀</span>
+                        <span class="tcp-demo-scheme-track" aria-hidden="true">
+                            <span class="tcp-demo-scheme-thumb"></span>
+                        </span>
+                        <span class="tcp-demo-scheme-icon" aria-hidden="true">☾</span>
+                        <span class="tcp-demo-scheme-label">Light</span>
+                    </div>
+                </div>
+            </div>
+
+            <h1 id="demo-title" class="tcp-demo-title">TinyColorPicker</h1>
+            <p class="tcp-demo-lead">
+                A compact color picker for fx-base with recent colors, native/custom colors, clear color,
+                native light/dark color schemes, dropdown-up support, parent containers and CSS variables
+                for project styling.
+            </p>
+        </div>
+        <div class="tcp-demo-logo-card">
+            <img src="./tiny-color-picker-logo.svg" alt="TinyColorPicker palette logo">
+        </div>
+    </section>
+
+    <section class="tcp-demo-stats" aria-label="Component highlights">
+        <div class="tcp-demo-stat"><strong>0</strong><span>Runtime dependencies</span></div>
+        <div class="tcp-demo-stat"><strong>file://</strong><span>Demo works without a local server</span></div>
+        <div class="tcp-demo-stat"><strong>Native</strong><span>Light/dark follows document color-scheme</span></div>
+    </section>
+
+    <section class="tcp-demo-grid">
+        <article class="tcp-demo-card">
+            <h2>1. Default picker</h2>
+            <p>Default palette plus recent colors.</p>
+            <div class="tcp-demo-field input-field">
+                <label for="picker-default">Color</label>
+                <input id="picker-default" class="colorpicker" value="#3498DB" aria-label="Default color">
+            </div>
+        </article>
+
+        <article class="tcp-demo-card">
+            <h2>2. Clear + custom HEX</h2>
+            <p>Supports an intentionally empty value, a native visual color chooser and manual #RGB / #RRGGBB entry.</p>
+            <div class="tcp-demo-field input-field">
+                <label for="picker-custom">Optional color</label>
+                <input id="picker-custom" class="colorpicker" value="" placeholder="No color" aria-label="Custom color">
+            </div>
+        </article>
+
+        <article class="tcp-demo-card">
+            <h2>3. Dropdown up</h2>
+            <p><code>.dropdown-up</code> is still supported. CSS owns the up/down transform and animation.</p>
+            <div class="tcp-demo-field input-field" style="margin-top:80px">
+                <label for="picker-up">Open upward</label>
+                <input id="picker-up" class="colorpicker dropdown-up" value="#9B59B6" aria-label="Dropdown up color">
+            </div>
+        </article>
+
+        <article class="tcp-demo-card">
+            <h2>4. Native color scheme</h2>
+            <p>
+                No <code>theme</code> option exists. This picker automatically follows the document's
+                native <code>color-scheme</code>. Use the switch above to see it change live.
+            </p>
+            <div class="tcp-demo-field input-field">
+                <label for="picker-native">Native scheme</label>
+                <input id="picker-native" class="colorpicker" value="#E67E22" aria-label="Native scheme picker color">
+            </div>
+        </article>
+
+        <article class="tcp-demo-card">
+            <h2>5. Custom palette</h2>
+            <p>Colors are normalized, uppercased and de-duplicated automatically.</p>
+            <div class="tcp-demo-field input-field">
+                <label for="picker-palette">Project palette</label>
+                <input id="picker-palette" class="colorpicker" value="#111827" aria-label="Custom palette color">
+            </div>
+        </article>
+
+        <article class="tcp-demo-card">
+            <h2>6. Parent container / dialog</h2>
+            <p>The dropdown is rendered inside the specified parent to preserve the dialog stacking context.</p>
+            <div id="dialog-demo" class="tcp-demo-dialog">
+                <div class="tcp-demo-field input-field">
+                    <label for="picker-dialog">Dialog color</label>
+                    <input id="picker-dialog" class="colorpicker" value="#16A085" aria-label="Dialog color">
+                </div>
+            </div>
+        </article>
+
+        <article class="tcp-demo-card">
+            <h2>7. Programmatic API</h2>
+            <p><code>setValue()</code>, <code>clear()</code> and <code>toggle()</code>. Theme state stays outside the component.</p>
+            <div class="tcp-demo-field input-field">
+                <label for="picker-api">API controlled color</label>
+                <input id="picker-api" class="colorpicker" value="#2980B9" aria-label="API color">
+            </div>
+            <div class="tcp-demo-actions">
+                <div class="tcp-demo-action" role="button" tabindex="0" data-action="red">Set red</div>
+                <div class="tcp-demo-action" role="button" tabindex="0" data-action="clear">Clear</div>
+                <div class="tcp-demo-action" role="button" tabindex="0" data-action="toggle">Toggle</div>
+            </div>
+            <div id="api-output" class="tcp-demo-output">Waiting for a change…</div>
+        </article>
+
+        <article class="tcp-demo-card">
+            <h2>8. Minimal mode</h2>
+            <p>Palette only: no recent colors and no custom field.</p>
+            <div class="tcp-demo-field input-field">
+                <label for="picker-minimal">Minimal picker</label>
+                <input id="picker-minimal" class="colorpicker" value="#27AE60" aria-label="Minimal color">
+            </div>
+        </article>
+    </section>
+
+    <pre class="tcp-demo-code"><code>&lt;style&gt;
+:root {
+    color-scheme: light dark;
+}
+&lt;/style&gt;
+
+&lt;link rel="stylesheet" href="TinyColorPicker.css"&gt;
+&lt;script src="TinyColorPicker.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+const picker = new TinyColorPicker(document.querySelector('.colorpicker'), {
+    allowCustomColor: true,
+    allowClearColor: true,
+    parentContainer: '.tiny-swal-popup'
+});
+&lt;/script&gt;</code></pre>
+</main>
+
+<!-- Classic scripts intentionally keep the demo compatible with direct file:// opening. -->
+<script src="../dist/TinyColorPicker.min.js"></script>
+<script>
+    const schemeSwitch = document.querySelector('#scheme-switch');
+    const schemeLabel = schemeSwitch.querySelector('.tcp-demo-scheme-label');
+
+    function setDemoColorScheme(scheme) {
+        const isDark = scheme === 'dark';
+
+        // The color scheme is owned by the document, not TinyColorPicker.
+        // Every picker inherits it automatically through native CSS.
+        document.documentElement.style.colorScheme = scheme;
+
+        schemeSwitch.dataset.scheme = scheme;
+        schemeSwitch.setAttribute('aria-pressed', String(isDark));
+        schemeSwitch.setAttribute('aria-label', `Switch to ${isDark ? 'light' : 'dark'} color scheme`);
+        schemeLabel.textContent = isDark ? 'Dark' : 'Light';
+    }
+
+    function bindDivAction(element, action) {
+        element.addEventListener('click', action);
+        element.addEventListener('keydown', event => {
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            event.preventDefault();
+            action();
+        });
+    }
+
+    bindDivAction(schemeSwitch, () => {
+        setDemoColorScheme(schemeSwitch.dataset.scheme === 'dark' ? 'light' : 'dark');
+    });
+
+    // The demo intentionally starts in light mode.
+    setDemoColorScheme('light');
+
+    new TinyColorPicker(document.querySelector('#picker-default'));
+
+    new TinyColorPicker(document.querySelector('#picker-custom'), {
+        allowCustomColor: true,
+        allowClearColor: true,
+        paletteLabel: 'Palette:'
+    });
+
+    new TinyColorPicker(document.querySelector('#picker-up'), {
+        direction: 'up'
+    });
+
+    new TinyColorPicker(document.querySelector('#picker-native'), {
+        allowCustomColor: true
+    });
+
+    new TinyColorPicker(document.querySelector('#picker-palette'), {
+        allowRecent: false,
+        paletteLabel: 'Project colors',
+        palette: ['#111827', '#334155', '#64748B', '#F8FAFC', '#38BDF8', '#22C55E', '#F59E0B', '#EF4444']
+    });
+
+    new TinyColorPicker(document.querySelector('#picker-dialog'), {
+        parentContainer: '#dialog-demo',
+        allowCustomColor: true,
+        allowClearColor: true
+    });
+
+    const apiPicker = new TinyColorPicker(document.querySelector('#picker-api'), {
+        allowClearColor: true,
+        allowCustomColor: true
+    });
+    const apiOutput = document.querySelector('#api-output');
+
+    bindDivAction(document.querySelector('[data-action="red"]'), () => apiPicker.setValue('#E74C3C'));
+    bindDivAction(document.querySelector('[data-action="clear"]'), () => apiPicker.clear());
+    bindDivAction(document.querySelector('[data-action="toggle"]'), () => apiPicker.toggle());
+
+    document.querySelector('#picker-api').addEventListener('tinycolorpicker:change', event => {
+        apiOutput.textContent = `tinycolorpicker:change → ${event.detail.color || '(empty)'}`;
+    });
+
+    new TinyColorPicker(document.querySelector('#picker-minimal'), {
+        allowRecent: false
+    });
+
+    // Makes automated/local smoke tests easy to detect without any module loader.
+    document.documentElement.dataset.tcpDemoReady = 'true';
+</script>
+</body>
+</html>

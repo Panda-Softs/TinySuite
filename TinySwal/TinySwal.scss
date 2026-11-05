@@ -1,0 +1,947 @@
+/* ==========================================================================
+   File: TinySwal.scss
+   TinySwal styles (SCSS)
+   - respects DOM hierarchy:
+     .tiny-swal-container
+       > .tiny-swal-overlay
+       > .tiny-swal-modal
+           > .tiny-swal-popup
+               > .tiny-swal-icon
+               > .tiny-swal-body
+                   > .tiny-swal-title
+                   > .tiny-swal-content (the only scroll container)
+                       > .tiny-swal-image-wrap (.tiny-swal-image)
+                       > .tiny-swal-content-body
+                   > .tiny-swal-actions (deny/delete/cancel/confirm)
+                   > .tiny-swal-footer
+   - uses namespace variable
+   ========================================================================== */
+
+$ts-ns: "tiny-swal" !default;
+
+// Optional design tokens
+$ts-radius: 14px !default;
+$ts-shadow: 0 18px 60px rgba(0, 0, 0, 0.35) !default;
+
+// --------------------------------------------------------------------------
+// SweetAlert2-like show/hide animations
+// --------------------------------------------------------------------------
+
+.#{$ts-ns}-container {
+
+  @keyframes tiny-swal-show {
+    0% {
+      transform: translate3d(0, -50px, 0) scale(0.9);
+      opacity: 0;
+    }
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes tiny-swal-hide {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(0, -50px, 0) scale(0.9);
+      opacity: 0;
+    }
+  }
+
+  @keyframes tiny-swal-toast-show {
+    0% {
+      transform: translateY(-0.625em) rotateZ(2deg)
+    }
+    33% {
+      transform: translateY(0) rotateZ(-2deg)
+    }
+    66% {
+      transform: translateY(0.3125em) rotateZ(2deg)
+    }
+    100% {
+      transform: translateY(0) rotateZ(0deg)
+    }
+  }
+
+  @keyframes tiny-swal-toast-hide {
+    100% {
+      transform: rotateZ(1deg);
+      opacity: 0
+    }
+  }
+
+  --ts-container-padding: 1.5rem;
+  --ts-container-padding-mobile: 1.5rem;
+  --ts-width: 32em;
+  --ts-padding: 0 0 1.25em;
+  --ts-border: none;
+  --ts-border-radius: 0.3125rem;
+  --ts-background: white;
+  --ts-color: #545454;
+  --ts-box-shadow: 0 18px 60px rgba(0, 0, 0, .35);
+
+  --ts-button-border-radius: 0.25em;
+  --ts-confirm-button-background-color: #7066e0;
+  --ts-deny-button-background-color: #3085d6;
+  --ts-cancel-button-background-color: #6e7881;
+  --ts-delete-button-background-color:  #dc3741;
+  --ts-action-button-hover: black 10%;
+  --ts-button-color: #FFF;
+  --ts-show-animation: tiny-swal-show 0.3s;
+  --ts-hide-animation: tiny-swal-hide 0.15s forwards;
+  --ts-backdrop: rgba(0, 0, 0, 0.4);
+  --ts-backdrop-filter: blur(2px);
+  --ts-actions-margin: 1.25em auto 2px; // need 2px margin down for the btn outline
+
+  // Toast call-to-action button
+  --ts-call-to-action-background-color: #2563eb;
+  --ts-call-to-action-color: #fff;
+  --ts-call-to-action-border: 0;
+  --ts-call-to-action-border-radius: 0.55rem;
+
+  --ts-content-padding: 1em 1.6em 0.3em;
+  --ts-title-padding: 0.8em 1em 0;
+  --ts-title-fontsize :   1.875em;
+  --ts-icon-zoom: 1;
+
+  --ts-close-button-color: #ccc;
+  --ts-close-button-hover-color: #f27474;
+
+  --ts-footer-border-color: #eee;
+  --ts-footer-background: transparent;
+  --ts-footer-color: inherit;
+
+  --tt-timer-progress-bar-background: rgba(0, 0, 0, 0.3);
+
+  // input
+  --ts-input-border: 1px solid #d9d9d9;
+  --ts-input-border-radius: 0.1875em;
+  --ts-input-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;
+  --ts-input-background: transparent;
+  --ts-input-hover-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;
+  --ts-input-focus-border: 1px solid #b4dbed;
+  --ts-input-focus-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);
+
+  // validation
+  --ts-validation-message-background: #f0f0f0;
+  --ts-validation-message-color: #666;
+
+  --ts-divider-color : #ebebeb;
+}
+
+
+
+.#{$ts-ns}-container {
+
+  position: fixed;
+  inset: 0;
+  display: flex;
+  box-sizing: border-box;
+  padding: var(--ts-container-padding, 1.5rem);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 140ms ease;
+  overflow: hidden;
+
+  // mobile
+  @media (max-width: 640px) {
+    padding: var(--ts-container-padding-mobile,1.5rem);
+  }
+
+  &.is-open {
+    opacity: 1;
+    >.tiny-swal-modal>.tiny-swal-popup{animation:var(--ts-show-animation)}
+
+  }
+  &.is-closing {
+    opacity: 1;
+    >.tiny-swal-modal>.tiny-swal-popup{animation:var(--ts-hide-animation)}
+  }
+
+  &.is-locked { filter: grayscale(0.1); }
+
+  // positioning presets
+  &.pos-center { align-items: center; justify-content: center; }
+  &.pos-top { align-items: flex-start; justify-content: center; padding-top: 24px; }
+  &.pos-bottom { align-items: flex-end; justify-content: center; padding-bottom: 24px; }
+
+  &.pos-top-start { align-items: flex-start; justify-content: flex-start; padding: 24px; }
+  &.pos-top-end { align-items: flex-start; justify-content: flex-end; padding: 24px; }
+  &.pos-center-start { align-items: center; justify-content: flex-start; padding: 24px; }
+  &.pos-center-end { align-items: center; justify-content: flex-end; padding: 24px; }
+  &.pos-bottom-start { align-items: flex-end; justify-content: flex-start; padding: 24px; }
+  &.pos-bottom-end { align-items: flex-end; justify-content: flex-end; padding: 24px; }
+
+  > .#{$ts-ns}-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+    background: var(--ts-backdrop, rgba(0, 0, 0, 0.4));
+    //backdrop-filter: var(--ts-backdrop-filter);
+  }
+
+  > .#{$ts-ns}-modal {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    pointer-events: none;
+    display: flex;
+    align-items: inherit;
+    justify-content: inherit;
+    overflow: hidden;
+
+    > .#{$ts-ns}-popup {
+      display: flex;
+      flex-direction: column;
+
+      position: relative;
+      pointer-events: auto;
+      width: min(var(--ts-width, 32em), calc(100vw - 1rem));
+      max-height: #{'calc(100vh - 1rem)'};
+      max-height: #{'calc(100dvh - 1rem)'};
+      box-sizing: border-box;
+      overflow: hidden;
+
+      background: var(--ts-background,#fff);
+      color: var(--ts-color, #545454);
+      border: var(--ts-border);
+      border-radius: var(--ts-border-radius, 0.3125rem);
+      box-shadow: var(--ts-box-shadow);
+      padding: var(--ts-padding);
+      font-family: inherit;
+      font-size: inherit;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      will-change: transform, opacity;
+
+      /* Layout wrapper (optional)
+       * - Use .tiny-swal-main when you want an icon on the left (toast-style)
+       *   while keeping actions pinned at the bottom of the popup.
+       *
+       * DOM:
+       *   .tiny-swal-popup
+       *     > .tiny-swal-main
+       *         > .tiny-swal-icon (optional)
+       *         > .tiny-swal-body
+       *     > .tiny-swal-actions
+       */
+      > .#{$ts-ns}-main {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--ts-main-gap, 0.75em);
+        flex: 1 1 auto;
+        min-height: 0;
+
+        > .#{$ts-ns}-icon {
+          flex: 0 0 auto;
+        }
+
+        > .#{$ts-ns}-body {
+          flex: 1 1 auto;
+          min-height: 0;
+        }
+      }
+
+
+      /* Small */
+      &.tiny-swal-sm {
+        --ts-width: 22em; /* ~350px */
+        --ts-title-fontsize : 1.5em;
+        --ts-padding: 0 0 0.5em;
+      }
+
+      /* Medium */
+      &.tiny-swal-md {
+        --ts-width: 31.25em; /* 500px */
+      }
+
+      /* Large */
+      &.tiny-swal-lg {
+        --ts-width: 42em; /* ~672px */
+      }
+
+      /* Wide */
+      &.tiny-swal-wide {
+        --ts-width: 48.75em; /* 780px */
+      }
+
+      /* Fluid 80vw with cap */
+      &.tiny-swal-fluid {
+        --ts-width: min(80vw, 48.75em);
+      }
+
+
+      &.is-draggable {
+        box-shadow: 0 24px 70px rgba(0,0,0,0.45);
+
+        > .#{$ts-ns}-body > .#{$ts-ns}-title {
+          cursor: grab;
+          touch-action: none;
+          user-select: none;
+        }
+
+        &.is-dragging > .#{$ts-ns}-body > .#{$ts-ns}-title {
+          cursor: grabbing;
+        }
+      }
+
+      // -----------------------------------------------------------------------------
+      // Icon animations (TinySwal)
+      // -----------------------------------------------------------------------------
+
+      @keyframes ts-animate-icon-rotate-x {
+        0%   { transform: rotateX(100deg); opacity: 0; }
+        100% { transform: rotateX(0deg);   opacity: 1; }
+      }
+
+      @keyframes ts-animate-icon-rotate-y {
+        0%   { transform: rotateY(-360deg); }
+        100% { transform: rotateY(0); }
+      }
+
+      @keyframes ts-animate-icon-wobble-z {
+        0%   { transform: rotateZ(45deg);  opacity: 0; }
+        25%  { transform: rotateZ(-25deg); opacity: .4; }
+        50%  { transform: rotateZ(15deg);  opacity: .8; }
+        75%  { transform: rotateZ(-5deg);  opacity: 1; }
+        100% { transform: rotateZ(0);      opacity: 1; }
+      }
+
+      @keyframes ts-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}
+
+
+      // -----------------------------------------------------------------------------
+      // Icon component
+      // -----------------------------------------------------------------------------
+
+      > .#{$ts-ns}-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 5em;
+        height: 5em;
+        margin: 2.5em auto .6em;
+        zoom: var(--ts-icon-zoom);
+        border: .25em solid rgba(0, 0, 0, 0);
+        border-radius: 50%;
+        font-family: inherit;
+        line-height: 5em;
+        cursor: default;
+        user-select: none;
+
+        > .#{$ts-ns}-icon-glyph {
+          display: flex;
+          align-items: center;
+          font-size: 3.75em;
+        }
+
+        // Icon colors
+        &[data-icon="success"]  { background: rgba(46, 204, 113, 0.18); color: #1e8f4e; }
+        &[data-icon="error"]    { background: rgba(231, 76, 60, 0.18);  color: #b3382b; }
+        &[data-icon="warning"]  { background: rgba(243, 156, 18, 0.18); color: #a86b00; }
+        &[data-icon="info"]     { background: rgba(52, 152, 219, 0.18); color: #1f6fa3; }
+        &[data-icon="question"] { background: rgba(155, 89, 182, 0.18); color: #6b3b80; }
+
+        &.show {
+          transform-style: preserve-3d;
+          backface-visibility: hidden;
+
+          // Default animation (success, error, warning)
+          animation: ts-animate-icon-rotate-x 0.5s ease;
+
+          @keyframes ts-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}
+          @keyframes ts-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}
+          @keyframes ts-animate-question-mark {0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}
+
+          &[data-icon="error"] {
+            animation: ts-animate-error-icon 0.5s ease;
+            > .#{$ts-ns}-icon-glyph {  transform: translateY(-0.05em); animation: ts-animate-error-x-mark .8s; }
+          }
+
+          // Question → rotateY spin
+          &[data-icon="question"] {
+            animation: ts-animate-icon-rotate-y 0.5s ease;
+            > .#{$ts-ns}-icon-glyph { animation: ts-animate-question-mark .8s; }
+          }
+
+          // Info → rotateZ wobble
+          &[data-icon="info"] {
+            animation: ts-animate-icon-wobble-z 0.5s ease;
+          }
+        }
+      }
+
+      > .tiny-swal-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        .#{$ts-ns}-title {
+            flex: 0 0 auto;
+            position: relative;
+            max-width: 100%;
+            margin: 0;
+            padding: var(--ts-title-padding);
+            color: inherit;
+            font-size: var(--ts-title-fontsize,1.875em);
+            font-weight: 600;
+            text-align: center;
+            text-transform: none;
+            overflow-wrap: break-word;
+            cursor: initial;
+          }
+
+        .#{$ts-ns}-image-wrap {
+          flex: 0 0 auto;
+          margin: 10px 0 12px;
+          text-align: center;
+
+          > .#{$ts-ns}-image {
+            width: auto;
+            max-width: 100%;
+            border-radius: 10px;
+          }
+        }
+
+        .#{$ts-ns}-content {
+          flex: 1 1 auto;
+          margin: 0;
+          min-height: 0;
+          overflow-y: auto;
+          overflow-x: hidden;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-gutter: stable;
+          color: inherit;
+          font-size: 1.125em;
+          font-weight: normal;
+          line-height: normal;
+          padding: var(--ts-content-padding);
+
+          text-align: center;
+          overflow-wrap: break-word;
+          word-break: break-word;
+          cursor: initial;
+
+          &.content-html {
+            form:focus {
+              box-shadow: none;
+              border: none;
+            }
+          }
+
+          &.content-text {
+
+          }
+
+          // ✅ input mode: padding belongs on container
+          &.content-input {
+
+          }
+
+          a { color: #2563eb; }
+
+          .#{$ts-ns}-input {
+            height: 2.625em;
+            padding: 0 .75em;
+            box-sizing: border-box;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            border: var(--ts-input-border);
+            border-radius: var(--ts-input-border-radius);
+            background: var(--ts-input-background);
+            box-shadow: var(--ts-input-box-shadow);
+            color: inherit;
+            font-size: 1.125em;
+            margin: 1em 0 3px;
+
+            &:hover {
+              box-shadow: var(--ts-input-hover-box-shadow);
+            }
+            &:focus {
+              outline: none;
+              border: var(--ts-input-focus-border);
+              box-shadow: var(--ts-input-focus-box-shadow);
+            }
+            &.#{$ts-ns}-input-error {
+              border-color: #f27474 !important;
+              box-shadow: 0 0 2px #f27474 !important;
+            }
+          }
+        }
+
+        > .#{$ts-ns}-actions,
+        .#{$ts-ns}-body > .#{$ts-ns}-actions {
+          flex: 0 0 auto;
+          display: flex;
+          justify-content: center;
+          gap: 0.5em;
+          margin: var(--ts-actions-margin, 1.25em auto 2px);
+
+          &.no-actions { display: none; }
+
+          > .#{$ts-ns}-loader {
+
+            @keyframes tt-swal-rotate-loading {
+              to { transform: rotate(360deg); }
+            }
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 2.2em;
+            height: 2.2em;
+            margin: 0;
+            animation: tt-swal-rotate-loading 1.5s linear 0s infinite normal;
+            border-width: 0.25em;
+            border-style: solid;
+            border-radius: 100%;
+            border-color: #2778c4 transparent #2778c4 transparent;
+          }
+
+          > button {
+            padding: .625em 1.1em;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            color: var(--ts-button-color);
+            font-size: 1em;
+            font-weight: 500;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            &:focus  {
+              outline: 0;
+              box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            }
+            &:focus, &:hover {
+              text-decoration: none;
+            }
+          }
+
+          @mixin ts-button-variant($variant) {
+            > .#{$ts-ns}-#{$variant} {
+              background-color: var(--ts-#{$variant}-button-background-color);
+              color: var(--ts-button-color, #FFF);
+
+              &:hover {
+                background-color: color-mix(
+                                in srgb,
+                                var(--ts-#{$variant}-button-background-color),
+                                var(--ts-action-button-hover)
+                );
+              }
+              &:focus {
+                //rgba(40, 167, 69, 0.5);
+                box-shadow: 0 0 0 3px color-mix(in srgb, var(--ts-#{$variant}-button-background-color) 50%, var(--ts-background) 50%);
+              }
+            }
+          }
+
+          @include ts-button-variant(confirm);
+          @include ts-button-variant(cancel);
+          @include ts-button-variant(deny);
+          @include ts-button-variant(delete);
+        }
+
+        .#{$ts-ns}-validation {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 1em 0 0;
+          padding: .625em;
+          overflow: hidden;
+          background: var(--ts-validation-message-background);
+          color: var(--ts-validation-message-color);
+          font-size: 1em;
+          font-weight: 300;
+        }
+
+
+        .#{$ts-ns}-footer {
+          margin: 1em 0 0;
+          padding: 1em 1em 0;
+          border-top: 1px solid var(--ts-footer-border-color);
+          background: var(--ts-footer-background);
+          color: var(--ts-footer-color);
+          font-size: 1em;
+          text-align: center;
+          cursor: initial;
+        }
+
+      }
+
+      &.#{$ts-ns}-clickable-toast {
+        cursor: pointer;
+      }
+
+      > .#{$ts-ns}-call-to-action {
+        display: none;
+      }
+
+      > .tt-timer-progress-bar-container {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        border-bottom-right-radius: var(--tt-border-radius);
+        border-bottom-left-radius: var(--tt-border-radius);
+        > .tt-timer-progress-bar {
+          display: flex;
+          width: 0%;
+          height: 0.25em;
+          background: var(--tt-timer-progress-bar-background);
+        }
+      }
+
+      > .#{$ts-ns}-close {
+        position: absolute;
+        cursor: pointer;
+        display: flex;
+
+        z-index: 2;
+        align-items: center;
+        justify-content: center;
+
+        width: 1em;
+        height: 1em;
+        top: 0;
+        right:0;
+        padding: 0;
+        overflow: hidden;
+        transition: color 0.2s, box-shadow 0.2s, opacity 0.2s;
+        border: none;
+        background: none;
+        color: var(--ts-close-button-color);
+        font-family: monospace;
+        font-size: 2.5rem;
+        justify-self: end;
+        opacity: 0.75;
+
+        &:hover {
+          opacity: 1;
+          color: var(--ts-close-button-hover-color);
+        }
+      }
+    }
+  }
+
+  // Toast mode (stackable notifications)
+  &.#{$ts-ns}-toast {
+
+    //--ts-toast-x: 0px;
+    //--ts-toast-y: 0px;
+    //--ts-toast-offset: 0px;
+
+    @keyframes ts-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}
+
+    @keyframes ts-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}
+
+
+    --ts-toast-background : #FFF;
+    --ts-toast-show-animation: ts-toast-show 0.5s;
+    --ts-toast-hide-animation: ts-toast-hide 0.1s forwards;
+    --ts-toast-border: none;
+    --ts-toast-box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 1px 2px hsl(0deg 0% 0% / 0.075), 1px 2px 4px hsl(0deg 0% 0% / 0.075), 1px 3px 8px hsl(0deg 0% 0% / 0.075), 2px 4px 16px hsl(0deg 0% 0% / 0.075);
+
+    inset: auto;
+    display: block;
+    width: auto;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    position: static;
+    pointer-events: none;
+
+    //transform: translate3d(var(--ts-toast-x), calc(var(--ts-toast-y) + var(--ts-toast-offset)), 0);
+    //transition: opacity 140ms ease, transform 220ms ease;
+
+    &.is-open >.tiny-swal-modal>.tiny-swal-popup{
+      animation:var(--ts-toast-show-animation)
+    }
+    &.is-closing >.tiny-swal-modal>.tiny-swal-popup {
+      animation:var(--ts-toast-hide-animation)
+    }
+
+    > .#{$ts-ns}-overlay { display: none; }
+    > .#{$ts-ns}-modal {
+      width: auto;
+      pointer-events: none;
+      display: block;
+
+      > .#{$ts-ns}-popup {
+        position: relative;
+        z-index: 0;          /* creates a controlled stacking context */
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5em;
+        pointer-events: all;
+        padding: 1em;
+        width: auto; //min(26em, calc(100vw - 48px));
+        max-width: #{'min(26em, calc(100vw - 48px))'};
+        max-height: none;
+        overflow: hidden;
+
+        border: var(--ts-toast-border);
+        background: var(--ts-toast-background);
+        box-shadow: var(--ts-toast-box-shadow);
+
+        > .#{$ts-ns}-icon {
+            margin: 0 !important;
+            width: 2em;
+            min-width: 2em;
+            height: 2em;
+
+          > .#{$ts-ns}-icon-glyph {
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: bold;
+          }
+
+        }
+
+        > .tiny-swal-body {
+          flex: 1 1 auto;
+          min-width: 0;
+          overflow: visible;
+
+          .#{$ts-ns}-title {
+              margin: 0.5em 1em;
+              padding: 0;
+              font-size: 1em;
+              text-align: initial;
+          }
+          .#{$ts-ns}-content {
+            flex: 0 1 auto;
+            min-height: auto;
+            overflow: visible;
+            overscroll-behavior: auto;
+            scrollbar-gutter: auto;
+            padding : 0.5rem 0.5rem 0.5rem 0;
+            text-align: left;
+            font-size: 1em;
+          }
+          .#{$ts-ns}-actions {
+            margin: 0 auto 0;
+            gap: 0.45em;
+            > button {
+              padding: 0.4em 0.6em;
+              font-size: 1em;
+            }
+          }
+        }
+
+        > .#{$ts-ns}-call-to-action {
+          display: inline-flex;
+          flex: 0 0 auto;
+          align-items: center;
+          justify-content: center;
+          align-self: center;
+          min-height: 2.5em;
+          margin-left: 0.35em;
+          padding: 0.55em 0.85em;
+          border: var(--ts-call-to-action-border);
+          border-radius: var(--ts-call-to-action-border-radius);
+          background: var(--ts-call-to-action-background-color);
+          color: var(--ts-call-to-action-color);
+          font: inherit;
+          font-weight: 700;
+          line-height: 1;
+          white-space: nowrap;
+          cursor: pointer;
+          transition: filter 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+
+          &:hover {
+            filter: brightness(1.08);
+          }
+
+          &:active {
+            transform: translateY(1px);
+          }
+
+          &:focus-visible {
+            outline: 0;
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--ts-call-to-action-background-color) 35%, transparent);
+          }
+        }
+
+        > .#{$ts-ns}-close {
+          width: 0.75em;
+          height: 0.75em;
+          font-size: 1.75rem;
+        }
+
+      }
+    }
+  }
+
+  .#{$ts-ns}-modal, .#{$ts-ns}-popup, .#{$ts-ns}-body, .#{$ts-ns}-content, .#{$ts-ns}-content-body > form {
+    outline: none !important;
+  }
+
+}
+
+
+
+
+@mixin swal2-icon-bg($name, $color){
+  &.#{$ts-ns}-icon-#{$name} {
+    background: rgba($color, 0.8) !important;
+    border: 1px solid rgba($color, 0.4);
+  }
+}
+
+//padding: 0.5rem;
+//margin: 0.5em 0.25em;
+
+
+.#{$ts-ns}-container {
+  &.#{$ts-ns}-toast.#{$ts-ns}-colored-toast {
+
+    > .#{$ts-ns}-modal {
+      > .#{$ts-ns}-popup {
+
+        color: #FFF;
+        border-radius: 12px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        padding:  0.5rem;
+
+        @include swal2-icon-bg(success,#a5dc86);
+        @include swal2-icon-bg(error,#f27474);
+        @include swal2-icon-bg(warning,#f8bb86);
+        @include swal2-icon-bg(info,#3fc3ee);
+        @include swal2-icon-bg(question,#87adbd);
+
+        >.#{$ts-ns}-icon[data-icon] {
+          color: #fff;
+          &:not([data-icon="custom"]) {
+            background: transparent;
+            border: 0.25em solid #FFF;
+          }
+        }
+
+        > .#{$ts-ns}-close {
+          position: relative;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Toast stack root (CSS-driven stacking)
+// -----------------------------------------------------------------------------
+.#{$ts-ns}-toast-stack {
+  position: fixed;
+  z-index: 10050;
+  display: flex;
+  gap: 12px;
+  pointer-events: none;
+
+  > .#{$ts-ns}-container { pointer-events: none; }
+
+  &[data-toast-position="top-start"]    { top: 24px; left: 24px; flex-direction: column; align-items: flex-start; }
+  &[data-toast-position="top"]          { top: 24px; left: 50%; transform: translateX(-50%); flex-direction: column; align-items: center; }
+  &[data-toast-position="top-end"]      { top: 24px; right: 24px; flex-direction: column; align-items: flex-end; }
+
+  &[data-toast-position="bottom-start"] { bottom: 24px; left: 24px; flex-direction: column-reverse; align-items: flex-start; }
+  &[data-toast-position="bottom"]       { bottom: 24px; left: 50%; transform: translateX(-50%); flex-direction: column-reverse; align-items: center; }
+  &[data-toast-position="bottom-end"]   { bottom: 24px; right: 24px; flex-direction: column-reverse; align-items: flex-end; }
+
+  &[data-toast-position="center-start"] { top: 50%; left: 24px; transform: translateY(-50%); flex-direction: column; align-items: flex-start; }
+  &[data-toast-position="center"]       { top: 50%; left: 50%; transform: translate(-50%, -50%); flex-direction: column; align-items: center; }
+  &[data-toast-position="center-end"]   { top: 50%; right: 24px; transform: translateY(-50%); flex-direction: column; align-items: flex-end; }
+}
+
+
+.#{$ts-ns}-container.#{$ts-ns}-dialog {
+  --ts-title-fontsize: 1.6rem;
+  --ts-padding: 0;
+
+  > .#{$ts-ns}-modal {
+    min-height: 0;
+
+    > .#{$ts-ns}-popup {
+      max-height: calc(100dvh - 2rem);
+      padding: 0;
+
+      // The full selector intentionally outranks the default popup body rules.
+      > .#{$ts-ns}-body {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+        scrollbar-gutter: auto;
+
+        > .#{$ts-ns}-title {
+          flex: 0 0 auto;
+          border-bottom: 1px solid var(--ts-divider-color, #ebebeb);
+          padding: .6rem 1rem !important;
+          line-height: 1.2;
+        }
+
+        > .#{$ts-ns}-content {
+          flex: 1 1 auto;
+          min-height: 0;
+          overflow-y: auto;
+          overflow-x: hidden;
+          line-height: inherit !important;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
+          contain: layout paint;
+
+          &.content-html {
+            padding: 1rem 1.6rem .75rem !important;
+            text-align: initial !important;
+          }
+
+          &.no-padding {
+            padding: 0 !important;
+          }
+        }
+
+        > .#{$ts-ns}-actions {
+          flex: 0 0 auto;
+          z-index: 0 !important;
+          margin: 0 !important;
+          padding: 1rem 1.6rem 1.25rem;
+          border-top: 1px solid var(--ts-divider-color, #ebebeb);
+        }
+      }
+    }
+  }
+}
+
+
+  /*
+  .swal2-modal {
+
+    &.swal2-wide {
+      width: 80vw !important;
+      max-width: 780px !important;
+    }
+    &.swal2-small {
+      min-width: 200px !important;
+      width: 350px !important;
+      padding: 0 0 0.2em !important;
+      .swal2-html-container {
+        margin: 0.3em 0.3em 0em;
+      }
+      .swal2-actions {
+        margin: 0em auto 0 !important;
+      }
+    }
+    @include mobile {
+      &.swal2-wide {
+        width: 98vw !important;
+      }
+    }
+  }*/

@@ -1,0 +1,19 @@
+{
+  "name": "tiny-autocomplete",
+  "version": "1.0.0",
+  "description": "Dependency-free autocomplete component for native input elements.",
+  "main": "src/TinyAutocomplete.js",
+  "style": "src/tiny-autocomplete.scss",
+  "files": [
+    "src",
+    "demo",
+    "README.md"
+  ],
+  "keywords": [
+    "autocomplete",
+    "vanilla-js",
+    "input",
+    "ui"
+  ],
+  "license": "MIT"
+}

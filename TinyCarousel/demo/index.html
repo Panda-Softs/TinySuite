@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TinyCarousel Demo</title>
+  <link rel="stylesheet" href="../dist/TinyCarousel.min.css">
+  <style>
+    :root {
+      color-scheme: light;
+      --page-bg: #f6f7fb;
+      --card-bg: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --border: #d9deea;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page-bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 80px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.15;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: -0.04em;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    p {
+      color: var(--muted);
+    }
+
+    code,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    pre {
+      overflow-x: auto;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #111827;
+      color: #f9fafb;
+      font-size: 0.9rem;
+    }
+
+    .demo-header {
+      margin-bottom: 40px;
+    }
+
+    .demo-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .demo-card {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--card-bg);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    .demo-carousel-frame {
+      margin: 24px 0;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #edf2ff, #fff7ed);
+    }
+
+    .demo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    button {
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #f3f4f6;
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.35);
+      outline-offset: 2px;
+    }
+
+    .demo-log {
+      min-height: 32px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .slide-content {
+      display: grid;
+      place-items: center;
+      width: 220px;
+      height: 220px;
+      border-radius: 16px;
+      background: #172033;
+      color: #fff;
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .tiny-carousel--full-width .slide-content {
+      width: 100%;
+      height: 360px;
+      border-radius: 0;
+      font-size: 4rem;
+    }
+
+    .tiny-carousel--track-layout .slide-content {
+      width: 100%;
+      height: 280px;
+      font-size: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="demo-header">
+      <h1>TinyCarousel</h1>
+      <p>Dependency-free JavaScript carousel demo showing the main options and usage patterns.</p>
+    </header>
+
+    <div class="demo-grid">
+      <section class="demo-card">
+        <h2>1. Default 3D carousel with indicators</h2>
+        <p>Drag, click a side item, use indicators, keyboard arrows, or API buttons.</p>
+
+        <div class="demo-carousel-frame">
+          <div class="tiny-carousel" id="default-carousel" aria-label="Default TinyCarousel demo">
+            <a class="carousel-item" href="#slide-1"><img src="./images/lake-1.svg" alt="Mountain landscape"></a>
+            <a class="carousel-item" href="#slide-2"><img src="./images/lake-2.svg" alt="Dog portrait"></a>
+            <a class="carousel-item" href="#slide-3"><img src="./images/lake-3.svg" alt="Forest landscape"></a>
+            <a class="carousel-item" href="#slide-4"><img src="./images/lake-4.svg" alt="Coastal landscape"></a>
+            <a class="carousel-item" href="#slide-5"><img src="./images/lake-5.svg" alt="Building facade"></a>
+          </div>
+        </div>
+
+        <div class="demo-actions">
+          <button type="button" data-prev="default-carousel">Previous</button>
+          <button type="button" data-next="default-carousel">Next</button>
+          <button type="button" data-set="default-carousel" data-index="0">Set 0</button>
+          <button type="button" data-set="default-carousel" data-index="2">Set 2</button>
+        </div>
+        <div class="demo-log" id="default-log"></div>
+
+        <pre><code>const carousel = new TinyCarousel(document.querySelector('#default-carousel'), {
+  indicators: true,
+  duration: 200,
+  dist: -100,
+  shift: 0,
+  padding: 0,
+  numVisible: 5,
+  fullWidth: false,
+  noWrap: false,
+  onCycleTo(item, dragged) {
+    console.log(item, dragged);
+  }
+});</code></pre>
+      </section>
+
+      <section class="demo-card">
+        <h2>2. noWrap carousel</h2>
+        <p>Stops at the first and last slide. This is useful when cyclic navigation would be misleading.</p>
+
+        <div class="demo-carousel-frame">
+          <div class="tiny-carousel" id="nowrap-carousel" aria-label="No wrap TinyCarousel demo">
+            <a class="carousel-item" href="#a"><span class="slide-content">1</span></a>
+            <a class="carousel-item" href="#b"><span class="slide-content">2</span></a>
+            <a class="carousel-item" href="#c"><span class="slide-content">3</span></a>
+            <a class="carousel-item" href="#d"><span class="slide-content">4</span></a>
+          </div>
+        </div>
+
+        <div class="demo-actions">
+          <button type="button" data-prev="nowrap-carousel">Previous</button>
+          <button type="button" data-next="nowrap-carousel">Next</button>
+          <button type="button" data-set="nowrap-carousel" data-index="3">Set last</button>
+        </div>
+
+        <pre><code>new TinyCarousel(document.querySelector('#nowrap-carousel'), {
+  indicators: true,
+  noWrap: true,
+  padding: 20,
+  shift: 20,
+  numVisible: 3
+});</code></pre>
+      </section>
+
+      <section class="demo-card">
+        <h2>3. Full-width carousel</h2>
+        <p>Uses full-width slides and automatic height from the active image/content.</p>
+
+        <div class="demo-carousel-frame">
+          <div class="tiny-carousel" id="fullwidth-carousel" aria-label="Full width TinyCarousel demo">
+            <a class="carousel-item" href="#full-1"><span class="slide-content">A</span></a>
+            <a class="carousel-item" href="#full-2"><span class="slide-content">B</span></a>
+            <a class="carousel-item" href="#full-3"><span class="slide-content">C</span></a>
+          </div>
+        </div>
+
+        <div class="demo-actions">
+          <button type="button" data-prev="fullwidth-carousel">Previous</button>
+          <button type="button" data-next="fullwidth-carousel">Next</button>
+        </div>
+
+        <pre><code>new TinyCarousel(document.querySelector('#fullwidth-carousel'), {
+  fullWidth: true,
+  indicators: true
+});</code></pre>
+      </section>
+
+
+      <section class="demo-card">
+        <h2>4. Full-width with side preview, arrows and top dots</h2>
+        <p><code>padding: '5rem'</code> creates side padding so previous/next slides remain visible. The navigation arrows are generated by option.</p>
+
+        <div class="demo-carousel-frame">
+          <div class="tiny-carousel" id="preview-carousel" aria-label="Side preview TinyCarousel demo">
+            <a class="carousel-item" href="#preview-1"><span class="slide-content">1</span></a>
+            <a class="carousel-item" href="#preview-2"><span class="slide-content">2</span></a>
+            <a class="carousel-item" href="#preview-3"><span class="slide-content">3</span></a>
+            <a class="carousel-item" href="#preview-4"><span class="slide-content">4</span></a>
+          </div>
+        </div>
+
+        <pre><code>new TinyCarousel(document.querySelector('#preview-carousel'), {
+  fullWidth: true,
+  padding: '5rem',
+  gap: '1rem',
+  indicators: true,
+  indicatorsPosition: 'top',
+  arrows: true
+});</code></pre>
+      </section>
+
+      <section class="demo-card">
+        <h2>5. Multiple slides: perPage and perMove</h2>
+        <p>Shows three slides at once and moves one slide per navigation action.</p>
+
+        <div class="demo-carousel-frame">
+          <div class="tiny-carousel" id="multiple-carousel" aria-label="Multiple slides TinyCarousel demo">
+            <a class="carousel-item" href="#multi-1"><span class="slide-content">1</span></a>
+            <a class="carousel-item" href="#multi-2"><span class="slide-content">2</span></a>
+            <a class="carousel-item" href="#multi-3"><span class="slide-content">3</span></a>
+            <a class="carousel-item" href="#multi-4"><span class="slide-content">4</span></a>
+            <a class="carousel-item" href="#multi-5"><span class="slide-content">5</span></a>
+            <a class="carousel-item" href="#multi-6"><span class="slide-content">6</span></a>
+          </div>
+        </div>
+
+        <pre><code>new TinyCarousel(document.querySelector('#multiple-carousel'), {
+  fullWidth: true,
+  perPage: 3,
+  perMove: 1,
+  gap: '1rem',
+  arrows: true,
+  indicators: true,
+  indicatorsPosition: 'right',
+  noWrap: true
+});</code></pre>
+      </section>
+
+      <section class="demo-card">
+        <h2>6. Progress bar instead of dots</h2>
+        <p>Use <code>progressBar: true</code> when you want a horizontal progression indicator instead of dots.</p>
+
+        <div class="demo-carousel-frame">
+          <div class="tiny-carousel" id="progress-carousel" aria-label="Progress bar TinyCarousel demo">
+            <a class="carousel-item" href="#progress-1"><span class="slide-content">A</span></a>
+            <a class="carousel-item" href="#progress-2"><span class="slide-content">B</span></a>
+            <a class="carousel-item" href="#progress-3"><span class="slide-content">C</span></a>
+            <a class="carousel-item" href="#progress-4"><span class="slide-content">D</span></a>
+          </div>
+        </div>
+
+        <pre><code>new TinyCarousel(document.querySelector('#progress-carousel'), {
+  fullWidth: true,
+  progressBar: true,
+  arrows: true
+});</code></pre>
+      </section>
+      <section class="demo-card">
+        <h2>7. Batch initialization with TinyCarousel.init()</h2>
+        <p>Use this when the page contains multiple carousels using the same options.</p>
+
+        <div class="demo-carousel-frame">
+          <div class="tiny-carousel batch-carousel" aria-label="Batch TinyCarousel demo one">
+            <a class="carousel-item" href="#batch-1"><span class="slide-content">X</span></a>
+            <a class="carousel-item" href="#batch-2"><span class="slide-content">Y</span></a>
+            <a class="carousel-item" href="#batch-3"><span class="slide-content">Z</span></a>
+          </div>
+        </div>
+
+        <pre><code>const instances = TinyCarousel.init(document.querySelectorAll('.batch-carousel'), {
+  indicators: true,
+  dist: -60,
+  shift: 15,
+  padding: 10
+});</code></pre>
+      </section>
+    </div>
+  </main>
+
+  <script src="../dist/TinyCarousel.min.js"></script>
+  <script>
+    const instances = new Map();
+
+    instances.set('default-carousel', new TinyCarousel(document.querySelector('#default-carousel'), {
+      duration: 200,
+      dist: -100,
+      shift: 0,
+      padding: 0,
+      numVisible: 5,
+      fullWidth: false,
+      indicators: true,
+      noWrap: false,
+      onCycleTo(item, dragged) {
+        document.querySelector('#default-log').textContent = `Active slide: ${this.wrap(this.center) + 1}; dragged: ${dragged}`;
+      }
+    }));
+
+    instances.set('nowrap-carousel', new TinyCarousel(document.querySelector('#nowrap-carousel'), {
+      indicators: true,
+      noWrap: true,
+      padding: 20,
+      shift: 20,
+      numVisible: 3
+    }));
+
+    instances.set('fullwidth-carousel', new TinyCarousel(document.querySelector('#fullwidth-carousel'), {
+      fullWidth: true,
+      indicators: true
+    }));
+
+    instances.set('preview-carousel', new TinyCarousel(document.querySelector('#preview-carousel'), {
+      fullWidth: true,
+      padding: '5rem',
+      gap: '1rem',
+      indicators: true,
+      indicatorsPosition: 'top',
+      arrows: true
+    }));
+
+    instances.set('multiple-carousel', new TinyCarousel(document.querySelector('#multiple-carousel'), {
+      fullWidth: true,
+      perPage: 3,
+      perMove: 1,
+      gap: '1rem',
+      arrows: true,
+      indicators: true,
+      indicatorsPosition: 'right',
+      noWrap: true
+    }));
+
+    instances.set('progress-carousel', new TinyCarousel(document.querySelector('#progress-carousel'), {
+      fullWidth: true,
+      progressBar: true,
+      arrows: true
+    }));
+
+    TinyCarousel.init(document.querySelectorAll('.batch-carousel'), {
+      indicators: true,
+      dist: -60,
+      shift: 15,
+      padding: 10
+    });
+
+    document.addEventListener('click', (event) => {
+      const previousButton = event.target.closest('[data-prev]');
+      const nextButton = event.target.closest('[data-next]');
+      const setButton = event.target.closest('[data-set]');
+
+      if (previousButton) {
+        instances.get(previousButton.dataset.prev)?.prev();
+      }
+
+      if (nextButton) {
+        instances.get(nextButton.dataset.next)?.next();
+      }
+
+      if (setButton) {
+        instances.get(setButton.dataset.set)?.set(Number(setButton.dataset.index));
+      }
+    });
+  </script>
+</body>
+</html>

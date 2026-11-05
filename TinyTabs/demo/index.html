@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TinyTabs Demo</title>
+
+  <link rel="stylesheet" href="../dist/TinyTabs.min.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      color: #222;
+    }
+
+    h1,
+    h2 {
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin-top: 56px;
+    }
+
+    code {
+      padding: 2px 5px;
+      background: #f3f3f3;
+      border-radius: 4px;
+    }
+
+    .demo-section {
+      margin-bottom: 56px;
+    }
+
+    .tab-panel {
+      min-height: 130px;
+      padding: 24px;
+      border: 1px solid #ddd;
+      border-top: none;
+      background: #fafafa;
+    }
+
+    .demo-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      min-height: 40px;
+      padding: 8px 14px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    button:hover,
+    button:focus-visible {
+      border-color: #ee6e73;
+    }
+
+    .event-log {
+      min-height: 96px;
+      margin-top: 20px;
+      padding: 16px;
+      overflow: auto;
+      border: 1px solid #ddd;
+      background: #f5f5f5;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 14px;
+    }
+
+    .mobile-demo {
+      max-width: 480px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>TinyTabs Demo</h1>
+
+  <p>
+    This page demonstrates standard tabs, disabled tabs, programmatic selection,
+    indicator updates, keyboard navigation, callbacks, and swipeable mode.
+  </p>
+
+  <section class="demo-section">
+    <h2>Standard tabs</h2>
+
+    <ul class="tabs js-standard-tabs">
+      <li class="tab">
+        <a href="#profile" class="active">Profile</a>
+      </li>
+      <li class="tab">
+        <a href="#settings">Settings</a>
+      </li>
+      <li class="tab disabled">
+        <a href="#billing">Billing</a>
+      </li>
+      <li class="tab">
+        <a href="#security">Security</a>
+      </li>
+    </ul>
+
+    <div id="profile" class="tab-panel">
+      <strong>Profile</strong>
+      <p>This is the active panel on page load.</p>
+    </div>
+
+    <div id="settings" class="tab-panel">
+      <strong>Settings</strong>
+      <p>This panel can be selected by click, keyboard, or JavaScript.</p>
+    </div>
+
+    <div id="billing" class="tab-panel">
+      <strong>Billing</strong>
+      <p>This panel belongs to a disabled tab and should not be reachable by click.</p>
+    </div>
+
+    <div id="security" class="tab-panel">
+      <strong>Security</strong>
+      <p>This panel is used to test programmatic selection.</p>
+    </div>
+
+    <div class="demo-controls">
+      <button type="button" data-select="profile">Select Profile</button>
+      <button type="button" data-select="settings">Select Settings</button>
+      <button type="button" data-select="security">Select Security</button>
+      <button type="button" id="update-indicator">Force indicator update</button>
+      <button type="button" id="destroy-standard">Destroy standard tabs</button>
+    </div>
+
+    <div class="event-log" id="event-log">Waiting for events...</div>
+  </section>
+
+  <section class="demo-section">
+    <h2>Swipeable tabs</h2>
+
+    <p>
+      Swipeable mode is enabled at or below <code>10000px</code> in this demo so it
+      can be tested on desktop-sized viewports too. On real projects, use a lower
+      threshold such as <code>768</code>.
+    </p>
+
+    <div class="mobile-demo">
+      <ul class="tabs js-swipe-tabs">
+        <li class="tab">
+          <a href="#slide-1" class="active">Slide 1</a>
+        </li>
+        <li class="tab">
+          <a href="#slide-2">Slide 2</a>
+        </li>
+        <li class="tab">
+          <a href="#slide-3">Slide 3</a>
+        </li>
+      </ul>
+
+      <div id="slide-1" class="tab-panel">
+        <strong>Slide 1</strong>
+        <p>Swipe left to move to the next panel.</p>
+      </div>
+
+      <div id="slide-2" class="tab-panel">
+        <strong>Slide 2</strong>
+        <p>Swipe right to move back.</p>
+      </div>
+
+      <div id="slide-3" class="tab-panel">
+        <strong>Slide 3</strong>
+        <p>The swipe behavior is clamped at the first and last tabs.</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="../dist/TinyTabs.min.js"></script>
+
+  <script>
+    const eventLog = document.getElementById('event-log');
+
+    function log(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      eventLog.innerHTML = '[' + timestamp + '] ' + message + '<br>' + eventLog.innerHTML;
+    }
+
+    const standardTabs = new TinyTabs({
+      element: document.querySelector('.js-standard-tabs'),
+      duration: 300,
+      onShow(panel) {
+        log('Standard active panel: #' + panel.id);
+      }
+    });
+
+    document.querySelectorAll('[data-select]').forEach((button) => {
+      button.addEventListener('click', () => {
+        standardTabs.select(button.dataset.select);
+      });
+    });
+
+    document.getElementById('update-indicator').addEventListener('click', () => {
+      standardTabs.updateTabIndicator();
+      log('Indicator manually updated.');
+    });
+
+    document.getElementById('destroy-standard').addEventListener('click', () => {
+      standardTabs.destroy();
+      log('Standard tabs destroyed. Reload the page to reinitialize.');
+    });
+
+    const swipeTabs = new TinyTabs({
+      element: '.js-swipe-tabs',
+      duration: 300,
+      swipeable: true,
+      responsiveThreshold: 10000,
+      onShow(panel) {
+        log('Swipe active panel: #' + panel.id);
+      }
+    });
+  </script>
+</body>
+</html>

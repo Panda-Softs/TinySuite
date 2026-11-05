@@ -1,0 +1,16 @@
+{
+  "name": "tinyt",
+  "version": "3.8.0",
+  "description": "Fast browser-side templating engine for trusted application templates.",
+  "main": "TinyT.umd.js",
+  "scripts": {
+    "test": "node tests/test.js",
+    "test:umd": "node tests/test.js TinyT.umd.js",
+    "test:min": "node tests/test.js TinyT.min.js",
+    "test:jquery": "node tests/jquery-adapter.js",
+    "test:all": "npm run test:umd && npm run test:min && npm run test:jquery",
+    "bench": "node bench/benchmark.js"
+  },
+  "unpkg": "TinyT.min.js",
+  "jsdelivr": "TinyT.min.js"
+}

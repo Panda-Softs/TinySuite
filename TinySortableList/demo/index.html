@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TinySortableList Demo</title>
+    <link rel="stylesheet" href="../dist/TinySortableList.min.css">
+    <link rel="stylesheet" href="demo.css">
+    <script src="../dist/TinySortableList.min.js" defer></script>
+</head>
+<body>
+<main class="demo-page">
+    <section class="demo-hero" aria-labelledby="demo-title">
+        <div class="demo-copy">
+            <span class="demo-eyebrow"><span class="demo-dot"></span> Pure JavaScript · Pointer Events · Zero dependencies</span>
+            <h1 id="demo-title">TinySortableList</h1>
+            <p>A compact sortable-list component for persistent business ordering. Drag with mouse, touch or pen, use the keyboard, inspect the changed positions and automatically roll back when persistence fails.</p>
+        </div>
+
+        <div class="demo-stats" aria-label="Component highlights">
+            <div class="demo-stat"><strong>0</strong><span>Dependencies</span></div>
+            <div class="demo-stat"><strong>3</strong><span>Pointer types</span></div>
+            <div class="demo-stat"><strong>Δ only</strong><span>Changed rows</span></div>
+        </div>
+    </section>
+
+    <section class="demo-layout">
+        <article class="demo-card">
+            <header class="demo-card-header">
+                <div>
+                    <h2>Rental calendar resources</h2>
+                    <p>Drag from the handle · Arrow ↑ / ↓ also works when the handle has focus.</p>
+                </div>
+                <span id="status" class="demo-status">Ready</span>
+            </header>
+
+            <div class="demo-board">
+                <div id="resource-list" class="resource-list" aria-label="Sortable rental resources"></div>
+            </div>
+
+            <footer class="demo-toolbar">
+                <button type="button" class="demo-button" data-action="reset">Reset order</button>
+                <button type="button" class="demo-button" data-action="shuffle">Shuffle</button>
+                <button type="button" class="demo-button" data-action="add">Add resource</button>
+                <button type="button" class="demo-button is-warning" data-action="fail">Fail next save</button>
+                <button type="button" class="demo-button is-primary" data-action="save">Show current order</button>
+            </footer>
+        </article>
+
+        <aside class="demo-sidebar">
+            <div class="panel-title">
+                <h3>Live component state</h3>
+                <code>TinySortableList</code>
+            </div>
+
+            <section class="control-group">
+                <div class="control-label"><strong>Current order</strong><span>getOrder()</span></div>
+                <code id="order-output" class="order-output"></code>
+                <p>The order is always read directly from the DOM. No parallel array is required.</p>
+            </section>
+
+            <section class="control-group">
+                <div class="control-label"><strong>Last changes</strong><span>getChanges()</span></div>
+                <code id="change-output" class="change-output">[]</code>
+                <p>Only rows whose 1-based position changed need to be sent to the server.</p>
+            </section>
+
+            <section class="control-group">
+                <div class="control-label"><strong>Callbacks</strong><span>Lifecycle</span></div>
+                <div id="event-log" class="event-log" aria-live="polite"></div>
+                <p><code>onStart</code>, <code>onChange</code>, <code>onEnd</code> and <code>onError</code> keep the public API intentionally small.</p>
+            </section>
+        </aside>
+    </section>
+</main>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const listElement = document.getElementById('resource-list');
+    const orderOutput = document.getElementById('order-output');
+    const changeOutput = document.getElementById('change-output');
+    const eventLog = document.getElementById('event-log');
+    const status = document.getElementById('status');
+    const toolbar = document.querySelector('.demo-toolbar');
+
+    const initialResources = [
+        { id: 1, name: 'Cap Camarat 470', description: '5 places · 50 CV 4T', type: 'Boat', color: '#8b5cf6' },
+        { id: 2, name: 'Terrasse', description: '8 places · 60 CV', type: 'Boat', color: '#06b6d4' },
+        { id: 3, name: 'Lomac', description: '10 places · 100 CV', type: 'RIB', color: '#10b981' },
+        { id: 4, name: 'E-Boat', description: '6 places · Electric', type: 'Electric', color: '#f59e0b' },
+        { id: 5, name: 'Pédalo 01', description: '4 places', type: 'Pedalo', color: '#ec4899' },
+        { id: 6, name: 'SUP Touring', description: '12’6 · Blue', type: 'SUP', color: '#3b82f6' }
+    ];
+
+    let nextId = 7;
+    let failNextSave = false;
+    let sortable = null;
+
+    const dragIcon = `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="currentColor" d="M9 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm0 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm0 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm10-16a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm0 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm0 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
+        </svg>`;
+
+    function createResourceRow(resource) {
+        const row = document.createElement('div');
+        row.className = 'tiny-sortable-list-item resource-row';
+        row.dataset.resourceId = resource.id;
+        row.innerHTML = `
+            <button type="button" class="tiny-sortable-list-handle" aria-label="Move ${resource.name}" title="Drag or use Arrow Up / Down">${dragIcon}</button>
+            <span class="resource-color" style="--resource-color:${resource.color}"></span>
+            <div class="resource-main"><strong></strong><span></span></div>
+            <span class="resource-type"></span>
+            <span class="resource-order"></span>`;
+        row.querySelector('.resource-main > strong').textContent = resource.name;
+        row.querySelector('.resource-main > span').textContent = resource.description;
+        row.querySelector('.resource-type').textContent = resource.type;
+        return row;
+    }
+
+    function renderResources(resources) {
+        const fragment = document.createDocumentFragment();
+        resources.forEach(resource => fragment.appendChild(createResourceRow(resource)));
+        listElement.replaceChildren(fragment);
+        updateOrderLabels();
+    }
+
+    function updateOrderLabels() {
+        [...listElement.children].forEach((row, index) => {
+            const label = row.querySelector('.resource-order');
+            if (label) label.textContent = `#${index + 1}`;
+        });
+        const order = sortable
+            ? sortable.getOrder()
+            : [...listElement.children].map(row => Number(row.dataset.resourceId));
+        orderOutput.textContent = JSON.stringify(order);
+    }
+
+    function logCallback(name, detail) {
+        const line = document.createElement('div');
+        line.className = 'event-line';
+        const title = document.createElement('strong');
+        const value = document.createElement('span');
+        title.textContent = name;
+        value.textContent = detail;
+        line.append(title, value);
+        eventLog.prepend(line);
+        while (eventLog.children.length > 6) eventLog.lastElementChild.remove();
+    }
+
+    function setStatus(text, state = '') {
+        status.textContent = text;
+        status.className = `demo-status${state ? ` ${state}` : ''}`;
+    }
+
+    function wait(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    renderResources(initialResources);
+
+    sortable = new TinySortableList(listElement, {
+        getId: item => Number(item.dataset.resourceId),
+
+        onStart({ movedId }) {
+            setStatus(`Moving #${movedId}`);
+            logCallback('onStart', `item ${movedId}`);
+        },
+
+        onChange({ order, changes }) {
+            updateOrderLabels();
+            changeOutput.textContent = JSON.stringify(changes);
+            logCallback('onChange', JSON.stringify(order));
+        },
+
+        async onEnd({ movedId, order, changes }) {
+            updateOrderLabels();
+            changeOutput.textContent = JSON.stringify(changes);
+            logCallback('onEnd', `${changes.length} changed position${changes.length === 1 ? '' : 's'}`);
+
+            if (!changes.length) {
+                setStatus('No change');
+                return true;
+            }
+
+            setStatus('Saving…', 'is-saving');
+            await wait(550);
+
+            if (failNextSave) {
+                failNextSave = false;
+                throw new Error(`Simulated persistence error for item ${movedId}`);
+            }
+
+            setStatus('Saved');
+            return true;
+        },
+
+        onError(error) {
+            updateOrderLabels();
+            changeOutput.textContent = '[]';
+            setStatus('Rolled back', 'is-error');
+            logCallback('onError', error.message);
+        }
+    });
+
+    // Synchronize values after the instance exists (renderResources runs before construction).
+    updateOrderLabels();
+
+    toolbar.addEventListener('click', event => {
+        const button = event.target.closest('[data-action]');
+        if (!button) return;
+
+        const action = button.dataset.action;
+
+        if (action === 'reset') {
+            sortable.setOrder(initialResources.map(resource => resource.id));
+            changeOutput.textContent = '[]';
+            updateOrderLabels();
+            setStatus('Reset');
+            logCallback('API', 'setOrder(initialOrder)');
+        }
+
+        if (action === 'shuffle') {
+            const order = sortable.getOrder().sort(() => Math.random() - 0.5);
+            sortable.setOrder(order);
+            updateOrderLabels();
+            setStatus('Shuffled');
+            logCallback('API', 'setOrder(shuffledOrder)');
+        }
+
+        if (action === 'add') {
+            const resource = {
+                id: nextId++,
+                name: `New resource ${nextId - 1}`,
+                description: 'Added after initialization',
+                type: 'Dynamic',
+                color: '#14b8a6'
+            };
+            listElement.appendChild(createResourceRow(resource));
+            updateOrderLabels();
+            setStatus('Resource added');
+            logCallback('Dynamic', `item ${resource.id} added — no rebind`);
+        }
+
+        if (action === 'fail') {
+            failNextSave = true;
+            setStatus('Next save will fail', 'is-error');
+            logCallback('Demo', 'next onEnd throws → automatic rollback');
+        }
+
+        if (action === 'save') {
+            const order = sortable.getOrder();
+            setStatus('Order inspected');
+            logCallback('getOrder', JSON.stringify(order));
+        }
+    });
+});
+</script>
+</body>
+</html>
