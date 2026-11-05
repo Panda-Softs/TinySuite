@@ -28,6 +28,46 @@ jobs:
         run: npm ci
       - name: Verify tracked distributions and demo dependencies
         run: npm run verify
+      - name: Diagnose TinyDataTable CSS mismatch
+        if: failure()
+        run: |
+          FILE="TinyDataTable/dist/TinyDataTable.min.css"
+
+          echo "=== Environment ==="
+          node --version
+          npm --version
+          git rev-parse HEAD
+
+          echo "=== CSS tracked by Git ==="
+          git show "HEAD:$FILE" | sha256sum
+          sha256sum "$FILE"
+
+          cp "$FILE" /tmp/tinydatatable-before.css
+
+          echo "=== Regenerate distributions ==="
+          node scripts/build-dist.cjs
+
+          echo "=== Generated CSS ==="
+          sha256sum "$FILE"
+          git diff --numstat -- "$FILE"
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          old = Path("/tmp/tinydatatable-before.css").read_bytes()
+          new = Path("TinyDataTable/dist/TinyDataTable.min.css").read_bytes()
+
+          pos = next(
+              (i for i, (a, b) in enumerate(zip(old, new)) if a != b),
+              min(len(old), len(new))
+          )
+
+          print(f"Original: {len(old)} bytes")
+          print(f"Generated: {len(new)} bytes")
+          print(f"First difference at byte: {pos}")
+          print(f"Original excerpt: {old[max(0,pos-60):pos+100]!r}")
+          print(f"Generated excerpt: {new[max(0,pos-60):pos+100]!r}")
+          PY        
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
