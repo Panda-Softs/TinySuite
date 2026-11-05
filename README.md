@@ -8,129 +8,129 @@
 
 ### Small components. Beautiful interfaces.
 
-**Une collection de composants JavaScript indépendants pour construire des interfaces web modernes, interactives et personnalisables.**
+**A collection of independent JavaScript components for building modern, interactive, and customizable web interfaces.**
 
 <p>
-  <img alt="20 composants" src="https://img.shields.io/badge/20-composants-34d5f5?style=for-the-badge&labelColor=101a32" />
-  <img alt="6 catégories" src="https://img.shields.io/badge/6-cat%C3%A9gories-8b80ff?style=for-the-badge&labelColor=101a32" />
-  <img alt="JavaScript modulaire" src="https://img.shields.io/badge/JavaScript-modulaire-f5c84b?style=for-the-badge&labelColor=101a32" />
+  <img alt="20 components" src="https://img.shields.io/badge/20-components-34d5f5?style=for-the-badge&labelColor=101a32" />
+  <img alt="6 categories" src="https://img.shields.io/badge/6-categories-8b80ff?style=for-the-badge&labelColor=101a32" />
+  <img alt="Modular JavaScript" src="https://img.shields.io/badge/JavaScript-modular-f5c84b?style=for-the-badge&labelColor=101a32" />
 </p>
 
-**[Découvrir le site officiel](https://panda-softs.github.io/TinySuite/)** · **[Explorer les 20 composants](https://panda-softs.github.io/TinySuite/components/)** · **[Voir les démonstrations](https://panda-softs.github.io/TinySuite/#demos)** · **[GitHub](https://github.com/Panda-Softs/TinySuite)**
+**[Visit the official website](https://panda-softs.github.io/TinySuite/)** · **[Explore all 20 components](https://panda-softs.github.io/TinySuite/components/)** · **[View the demos](https://panda-softs.github.io/TinySuite/#demos)** · **[GitHub repository](https://github.com/Panda-Softs/TinySuite)**
 
 <a href="https://panda-softs.github.io/TinySuite/">
-  <img src="website/assets/images/tinysuite-hero.webp" alt="Aperçu de plusieurs interfaces TinySuite" width="900" />
+  <img src="website/assets/images/tinysuite-hero.webp" alt="Preview of several TinySuite interfaces" width="900" />
 </a>
 
-<sub>Un projet <a href="https://panda-softs.github.io/">Panda-Softs</a> · Des composants ciblés, utilisables individuellement.</sub>
+<sub>A <a href="https://panda-softs.github.io/">Panda-Softs</a> project · Focused components that can be used individually.</sub>
 
 </div>
 
 ---
 
-## ✦ Présentation
+## ✦ Introduction
 
-**TinySuite** rassemble des composants d'interface et des utilitaires JavaScript conçus pour répondre à des besoins concrets : tableaux de données, calendriers, champs enrichis, navigation, galeries, dialogues, édition de contenu et rendu de templates.
+**TinySuite** brings together JavaScript UI components and utilities designed for practical needs: data tables, calendars, enhanced form controls, navigation, galleries, dialogs, content editing, and template rendering.
 
-L'objectif n'est **pas** de remplacer un framework ou d'imposer un design system monolithique. Chaque composant possède sa propre logique, ses fichiers, ses options et sa démonstration. On peut intégrer uniquement les outils nécessaires à une page, à une application métier ou à un tableau de bord.
+The goal is **not** to replace a framework or impose a monolithic design system. Each component has its own logic, files, options, and demo. You can integrate only the tools needed by a particular page, business application, or dashboard.
 
-### Ce qui caractérise TinySuite
+### What makes TinySuite different?
 
-| Principe | Concrètement |
+| Principle | What it means in practice |
 | :-- | :-- |
-| **Modularité** | Choisissez un composant sans importer toute la collection. |
-| **Intégration directe** | La majorité des modules fonctionnent avec du JavaScript natif et des balises `<script>` / `<link>`. |
-| **Comportement configurable** | Options d'initialisation, callbacks, méthodes publiques et événements selon le composant. |
-| **Interfaces métier** | Recherche, sélection, validation, formulaires, actions, édition, planification et gestion de données. |
-| **Styles adaptables** | CSS propre à chaque module, avec variables et options de personnalisation lorsque prévues. |
-| **Démonstrations** | Une page de présentation et un accès à la démo pour chacun des 20 composants. |
-| **Distribution vérifiable** | Sources et fichiers compilés contrôlés par les scripts du dépôt et GitHub Actions. |
+| **Modularity** | Choose one component without importing the entire collection. |
+| **Straightforward integration** | Most modules work with vanilla JavaScript and ordinary `<script>` / `<link>` tags. |
+| **Configurable behavior** | Initialization options, callbacks, public methods, and events, depending on the component. |
+| **Business-oriented interfaces** | Search, selection, validation, forms, actions, editing, scheduling, and data management. |
+| **Adaptable styling** | Component-specific CSS, with variables and customization options where supported. |
+| **Live demonstrations** | A dedicated page and a demo link for each of the 20 components. |
+| **Verifiable builds** | Source files and generated distributions checked by repository scripts and GitHub Actions. |
 
 > [!IMPORTANT]
-> **Indépendant ne veut pas toujours dire « zéro dépendance ».** Les composants sont séparés et ne nécessitent pas l'installation de *toute* TinySuite. Certaines intégrations ont toutefois des dépendances explicites : **TinyGallery** utilise **TinyLightbox** ; **TinyInlineEditor** utilise **jQuery** ; d'autres modules proposent des bibliothèques ou plugins facultatifs. Les exceptions sont précisées ci-dessous.
+> **Independent does not always mean dependency-free.** Components are separate and do not require installing *all* of TinySuite. Some integrations have explicit dependencies: **TinyGallery** uses **TinyLightbox**, **TinyInlineEditor** requires **jQuery**, and other modules offer optional libraries or plugins. These exceptions are documented below.
 
-## Navigation rapide
+## Quick navigation
 
-| Catégorie | Composants | Rôle |
+| Category | Components | Main purpose |
 | :-- | :--: | :-- |
-| [Données & planification](#1--données--planification) | **2** | Tableaux avancés, calendriers, ressources |
-| [Formulaires & saisie](#2--formulaires--saisie) | **6** | Suggestions, sélections, dates, couleurs, signatures |
-| [Navigation & structure](#3--navigation--structure) | **5** | Onglets, menus, panneaux, sections et actions groupées |
-| [Médias](#4--médias) | **3** | Galeries, visionneuses et carrousels |
-| [Interactions & édition](#5--interactions--édition) | **3** | Tri manuel, édition inline, alertes et confirmations |
-| [Outils développeur](#6--outils-développeur) | **1** | Templates et rendu HTML |
+| [Data & scheduling](#1--data--scheduling) | **2** | Advanced tables, calendars, resource planning |
+| [Forms & input](#2--forms--input) | **6** | Suggestions, selections, dates, colors, signatures |
+| [Navigation & layout](#3--navigation--layout) | **5** | Tabs, menus, panels, collapsible sections, grouped actions |
+| [Media](#4--media) | **3** | Galleries, image viewers, carousels |
+| [Interactions & editing](#5--interactions--editing) | **3** | Manual sorting, inline editing, alerts, confirmations |
+| [Developer tools](#6--developer-tools) | **1** | HTML templates and rendering |
 
-**[Installation](#installation-et-utilisation)** · **[Architecture](#architecture-et-philosophie-technique)** · **[Développement](#développement-et-vérifications)** · **[FAQ](#questions-fréquentes)**
+**[Installation](#installation-and-usage)** · **[Architecture](#architecture-and-technical-philosophy)** · **[Development](#development-and-validation)** · **[FAQ](#frequently-asked-questions)**
 
 ---
 
-## Catalogue des 20 composants
+## Component catalog — all 20 components
 
-### 1 · Données & planification
+### 1 · Data & scheduling
 
-Deux composants pour les interfaces riches en données : consultation, opérations métier, réservations et gestion des ressources.
+Two components for data-rich interfaces: browsing records, performing business operations, handling bookings, and managing resources.
 
-| Composant | À quoi sert-il ? | Page |
+| Component | What does it do? | Website |
 | :-- | :-- | :-- |
-| **TinyDataTable** | Afficher, rechercher, trier, filtrer et sélectionner des données tabulaires. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyDataTable/) |
-| **TinyScheduler** | Organiser des événements, créneaux et ressources dans plusieurs vues calendaires. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyScheduler/) |
+| **TinyDataTable** | Display, search, sort, filter, and select tabular data. | [Explore](https://panda-softs.github.io/TinySuite/TinyDataTable/) |
+| **TinyScheduler** | Organize events, time slots, and resources across multiple calendar views. | [Explore](https://panda-softs.github.io/TinySuite/TinyScheduler/) |
 
-#### TinyDataTable — Tableaux de données avancés
+#### TinyDataTable — Advanced data tables
 
-**Pour quoi faire ?** Transformer une liste d'objets ou des données chargées depuis un serveur en tableau interactif. Particulièrement adapté aux écrans d'administration, CRM, ERP, rapports et vues opérationnelles où l'utilisateur doit retrouver et manipuler rapidement des informations.
+**What is it for?** Turn an array of objects or server-provided records into an interactive table. It is particularly useful for administration screens, CRMs, ERPs, reports, and operational dashboards where users need to find and manipulate information quickly.
 
-**Fonctionnalités principales**
-- Colonnes configurables : titres, visibilité, tri, recherche, classes CSS et rendu personnalisé.
-- Données locales, chargement **AJAX** et modes de traitement adaptés aux volumes de données.
-- Recherche globale, filtres par colonne, pagination et choix de taille de page.
-- Sélection de lignes, sélection par groupe et actions contextualisées.
-- Regroupements statiques ou dynamiques, lignes enfants dépliables et agrégations en pied de tableau.
-- Événements (`draw`, `page`, `search`, `order`, `select`, `action`, etc.) pour synchroniser l'interface avec l'application.
-- Modules complémentaires dans le dossier source : export, édition inline, sélecteurs personnalisés, multisélection, rendus et localisation française.
+**Key features**
+- Configurable columns: titles, visibility, sorting, searching, CSS classes, and custom rendering.
+- Local data, **AJAX** loading, and processing modes suitable for different data volumes.
+- Global search, column filters, pagination, and page-size selection.
+- Row selection, group selection, and contextual actions.
+- Static or dynamic grouping, expandable child rows, and footer aggregations.
+- Events (`draw`, `page`, `search`, `order`, `select`, `action`, etc.) to synchronize the table with your application.
+- Additional source modules for export, inline editing, custom selectors, multiselection, rendering, and French localization.
 
-**Configuration et API.** Les entrées importantes sont `columns`, `data`, `ajax`, `paging`, `grouping`, `childRows` et les options de recherche/sélection. L'API permet notamment `search()`, `sortBy()`, `goToPage()`, `setData()`, `getSelectedRows()` et `on()` / `off()`.
+**Configuration and API.** Important options include `columns`, `data`, `ajax`, `paging`, `grouping`, `childRows`, and search/selection settings. Public methods include `search()`, `sortBy()`, `goToPage()`, `setData()`, `getSelectedRows()`, and `on()` / `off()`.
 
 ```js
 const table = new TinyDataTable('#users', {
   columns: [
-    { key: 'name', title: 'Nom', sortable: true },
-    { key: 'role', title: 'Rôle', sortable: true }
+    { key: 'name', title: 'Name', sortable: true },
+    { key: 'role', title: 'Role', sortable: true }
   ],
   data: [
     { name: 'Alice', role: 'Admin' },
-    { name: 'Bob', role: 'Éditeur' }
+    { name: 'Bob', role: 'Editor' }
   ],
   paging: { enabled: true, pageSize: 10 }
 });
 ```
 
-**Points forts.** Grande richesse fonctionnelle sans dépendre de jQuery pour le cœur du tableau ; rendu personnalisable ; séparation entre données, affichage et pagination. **À savoir :** la mise en évidence des recherches peut utiliser `mark.js` ; certaines fonctions d'export/démonstration utilisent des bibliothèques tierces. Vérifiez les modules chargés et validez côté serveur toute action sur les données.
+**Strengths.** Extensive functionality without requiring jQuery for the core table, customizable rendering, and separation between data, presentation, and pagination. **Good to know:** search highlighting may use `mark.js`; some export features and demos use third-party libraries. Load only the extensions you need, and always validate data-changing operations on the server.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyDataTable/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyDataTable/demo/) · [Sources](./TinyDataTable/) · [Documentation détaillée](./TinyDataTable/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyDataTable/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyDataTable/demo/) · [Source files](./TinyDataTable/) · [Detailed documentation](./TinyDataTable/README.md)
 
-#### TinyScheduler — Calendrier et planification de ressources
+#### TinyScheduler — Calendars and resource scheduling
 
-**Pour quoi faire ?** Construire des agendas, des outils de réservation, des plannings d'équipes ou des écrans de disponibilité de ressources : salles, véhicules, collaborateurs, équipements, etc.
+**What is it for?** Build calendars, booking tools, team schedules, and resource-availability interfaces for rooms, vehicles, staff, equipment, and more.
 
-**Fonctionnalités principales**
-- Vues `month`, `week`, `day`, `list`, `resourceTimeGrid` et `resourceTimeline`.
-- Planification par ressource, avec périodes jour/semaine et, en timeline, mois.
-- Événements locaux ou issus de sources externes ; navigation entre dates et vues.
-- Sélection de créneaux, déplacement par glisser-déposer et redimensionnement lorsque activés.
-- Détection des chevauchements avec `eventConflictScope` et callbacks d'arbitrage.
-- Rafraîchissement ciblé des événements et préservation du défilement dans plusieurs vues.
-- Hooks de cycle de vie et callbacks pour ajout, édition, déplacement, suppression et chargement.
+**Key features**
+- `month`, `week`, `day`, `list`, `resourceTimeGrid`, and `resourceTimeline` views.
+- Resource-based scheduling with day/week ranges and a monthly range in timeline mode.
+- Local events or external event sources, with date and view navigation.
+- Time-slot selection, drag-and-drop event movement, and resizing when enabled.
+- Overlap detection using `eventConflictScope` and conflict-resolution callbacks.
+- Targeted event refreshes and scroll-position preservation in several views.
+- Lifecycle hooks and callbacks for creation, editing, movement, deletion, and loading.
 
-**Configuration et API.** Les options clés sont `initialView`, `initialDate`, `events`, `eventSources`, `resources`, `resourceSources`, `editable`, `selectable`, `planningRange`, `slotDuration`, `minTime`, `maxTime` et `onEventConflict`. Un callback peut retourner `false` ou `Promise<false>` pour annuler une opération concernée.
+**Configuration and API.** Key options include `initialView`, `initialDate`, `events`, `eventSources`, `resources`, `resourceSources`, `editable`, `selectable`, `planningRange`, `slotDuration`, `minTime`, `maxTime`, and `onEventConflict`. A callback can return `false` or `Promise<false>` to cancel the relevant operation.
 
 ```js
 const scheduler = new TinyScheduler('#calendar', {
   initialView: 'resourceTimeline',
   planningRange: 'week',
   editable: true,
-  resources: [{ id: 'room-1', title: 'Salle 1' }],
+  resources: [{ id: 'room-1', title: 'Room 1' }],
   events: [{
-    id: 'meeting-1', title: 'Réunion',
+    id: 'meeting-1', title: 'Meeting',
     start: '2026-11-09T10:00:00',
     end: '2026-11-09T11:00:00',
     resourceId: 'room-1'
@@ -139,44 +139,44 @@ const scheduler = new TinyScheduler('#calendar', {
 scheduler.render();
 ```
 
-**Points forts.** Plusieurs modèles de calendrier dans un seul composant, callbacks annulables et architecture de rafraîchissement conçue pour limiter les reconstructions du DOM. **Configuration spéciale :** les fichiers de distribution s'appellent **`tiny-scheduler.min.js`** et **`tiny-scheduler.min.css`** (minuscules), contrairement à la convention de nombreux autres modules. Les conflits doivent aussi être validés par le serveur pour éviter les doubles réservations concurrentes.
+**Strengths.** Multiple calendar models in one component, cancellable callbacks, and refresh logic designed to reduce unnecessary DOM reconstruction. **Special setup:** the distribution files are named **`tiny-scheduler.min.js`** and **`tiny-scheduler.min.css`** (lowercase), unlike many other modules. Booking conflicts must also be validated on the server to prevent concurrent double bookings.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyScheduler/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyScheduler/demo/) · [Sources](./TinyScheduler/) · [Documentation détaillée](./TinyScheduler/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyScheduler/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyScheduler/demo/) · [Source files](./TinyScheduler/) · [Detailed documentation](./TinyScheduler/README.md)
 
 ---
 
-### 2 · Formulaires & saisie
+### 2 · Forms & input
 
-Six composants pour rendre les formulaires plus rapides, plus précis et plus agréables à utiliser.
+Six components that make forms faster, more precise, and more pleasant to use.
 
-| Composant | À quoi sert-il ? | Page |
+| Component | What does it do? | Website |
 | :-- | :-- | :-- |
-| **TinyAutocomplete** | Suggérer des valeurs dans un champ texte. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyAutocomplete/) |
-| **TinySelectize** | Enrichir un `<select>` simple ou multiple. | [Découvrir](https://panda-softs.github.io/TinySuite/TinySelectize/) |
-| **TinyChips** | Saisir et gérer des étiquettes ou valeurs multiples. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyChips/) |
-| **TinyDatePicker** | Choisir une date ou une période. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyDatePicker/) |
-| **tinyColorPicker** | Sélectionner une couleur depuis une palette ou un sélecteur natif. | [Découvrir](https://panda-softs.github.io/TinySuite/tinyColorPicker/) |
-| **TinySignature** | Capturer une signature manuscrite dans un canvas. | [Découvrir](https://panda-softs.github.io/TinySuite/TinySignature/) |
+| **TinyAutocomplete** | Suggest matching values while typing in a text field. | [Explore](https://panda-softs.github.io/TinySuite/TinyAutocomplete/) |
+| **TinySelectize** | Enhance single- or multiple-selection `<select>` elements. | [Explore](https://panda-softs.github.io/TinySuite/TinySelectize/) |
+| **TinyChips** | Enter and manage tags or multiple values. | [Explore](https://panda-softs.github.io/TinySuite/TinyChips/) |
+| **TinyDatePicker** | Select a date or date range. | [Explore](https://panda-softs.github.io/TinySuite/TinyDatePicker/) |
+| **tinyColorPicker** | Pick colors from a palette or native color selector. | [Explore](https://panda-softs.github.io/TinySuite/tinyColorPicker/) |
+| **TinySignature** | Capture a handwritten signature on a canvas. | [Explore](https://panda-softs.github.io/TinySuite/TinySignature/) |
 
-#### TinyAutocomplete — Suggestions intelligentes
+#### TinyAutocomplete — Smart suggestions
 
-**Pour quoi faire ?** Compléter un champ texte au fil de la frappe : villes, clients, références, adresses, catégories ou recherches métier. Contrairement à un sélecteur enrichi, l'utilisateur travaille toujours dans son `<input>` natif.
+**What is it for?** Complete text fields as the user types: cities, customers, reference numbers, addresses, categories, or business-specific searches. Unlike an enhanced select, users continue working in their native `<input>` element.
 
-**Fonctionnalités principales.** Suggestions locales ou distantes via `fetch`, tri par pertinence, mise en évidence des correspondances, rendu personnalisé des résultats, navigation clavier (`↑`, `↓`, `Enter`, `Escape`, `Tab`), temporisation des recherches et annulation des requêtes devenues obsolètes avec `AbortController`.
+**Key features.** Local or remote suggestions via `fetch`, relevance-based sorting, match highlighting, custom result rendering, keyboard navigation (`↑`, `↓`, `Enter`, `Escape`, `Tab`), search debouncing, and cancellation of outdated requests using `AbortController`.
 
-**Configuration et API.** `data`, `url`, `queryParam`, `minLength`, `limit`, `searchDelay`, ainsi que les fonctions de rendu/tri. Initialisation avec `TinyAutocomplete.init(selector, options)` ; récupération via `TinyAutocomplete.getInstance()` ; méthodes d'instance `search()`, `open()`, `close()`, `clear()`, `enable()`, `disable()` et `destroy()`.
+**Configuration and API.** `data`, `url`, `queryParam`, `minLength`, `limit`, `searchDelay`, plus rendering and sorting functions. Initialize with `TinyAutocomplete.init(selector, options)`; retrieve instances with `TinyAutocomplete.getInstance()`; instance methods include `search()`, `open()`, `close()`, `clear()`, `enable()`, `disable()`, and `destroy()`.
 
-**Points forts.** Intégration simple à un formulaire existant, pas de jQuery et gestion explicite des requêtes asynchrones. **À savoir :** une recherche distante exige un endpoint applicatif et une validation serveur des valeurs retenues.
+**Strengths.** Easy integration into existing forms, no jQuery requirement, and explicit handling of asynchronous requests. **Good to know:** remote search requires an application endpoint and server-side validation of selected values.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyAutocomplete/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyAutocomplete/demo/) · [Sources](./TinyAutocomplete/) · [Documentation détaillée](./TinyAutocomplete/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyAutocomplete/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyAutocomplete/demo/) · [Source files](./TinyAutocomplete/) · [Detailed documentation](./TinyAutocomplete/README.md)
 
-#### TinySelectize — Sélecteur enrichi, simple ou multiple
+#### TinySelectize — Enhanced single and multiple selection
 
-**Pour quoi faire ?** Améliorer un `<select>` HTML avec recherche, sélection multiple, chargement distant et présentation personnalisée, sans perdre le fonctionnement du formulaire natif.
+**What is it for?** Upgrade an HTML `<select>` with search, multiple selection, remote loading, and customizable presentation while preserving native form behavior.
 
-**Fonctionnalités principales.** Sélection simple/multiple, filtrage clavier, options locales ou AJAX, loaders asynchrones (Promise ou callback), cache des recherches, optgroups, templates de rendu, dropdown détaché pour éviter les problèmes de superposition, plugins de type arbre et marquage, restauration éventuelle des valeurs via `localStorage`.
+**Key features.** Single/multiple selection, keyboard filtering, local or AJAX options, asynchronous loaders (Promise or callback), search caching, optgroups, rendering templates, detached dropdowns to avoid stacking issues, tree and highlighting plugins, and optional value restoration through `localStorage`.
 
-**Configuration et API.** `minChars`, `options`, `valueField`, `labelField`, `searchField`, `load`, `ajax.url`, `ajax.queryParam`, `render.option`, `render.item`, `dropdownParent`, `storageKey`, `maxOptions`. Méthodes `val()`, `addOption()`, `addItem()`, `refreshOptions()`, `sync()`, `open()`, `close()`, `destroy()` et `whenValueReady()`.
+**Configuration and API.** `minChars`, `options`, `valueField`, `labelField`, `searchField`, `load`, `ajax.url`, `ajax.queryParam`, `render.option`, `render.item`, `dropdownParent`, `storageKey`, `maxOptions`. Methods include `val()`, `addOption()`, `addItem()`, `refreshOptions()`, `sync()`, `open()`, `close()`, `destroy()`, and `whenValueReady()`.
 
 ```js
 const select = new TinySelectize('#country', {
@@ -186,29 +186,29 @@ const select = new TinySelectize('#country', {
 });
 ```
 
-**Points forts.** Le `<select>` d'origine reste la **source de vérité**, conserve ses valeurs de formulaire et émet `change`. **Configuration spéciale :** plugins `TinySelectize.Tree.plugin.js` et `TinySelectize.Mark.plugin.js` à charger uniquement si nécessaires ; les résultats AJAX doivent respecter le contrat du loader ou être transformés avec les options prévues.
+**Strengths.** The original `<select>` remains the **source of truth**, retains its form values, and emits `change`. **Special setup:** load `TinySelectize.Tree.plugin.js` and `TinySelectize.Mark.plugin.js` only when needed; AJAX results must follow the loader contract or be transformed through the provided options.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinySelectize/)** · [Démo](https://panda-softs.github.io/TinySuite/TinySelectize/demo/) · [Sources](./TinySelectize/) · [Documentation détaillée](./TinySelectize/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinySelectize/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinySelectize/demo/) · [Source files](./TinySelectize/) · [Detailed documentation](./TinySelectize/README.md)
 
-#### TinyChips — Tags, étiquettes et saisie structurée
+#### TinyChips — Tags, labels, and structured input
 
-**Pour quoi faire ?** Permettre l'ajout et la suppression de plusieurs valeurs dans un même contrôle : mots-clés, compétences, destinataires, catégories, filtres ou étiquettes d'un objet métier.
+**What is it for?** Add and remove multiple values in a single control: keywords, skills, recipients, categories, filters, or labels attached to a business record.
 
-**Fonctionnalités principales.** Affichage en « chips », ajout/suppression/sélection, suggestions statiques ou AJAX, validation par motif, contrôle des doublons et du nombre maximal, personnalisation des champs de valeur/libellé, callbacks d'ajout, suppression, changement et refus.
+**Key features.** Chip display, adding/removing/selecting values, static or AJAX suggestions, pattern validation, duplicate and maximum-count controls, customizable value/label fields, and callbacks for addition, removal, changes, and rejection.
 
-**Configuration et API.** Deux modes : **conteneur** (`<div>`) ou **champ source** (`<input>`). Dans le second, l'input natif est conservé et synchronisé automatiquement. `valueMode: 'json'` gère les étiquettes contenant des virgules ; `valueMode: 'csv'` convient aux valeurs simples. Options utiles : `limit`, `allowDuplicates`, `separators`, `pattern`, `autocompleteOptions.url`, `autocompleteOptions.loadOnce`, `valueField`, `labelField`, `onChange`.
+**Configuration and API.** Two modes: **container** (`<div>`) or **source field** (`<input>`). In source-field mode, the native input is preserved and synchronized automatically. `valueMode: 'json'` supports tags containing commas; `valueMode: 'csv'` suits simple values. Useful options include `limit`, `allowDuplicates`, `separators`, `pattern`, `autocompleteOptions.url`, `autocompleteOptions.loadOnce`, `valueField`, `labelField`, and `onChange`.
 
-**Points forts.** Bonne intégration aux formulaires et gestion explicite de la sérialisation. **À savoir :** privilégier JSON lorsque les valeurs peuvent contenir des séparateurs ; les règles de validation côté client ne remplacent pas celles du backend.
+**Strengths.** Good form integration and explicit serialization behavior. **Good to know:** prefer JSON when values may contain delimiters; client-side validation does not replace backend validation.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyChips/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyChips/demo/) · [Sources](./TinyChips/) · [Documentation détaillée](./TinyChips/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyChips/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyChips/demo/) · [Source files](./TinyChips/) · [Detailed documentation](./TinyChips/README.md)
 
-#### TinyDatePicker — Dates et plages de dates
+#### TinyDatePicker — Dates and date ranges
 
-**Pour quoi faire ?** Remplacer ou compléter un champ date avec un calendrier adapté aux formulaires : réservations, échéances, périodes de reporting, dates de début et de fin.
+**What is it for?** Replace or enhance date inputs with a form-friendly calendar for bookings, deadlines, reporting periods, and start/end dates.
 
-**Fonctionnalités principales.** Modes `inline`, `modal` et `permanent` ; sélection d'une date ou d'un intervalle ; localisation des mois/jours et des libellés ; formats de sortie ; contraintes min/max ; interdiction des week-ends ou de dates définies par une fonction ; navigation par mois et année ; boutons de validation et d'effacement.
+**Key features.** `inline`, `modal`, and `permanent` modes; single-date or range selection; localized month/day names and labels; output formats; min/max constraints; disabling weekends or dates defined by a function; month/year navigation; and confirmation/clear buttons.
 
-**Configuration et API.** `mode`, `allowRangeSelection`, `selectedRange`, `rangeSeparator`, `dateFormat`, `locale`, `i18n`, `minDate`, `maxDate`, `dateRule`, `disableWeekends`, `disableDayFn`, `firstDay`, `showClearBtn`, `inputTriggerMode` et `autoClose`. Initialisation avec `new TinyDatePicker(target, options)` ; méthodes de lecture/écriture des dates et des intervalles documentées dans le module.
+**Configuration and API.** `mode`, `allowRangeSelection`, `selectedRange`, `rangeSeparator`, `dateFormat`, `locale`, `i18n`, `minDate`, `maxDate`, `dateRule`, `disableWeekends`, `disableDayFn`, `firstDay`, `showClearBtn`, `inputTriggerMode`, and `autoClose`. Initialize with `new TinyDatePicker(target, options)`; the component documentation describes methods for reading and updating dates and ranges.
 
 ```js
 const picker = new TinyDatePicker('#booking-date', {
@@ -219,151 +219,151 @@ const picker = new TinyDatePicker('#booking-date', {
 });
 ```
 
-**Points forts.** Même composant pour plusieurs présentations et règles métier, avec options de localisation. **À savoir :** préciser le format de date attendu par le serveur et gérer séparément les fuseaux horaires si l'application travaille avec des instants datés.
+**Strengths.** One component for multiple layouts and business rules, with localization options. **Good to know:** define the date format expected by your server and handle time zones separately if your application works with timestamps rather than calendar dates.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyDatePicker/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyDatePicker/demo/) · [Sources](./TinyDatePicker/) · [Documentation détaillée](./TinyDatePicker/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyDatePicker/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyDatePicker/demo/) · [Source files](./TinyDatePicker/) · [Detailed documentation](./TinyDatePicker/README.md)
 
-#### tinyColorPicker — Palettes et couleurs personnalisées
+#### tinyColorPicker — Color palettes and custom colors
 
-**Pour quoi faire ?** Choisir une couleur dans une interface de personnalisation : thème, catégorie, statut, événement, étiquette ou élément graphique.
+**What is it for?** Choose colors in customization interfaces: themes, categories, statuses, events, labels, or graphic elements.
 
-**Fonctionnalités principales.** Palette configurable, couleurs récentes, saisie HEX, sélecteur de couleur natif facultatif, effacement facultatif, ouverture automatique vers le haut/bas, conteneur parent configurable et événement `tinycolorpicker:change`.
+**Key features.** Configurable palettes, recent colors, HEX input, optional native color picker, optional clearing, automatic upward/downward opening, configurable parent container, and the `tinycolorpicker:change` event.
 
-**Configuration et API.** `palette`, `allowRecent`, `recentMax`, `allowCustomColor`, `allowClearColor`, `initialColor`, `direction`, `parentContainer`, `storageKey`, `onColorSelected`. Méthodes `getValue()`, `setValue()`, `clear()`, `show()`, `hide()`, `toggle()` et `destroy()`.
+**Configuration and API.** `palette`, `allowRecent`, `recentMax`, `allowCustomColor`, `allowClearColor`, `initialColor`, `direction`, `parentContainer`, `storageKey`, `onColorSelected`. Methods include `getValue()`, `setValue()`, `clear()`, `show()`, `hide()`, `toggle()`, and `destroy()`.
 
-**Points forts.** Faible surface d'intégration et utilisation du sélecteur natif pour les couleurs libres. **Configuration spéciale :** le mode clair/sombre suit **`color-scheme` et `light-dark()` en CSS** ; il n'existe pas d'option JavaScript `theme` ni de méthode `setTheme()`. Des variables CSS comme `--tcp-color` et `--tcp-color-soft` exposent la couleur choisie.
+**Strengths.** Small integration footprint and native color selection for unrestricted colors. **Special setup:** light/dark appearance follows **CSS `color-scheme` and `light-dark()`**; there is no JavaScript `theme` option or `setTheme()` method. CSS variables such as `--tcp-color` and `--tcp-color-soft` expose the selected color.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/tinyColorPicker/)** · [Démo](https://panda-softs.github.io/TinySuite/tinyColorPicker/demo/) · [Sources](./tinyColorPicker/) · [Documentation détaillée](./tinyColorPicker/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/tinyColorPicker/)** · [Live demo](https://panda-softs.github.io/TinySuite/tinyColorPicker/demo/) · [Source files](./tinyColorPicker/) · [Detailed documentation](./tinyColorPicker/README.md)
 
-#### TinySignature — Signature manuscrite sur canvas
+#### TinySignature — Handwritten signatures on canvas
 
-**Pour quoi faire ?** Capturer un tracé manuscrit dans le navigateur, par exemple pour une validation interne, un bon de réception, une fiche d'intervention ou un formulaire.
+**What is it for?** Capture a handwritten trace in the browser, for example on internal approval forms, delivery receipts, service reports, or other forms.
 
-**Fonctionnalités principales.** Tracé à la souris, au doigt ou au stylet ; largeur du trait adaptée au mouvement ; couleur du stylo et fond configurables ; historique annuler/rétablir ; redimensionnement du canvas ; détection de signature vide ; import/export des points et export image PNG, JPEG ou SVG.
+**Key features.** Mouse, touch, and stylus drawing; stroke width adjusted to movement; configurable pen/background colors; undo/redo history; canvas resizing; empty-signature detection; point import/export; and PNG, JPEG, or SVG image export.
 
-**Configuration et API.** `penColor`, `backgroundColor`, `minWidth`, `maxWidth`, `minDistance`, `velocityFilterWeight`, `throttle`. Méthodes `clear()`, `undo()`, `redo()`, `isEmpty()`, `resizeCanvas()`, `toDataURL()`, `fromDataURL()` et fonctions de manipulation des points.
+**Configuration and API.** `penColor`, `backgroundColor`, `minWidth`, `maxWidth`, `minDistance`, `velocityFilterWeight`, `throttle`. Methods include `clear()`, `undo()`, `redo()`, `isEmpty()`, `resizeCanvas()`, `toDataURL()`, `fromDataURL()`, and point-manipulation functions.
 
-**Points forts.** Un composant autonome basé sur Canvas 2D, sans service externe imposé. **À savoir :** utiliser un fond opaque pour exporter en JPEG ; adapter la taille du canvas à sa densité de pixels ; une image de signature **n'est pas à elle seule** une solution de signature électronique juridiquement qualifiée.
+**Strengths.** A standalone Canvas 2D component without a mandatory external service. **Good to know:** use an opaque background when exporting JPEG; account for device pixel density when sizing the canvas; a signature image **is not, by itself, a legally qualified electronic signature solution**.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinySignature/)** · [Démo](https://panda-softs.github.io/TinySuite/TinySignature/demo/) · [Sources](./TinySignature/) · [Documentation détaillée](./TinySignature/README.md)
-
----
-
-### 3 · Navigation & structure
-
-Cinq composants pour organiser l'espace, les menus et les parcours utilisateur.
-
-| Composant | À quoi sert-il ? | Page |
-| :-- | :-- | :-- |
-| **TinyTabs** | Répartir un contenu en panneaux à onglets. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyTabs/) |
-| **TinyDropdown** | Afficher des menus d'actions contextuelles. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyDropdown/) |
-| **TinySideNav** | Construire une navigation latérale. | [Découvrir](https://panda-softs.github.io/TinySuite/TinySideNav/) |
-| **TinyCollapsible** | Déplier/replier des sections ou menus accordéon. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyCollapsible/) |
-| **TinyGroupButton** | Présenter des cases à cocher sous forme de boutons groupés. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyGroupButton/) |
-
-#### TinyTabs — Onglets accessibles et adaptables
-
-**Pour quoi faire ?** Organiser plusieurs sections dans une même page : profil, paramètres, historique, détails, statistiques ou sous-écrans d'une application.
-
-**Fonctionnalités principales.** Panneaux d'onglets, indicateur actif, onglets désactivés, navigation au clavier, attributs ARIA de base, mode tactile « swipeable », durée d'animation configurable et callbacks lors du changement de panneau.
-
-**Configuration et API.** `element`, `duration`, `swipeable`, `onShow` ; `select(tabId)`, `updateTabIndicator()`, `destroy()`, `TinyTabs.init()` et `TinyTabs.getInstance()`.
-
-**Points forts.** API compacte, sans jQuery ni moteur d'animation externe ; bonne adéquation aux pages de paramètres et fiches complexes. **À savoir :** associer correctement chaque onglet à son panneau et vérifier l'accessibilité dans le contexte réel de l'application.
-
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyTabs/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyTabs/demo/) · [Sources](./TinyTabs/) · [Documentation détaillée](./TinyTabs/README.md)
-
-#### TinyDropdown — Menus d'actions et menus contextuels
-
-**Pour quoi faire ?** Afficher une liste d'actions près d'un bouton : « Voir », « Modifier », « Dupliquer », « Supprimer », ou choisir une option dans une barre d'outils.
-
-**Fonctionnalités principales.** Ouverture au clic ou au survol, alignement gauche/droite, largeur liée au déclencheur, fermeture automatique, positionnement adapté à l'espace disponible, animation CSS, callbacks de cycle de vie et gestion de menus partagés entre plusieurs lignes.
-
-**Configuration et API.** `alignment`, `constrainWidth`, `coverTrigger`, `closeOnClick`, `hover`, `container`, `virtualTrigger`, `adjustMenuState`, `onBeforeOpen`, `onItemClick`. En mode `virtualTrigger`, le même menu peut être ouvert depuis différents boutons via `openFrom(trigger)`.
-
-**Points forts.** Particulièrement pratique dans les tableaux et interfaces à nombreux boutons d'action. **À savoir :** le menu peut être trouvé via `data-target`, `aria-controls` ou un élément voisin ; les droits d'exécuter une action doivent toujours être vérifiés côté serveur.
-
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyDropdown/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyDropdown/demo/) · [Sources](./TinyDropdown/) · [Documentation détaillée](./TinyDropdown/README.md)
-
-#### TinySideNav — Navigation latérale et menus mobiles
-
-**Pour quoi faire ?** Proposer un panneau de navigation latéral pour un dashboard, une application de gestion ou une interface mobile.
-
-**Fonctionnalités principales.** Ouverture depuis la gauche ou la droite, fond de recouvrement, gestes tactiles de glissement, verrouillage du défilement de la page, fermeture explicite et callbacks d'ouverture/fermeture.
-
-**Configuration et API.** `edge: 'left' | 'right'`, `draggable`, `preventScrolling`, `inDuration`, `outDuration`, `onOpenStart`, `onOpenEnd`, `onCloseStart`, `onCloseEnd`. API `new TinySideNav(...)`, `TinySideNav.init(...)` et `TinySideNav.getInstance(...)`.
-
-**Points forts.** Pas de dépendance à jQuery ou à un moteur d'animation ; intégration naturelle à une navigation responsive. **À savoir :** tester le focus, le verrouillage du scroll et la fermeture dans les pages qui comportent d'autres overlays.
-
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinySideNav/)** · [Démo](https://panda-softs.github.io/TinySuite/TinySideNav/demo/) · [Sources](./TinySideNav/) · [Documentation détaillée](./TinySideNav/README.md)
-
-#### TinyCollapsible — Accordéons et sections repliables
-
-**Pour quoi faire ?** Réduire la densité d'une page en regroupant les informations par sections : FAQ, filtres, paramètres, catégories, menus de navigation ou fiches détaillées.
-
-**Fonctionnalités principales.** Mode accordéon (une seule section ouverte) ou multi-ouverture, animations configurables, éléments désactivés, callbacks annulables avant ouverture/fermeture, ouverture/fermeture programmatiques et contrôleur supplémentaire `TinyCollapsibleMenu` pour les menus imbriqués.
-
-**Configuration et API.** `accordion`, `inDuration`, `outDuration`, `easing`, `headerSelector`, `bodySelector`, `activeClass`, `onOpenStart`, `onCloseStart`. Méthodes `open()`, `close()`, `toggle()`, `openAll()`, `closeAll()` et fonctions de gestion des sections.
-
-**Points forts.** Compatible avec une structure HTML simple et configurable sans bibliothèque d'animation. **À savoir :** les callbacks `onOpenStart` et `onCloseStart` peuvent retourner `false` pour bloquer une transition.
-
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyCollapsible/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyCollapsible/demo/) · [Sources](./TinyCollapsible/) · [Documentation détaillée](./TinyCollapsible/README.md)
-
-#### TinyGroupButton — Groupes de choix visuels
-
-**Pour quoi faire ?** Transformer plusieurs cases à cocher en un groupe de boutons de sélection : catégories de produits, filtres, disciplines, préférences ou attributs d'un formulaire.
-
-**Fonctionnalités principales.** Cases à cocher natives comme source de vérité, sélection multiple, option spéciale « Tous », synchronisation de l'état visuel, valeur CSV normalisée, événements natifs `onChange` et `afterChange`, prise en charge d'options ajoutées dynamiquement.
-
-**Configuration et API.** `TinyGroupButton.getInstance('#categories', options)` crée ou retrouve l'instance ; `buildValue()`, `getValue()`, `updateValue()`, `setValue()`, `check()` et `destroy()`. L'option `activeClass` personnalise l'apparence des éléments sélectionnés.
-
-**Points forts.** Léger et proche du fonctionnement natif des formulaires. **Configuration spéciale :** la case « Tous » porte la classe `.all` sur l'`input` ; elle ne figure pas dans la valeur CSV. `updateValue()` synchronise le DOM sans déclencher `onChange`.
-
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyGroupButton/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyGroupButton/demo/) · [Sources](./TinyGroupButton/) · [Documentation détaillée](./TinyGroupButton/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinySignature/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinySignature/demo/) · [Source files](./TinySignature/) · [Detailed documentation](./TinySignature/README.md)
 
 ---
 
-### 4 · Médias
+### 3 · Navigation & layout
 
-Trois outils complémentaires pour présenter, parcourir et organiser des images ou d'autres contenus visuels.
+Five components for organizing page space, menus, and user journeys.
 
-| Composant | À quoi sert-il ? | Page |
+| Component | What does it do? | Website |
 | :-- | :-- | :-- |
-| **TinyGallery** | Gérer une collection d'images avec ajout, retrait et réorganisation. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyGallery/) |
-| **TinyLightbox** | Ouvrir des images en grand avec zoom et navigation. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyLightbox/) |
-| **TinyCarousel** | Faire défiler des cartes, images ou contenus en slides. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyCarousel/) |
+| **TinyTabs** | Organize content into tabbed panels. | [Explore](https://panda-softs.github.io/TinySuite/TinyTabs/) |
+| **TinyDropdown** | Display contextual action menus. | [Explore](https://panda-softs.github.io/TinySuite/TinyDropdown/) |
+| **TinySideNav** | Build side navigation. | [Explore](https://panda-softs.github.io/TinySuite/TinySideNav/) |
+| **TinyCollapsible** | Expand/collapse sections and accordion menus. | [Explore](https://panda-softs.github.io/TinySuite/TinyCollapsible/) |
+| **TinyGroupButton** | Present checkboxes as a group of selection buttons. | [Explore](https://panda-softs.github.io/TinySuite/TinyGroupButton/) |
 
-#### TinyGallery — Galerie éditable et gestion d'images
+#### TinyTabs — Accessible, adaptable tabs
 
-**Pour quoi faire ?** Administrer les photos d'un produit, d'un bien, d'une annonce ou d'une fiche métier. Le composant est conçu autant pour la **consultation** que pour la **préparation des modifications** avant enregistrement.
+**What is it for?** Organize multiple sections on one page: profiles, settings, history, details, statistics, or subviews of an application.
 
-**Fonctionnalités principales.** Miniatures, ajout de fichiers, suppression avec annulation, changement d'ordre, état des images existantes/ajoutées/modifiées, ouverture dans TinyLightbox, hooks d'édition d'image, limites de nombre et de taille, callbacks de changement et d'erreur.
+**Key features.** Tab panels, active-tab indicator, disabled tabs, keyboard navigation, basic ARIA attributes, touch-friendly swipeable mode, configurable animation duration, and callbacks when panels change.
 
-**Configuration et API.** `images`, `resolveUrl`, `maxImages`, `maxFileSize`, `sortable`, `addable`, `removable`, `editable`, `onEdit`, `confirmRemove`, `onChange`. Méthodes `setImages()`, `addFiles()`, `getItems()`, `getState()`, `getValue()`, `move()`, `remove()`, `undo()` et `destroy()`.
+**Configuration and API.** `element`, `duration`, `swipeable`, `onShow`; `select(tabId)`, `updateTabIndicator()`, `destroy()`, `TinyTabs.init()`, and `TinyTabs.getInstance()`.
 
-**Points forts.** Modèle d'état utile pour différencier les fichiers déjà enregistrés des modifications en attente. **Dépendance requise :** charger **TinyLightbox** avant **TinyGallery**. **À savoir :** la galerie ne remplace pas un backend d'upload : l'application doit enregistrer les nouveaux fichiers, gérer les suppressions et contrôler les autorisations. L'éditeur/cropper est fourni par un callback externe.
+**Strengths.** Compact API without jQuery or an external animation engine; a good fit for settings pages and complex detail views. **Good to know:** associate each tab with the correct panel and test accessibility in your application's actual context.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyGallery/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyGallery/demo/) · [Sources](./TinyGallery/) · [Documentation détaillée](./TinyGallery/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyTabs/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyTabs/demo/) · [Source files](./TinyTabs/) · [Detailed documentation](./TinyTabs/README.md)
 
-#### TinyLightbox — Visionneuse d'images immersive
+#### TinyDropdown — Action menus and contextual menus
 
-**Pour quoi faire ?** Afficher des photos dans une fenêtre plein écran avec navigation fluide, sans quitter la page : galeries produits, portfolios, collections et pièces jointes visuelles.
+**What is it for?** Show actions near a button—such as “View,” “Edit,” “Duplicate,” or “Delete”—or present choices in a toolbar.
 
-**Fonctionnalités principales.** Ouverture depuis des liens `data-lightbox` ou depuis un tableau d'images, précédent/suivant, zoom et déplacement, molette, double-clic, gestes tactiles, fermeture verticale, raccourcis clavier, préchargement des images voisines, légendes et animations personnalisables.
+**Key features.** Click or hover opening, left/right alignment, width constrained to the trigger, automatic closing, positioning based on available space, CSS animations, lifecycle callbacks, and shared menus for multiple rows.
 
-**Configuration et API.** `images`, `selector`, `loop`, `maxZoom`, `zoomStep`, `wheelZoom`, `swipe`, `verticalClose`, `effects`, `captions`, `captionPosition`, `keyboard`, `preload` et callbacks (`onOpen`, `onClose`, `onChange`, etc.). Méthodes `open()`, `close()`, `next()`, `previous()`, `goTo()`, `zoomIn()`, `zoomOut()` et `destroy()`.
+**Configuration and API.** `alignment`, `constrainWidth`, `coverTrigger`, `closeOnClick`, `hover`, `container`, `virtualTrigger`, `adjustMenuState`, `onBeforeOpen`, `onItemClick`. With `virtualTrigger`, the same menu can be opened from different buttons through `openFrom(trigger)`.
 
-**Points forts.** Utilisable seule ou comme visionneuse de TinyGallery, sans framework. **À savoir :** le composant documenté est une **visionneuse d'images** ; ne pas supposer une prise en charge native de la vidéo. Les légendes et URLs fournies par l'application doivent rester fiables et contrôlées.
+**Strengths.** Particularly useful in tables and interfaces containing many action buttons. **Good to know:** a menu can be resolved through `data-target`, `aria-controls`, or a nearby element; action permissions must always be enforced server-side.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyLightbox/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyLightbox/demo/) · [Sources](./TinyLightbox/) · [Documentation détaillée](./TinyLightbox/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyDropdown/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyDropdown/demo/) · [Source files](./TinyDropdown/) · [Detailed documentation](./TinyDropdown/README.md)
 
-#### TinyCarousel — Carrousel 3D et défilement de contenus
+#### TinySideNav — Side navigation and mobile menus
 
-**Pour quoi faire ?** Mettre en avant des images, des cartes produits, des témoignages ou des sections éditoriales dans un espace horizontal interactif.
+**What is it for?** Provide a side navigation panel for dashboards, management applications, or mobile interfaces.
 
-**Fonctionnalités principales.** Mode carrousel 3D de type Materialize, mode `fullWidth` en piste horizontale, plusieurs slides visibles, navigation par flèches, indicateurs positionnables, barre de progression, réglage du déplacement par action et option de non-bouclage.
+**Key features.** Opening from the left or right, backdrop overlay, touch swipe gestures, page-scroll locking, explicit closing, and open/close lifecycle callbacks.
 
-**Configuration et API.** `fullWidth`, `perPage`, `perMove`, `gap`, `padding`, `arrows`, `indicators`, `indicatorsPosition`, `progressBar`, `noWrap`, `duration`, `numVisible`, `onCycleTo`.
+**Configuration and API.** `edge: 'left' | 'right'`, `draggable`, `preventScrolling`, `inDuration`, `outDuration`, `onOpenStart`, `onOpenEnd`, `onCloseStart`, `onCloseEnd`. API includes `new TinySideNav(...)`, `TinySideNav.init(...)`, and `TinySideNav.getInstance(...)`.
+
+**Strengths.** No jQuery or external animation engine dependency; natural integration into responsive navigation. **Good to know:** test focus handling, scroll locking, and dismissal on pages with other overlays.
+
+**[Component website](https://panda-softs.github.io/TinySuite/TinySideNav/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinySideNav/demo/) · [Source files](./TinySideNav/) · [Detailed documentation](./TinySideNav/README.md)
+
+#### TinyCollapsible — Accordions and collapsible sections
+
+**What is it for?** Reduce visual density by grouping information into sections: FAQs, filters, settings, categories, navigation menus, or detailed records.
+
+**Key features.** Accordion mode (one section open at a time) or multiple open sections, configurable animations, disabled items, cancellable callbacks before opening/closing, programmatic expansion/collapse, and an additional `TinyCollapsibleMenu` controller for nested menus.
+
+**Configuration and API.** `accordion`, `inDuration`, `outDuration`, `easing`, `headerSelector`, `bodySelector`, `activeClass`, `onOpenStart`, `onCloseStart`. Methods include `open()`, `close()`, `toggle()`, `openAll()`, `closeAll()`, and section-management functions.
+
+**Strengths.** Works with straightforward HTML and does not require an animation library. **Good to know:** `onOpenStart` and `onCloseStart` callbacks can return `false` to prevent a transition.
+
+**[Component website](https://panda-softs.github.io/TinySuite/TinyCollapsible/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyCollapsible/demo/) · [Source files](./TinyCollapsible/) · [Detailed documentation](./TinyCollapsible/README.md)
+
+#### TinyGroupButton — Visual selection groups
+
+**What is it for?** Turn a set of checkboxes into a group of selection buttons for product categories, filters, disciplines, preferences, or form attributes.
+
+**Key features.** Native checkboxes as the source of truth, multiple selection, a special “All” option, visual-state synchronization, normalized CSV values, native `onChange` and `afterChange` events, and support for dynamically added options.
+
+**Configuration and API.** `TinyGroupButton.getInstance('#categories', options)` creates or retrieves an instance; methods include `buildValue()`, `getValue()`, `updateValue()`, `setValue()`, `check()`, and `destroy()`. Use `activeClass` to customize the selected appearance.
+
+**Strengths.** Lightweight and close to native form behavior. **Special setup:** the “All” checkbox has the `.all` class on its `input`; it is not included in the CSV value. `updateValue()` synchronizes the DOM without triggering `onChange`.
+
+**[Component website](https://panda-softs.github.io/TinySuite/TinyGroupButton/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyGroupButton/demo/) · [Source files](./TinyGroupButton/) · [Detailed documentation](./TinyGroupButton/README.md)
+
+---
+
+### 4 · Media
+
+Three complementary tools for presenting, browsing, and organizing images and other visual content.
+
+| Component | What does it do? | Website |
+| :-- | :-- | :-- |
+| **TinyGallery** | Manage an image collection with additions, removals, and reordering. | [Explore](https://panda-softs.github.io/TinySuite/TinyGallery/) |
+| **TinyLightbox** | Open large images with zoom and navigation. | [Explore](https://panda-softs.github.io/TinySuite/TinyLightbox/) |
+| **TinyCarousel** | Slide through cards, images, or other content. | [Explore](https://panda-softs.github.io/TinySuite/TinyCarousel/) |
+
+#### TinyGallery — Editable galleries and image management
+
+**What is it for?** Manage photos associated with a product, property, listing, or business record. The component supports both **viewing images** and **preparing changes** before saving them.
+
+**Key features.** Thumbnails, file additions, reversible removal, reordering, tracking of existing/added/modified images, opening images in TinyLightbox, image-editing hooks, image-count and file-size limits, and change/error callbacks.
+
+**Configuration and API.** `images`, `resolveUrl`, `maxImages`, `maxFileSize`, `sortable`, `addable`, `removable`, `editable`, `onEdit`, `confirmRemove`, `onChange`. Methods include `setImages()`, `addFiles()`, `getItems()`, `getState()`, `getValue()`, `move()`, `remove()`, `undo()`, and `destroy()`.
+
+**Strengths.** A useful state model that distinguishes already-saved files from pending changes. **Required dependency:** load **TinyLightbox** before **TinyGallery**. **Good to know:** the gallery does not replace an upload backend; your application must save new files, process removals, and enforce authorization. An external callback provides the image editor/cropper.
+
+**[Component website](https://panda-softs.github.io/TinySuite/TinyGallery/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyGallery/demo/) · [Source files](./TinyGallery/) · [Detailed documentation](./TinyGallery/README.md)
+
+#### TinyLightbox — Immersive image viewer
+
+**What is it for?** Display photos in a full-screen viewer with smooth navigation without leaving the page—ideal for product galleries, portfolios, collections, and visual attachments.
+
+**Key features.** Opening from `data-lightbox` links or an image array, previous/next navigation, zoom and panning, mouse-wheel and double-click interactions, touch gestures, vertical swipe-to-close, keyboard shortcuts, neighboring-image preloading, captions, and customizable animations.
+
+**Configuration and API.** `images`, `selector`, `loop`, `maxZoom`, `zoomStep`, `wheelZoom`, `swipe`, `verticalClose`, `effects`, `captions`, `captionPosition`, `keyboard`, `preload`, and callbacks (`onOpen`, `onClose`, `onChange`, etc.). Methods include `open()`, `close()`, `next()`, `previous()`, `goTo()`, `zoomIn()`, `zoomOut()`, and `destroy()`.
+
+**Strengths.** Works on its own or as the image viewer for TinyGallery, without a framework. **Good to know:** this is documented as an **image viewer**; do not assume native video support. Validate image URLs and captions supplied by your application.
+
+**[Component website](https://panda-softs.github.io/TinySuite/TinyLightbox/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyLightbox/demo/) · [Source files](./TinyLightbox/) · [Detailed documentation](./TinyLightbox/README.md)
+
+#### TinyCarousel — 3D carousel and content slider
+
+**What is it for?** Highlight images, product cards, testimonials, or editorial content in an interactive horizontal space.
+
+**Key features.** Materialize-style 3D carousel, `fullWidth` horizontal track mode, multiple visible slides, arrow navigation, configurable indicator placement, progress bar, adjustable slides-per-move, and an option to disable wrapping.
+
+**Configuration and API.** `fullWidth`, `perPage`, `perMove`, `gap`, `padding`, `arrows`, `indicators`, `indicatorsPosition`, `progressBar`, `noWrap`, `duration`, `numVisible`, `onCycleTo`.
 
 ```js
 const carousel = new TinyCarousel(document.querySelector('#carousel'), {
@@ -376,88 +376,88 @@ const carousel = new TinyCarousel(document.querySelector('#carousel'), {
 });
 ```
 
-**Points forts.** Un composant pour deux présentations distinctes, avec navigation et densité de slides configurables. **À savoir :** `progressBar` remplace les indicateurs classiques ; adaptez `perPage` aux tailles d'écran et fournissez des textes alternatifs aux images.
+**Strengths.** One component supports two distinct presentations, with configurable navigation and slide density. **Good to know:** `progressBar` replaces the classic indicators; adapt `perPage` to screen sizes and provide alternative text for images.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyCarousel/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyCarousel/demo/) · [Sources](./TinyCarousel/) · [Documentation détaillée](./TinyCarousel/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyCarousel/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyCarousel/demo/) · [Source files](./TinyCarousel/) · [Detailed documentation](./TinyCarousel/README.md)
 
 ---
 
-### 5 · Interactions & édition
+### 5 · Interactions & editing
 
-Trois composants pour agir directement sur les données et guider les décisions de l'utilisateur.
+Three components for acting directly on data and helping users make decisions.
 
-| Composant | À quoi sert-il ? | Page |
+| Component | What does it do? | Website |
 | :-- | :-- | :-- |
-| **TinySortableList** | Réordonner des éléments par glisser-déposer ou clavier. | [Découvrir](https://panda-softs.github.io/TinySuite/TinySortableList/) |
-| **TinyInlineEditor** | Modifier du texte riche directement dans une page. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyInlineEditor/) |
-| **TinySwal** | Afficher dialogues, confirmations, formulaires et notifications. | [Découvrir](https://panda-softs.github.io/TinySuite/TinySwal/) |
+| **TinySortableList** | Reorder items by drag-and-drop or keyboard. | [Explore](https://panda-softs.github.io/TinySuite/TinySortableList/) |
+| **TinyInlineEditor** | Edit rich text directly within a page. | [Explore](https://panda-softs.github.io/TinySuite/TinyInlineEditor/) |
+| **TinySwal** | Display dialogs, confirmations, forms, and notifications. | [Explore](https://panda-softs.github.io/TinySuite/TinySwal/) |
 
-#### TinySortableList — Réorganisation de listes
+#### TinySortableList — Reorderable lists
 
-**Pour quoi faire ?** Laisser l'utilisateur définir l'ordre d'éléments métier : ressources, étapes, priorités, catégories, images ou lignes de configuration.
+**What is it for?** Let users define the order of business items: resources, workflow steps, priorities, categories, images, or configuration rows.
 
-**Fonctionnalités principales.** Glisser-déposer à la souris, au toucher ou au stylet, déplacement au clavier (`ArrowUp` / `ArrowDown`), calcul des éléments dont l'ordre a réellement changé, prise en charge des éléments ajoutés dynamiquement, callbacks de début/changement/fin et restauration de l'ordre en cas d'échec.
+**Key features.** Mouse, touch, and stylus drag-and-drop; keyboard movement (`ArrowUp` / `ArrowDown`); calculation of items whose positions actually changed; dynamically added items; start/change/end callbacks; and restoring the previous order when an operation fails.
 
-**Configuration et API.** `getId`, `onStart`, `onChange`, `onEnd`, `onError`. Méthodes `getItems()`, `getOrder()`, `getChanges()`, `setOrder()` et `destroy()`.
+**Configuration and API.** `getId`, `onStart`, `onChange`, `onEnd`, `onError`. Methods include `getItems()`, `getOrder()`, `getChanges()`, `setOrder()`, and `destroy()`.
 
-**Points forts.** Contrat particulièrement utile pour la persistance : `onEnd()` peut attendre une requête asynchrone ; retourner `false` restaure l'ordre précédent. **À savoir :** enregistrer les positions côté serveur avec validation des identifiants et des permissions.
+**Strengths.** A practical persistence contract: `onEnd()` can wait for an asynchronous request; returning `false` restores the previous order. **Good to know:** validate item IDs, positions, and permissions when saving the order server-side.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinySortableList/)** · [Démo](https://panda-softs.github.io/TinySuite/TinySortableList/demo/) · [Sources](./TinySortableList/) · [Documentation détaillée](./TinySortableList/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinySortableList/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinySortableList/demo/) · [Source files](./TinySortableList/) · [Detailed documentation](./TinySortableList/README.md)
 
-#### TinyInlineEditor — Édition de contenu dans la page
+#### TinyInlineEditor — In-place content editing
 
-**Pour quoi faire ?** Modifier une description, une note, un commentaire ou un contenu HTML directement là où il est affiché, sans ouvrir un formulaire séparé.
+**What is it for?** Edit a description, note, comment, or HTML content directly where it appears, without opening a separate form.
 
-**Fonctionnalités principales.** Barre contextuelle de mise en forme (gras, italique, titres, listes, liens, alignement, couleurs), thèmes `light`, `dark` et `purple` expérimental, intégration `DIV`/`SPAN`/`TEXTAREA`, événements de modification, sauvegarde différée, sauvegarde explicite et gestion d'instances multiples.
+**Key features.** Contextual formatting toolbar (bold, italic, headings, lists, links, alignment, colors); `light`, `dark`, and experimental `purple` themes; `DIV`/`SPAN`/`TEXTAREA` integration; change events; delayed and explicit saving; and multiple-instance support.
 
-**Configuration et API.** Plugin `$('#editor').tinyInlineEditor({...})` ; compatibilité avec `$.fn.inLine`. Options `toolbar`, `formats`, `colors`, `theme`, `autosaveOn`, `pasteAsPlainText`, `sanitizeHTML`, `onChange`, `onSave`. Méthodes d'instance `setContent()`, `commitChange()`, `flush()` et `destroy()`.
+**Configuration and API.** jQuery plugin `$('#editor').tinyInlineEditor({...})`, with compatibility through `$.fn.inLine`. Options include `toolbar`, `formats`, `colors`, `theme`, `autosaveOn`, `pasteAsPlainText`, `sanitizeHTML`, `onChange`, `onSave`. Instance methods include `setContent()`, `commitChange()`, `flush()`, and `destroy()`.
 
-**Points forts.** Édition rapide, callbacks métier et sauvegardes sérialisées par instance. **Dépendance requise : jQuery.** **Attention sécurité :** l'éditeur **ne nettoie pas automatiquement le HTML non fiable**. Assainir les contenus avant insertion et côté serveur ; `document.execCommand`, utilisé par cette implémentation, est une API dépréciée. Attendre `flush()` avant destruction lorsqu'une sauvegarde doit être garantie.
+**Strengths.** Fast editing, application-specific callbacks, and serialized saves per instance. **Required dependency: jQuery.** **Security warning:** the editor **does not automatically sanitize untrusted HTML**. Sanitize content before insertion and on the server; `document.execCommand`, used by this implementation, is deprecated. Await `flush()` before destroying an instance when a pending save must complete.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyInlineEditor/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyInlineEditor/demo/) · [Sources](./TinyInlineEditor/) · [Documentation détaillée](./TinyInlineEditor/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyInlineEditor/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyInlineEditor/demo/) · [Source files](./TinyInlineEditor/) · [Detailed documentation](./TinyInlineEditor/README.md)
 
-#### TinySwal — Dialogues, alertes et notifications
+#### TinySwal — Dialogs, alerts, and notifications
 
-**Pour quoi faire ?** Remplacer les alertes natives par des dialogues de confirmation, de validation, de suppression ou de saisie, et afficher des notifications discrètes (« toasts »).
+**What is it for?** Replace native alerts with confirmation, validation, deletion, or input dialogs, and display unobtrusive toast notifications.
 
-**Fonctionnalités principales.** Fenêtres modales, toasts empilables, boutons confirmer/refuser/supprimer/annuler, formulaires, valeurs structurées, promesses de résultat, validation asynchrone, timers et barres de progression, dialogues déplaçables, contenus défilants, cibles de montage et personnalisation via variables CSS.
+**Key features.** Modal dialogs, stackable toasts, confirm/deny/delete/cancel buttons, forms, structured values, Promise-based results, asynchronous validation, timers and progress bars, draggable dialogs, scrollable content, configurable mount targets, and CSS-variable customization.
 
-**Configuration et API.** `TinySwal.fire({...})` retourne une **Promise** ; les résultats indiquent notamment `isConfirmed`, `isDenied` ou `isDeleted`. Options pour titres, icônes, boutons, durée, positionnement, validations et callbacks. Des helpers statiques facilitent l'affichage de dialogues et notifications.
+**Configuration and API.** `TinySwal.fire({...})` returns a **Promise**; results include flags such as `isConfirmed`, `isDenied`, or `isDeleted`. Options cover titles, icons, buttons, duration, positioning, validation, and callbacks. Static helpers simplify dialogs and notifications.
 
 ```js
 const result = await TinySwal.fire({
-  title: 'Supprimer cet élément ?',
-  text: 'Cette action nécessite une confirmation.',
+  title: 'Delete this item?',
+  text: 'This action requires confirmation.',
   icon: 'warning',
   showCancelButton: true
 });
 
 if (result.isConfirmed) {
-  // Effectuer l'action autorisée par le serveur.
+  // Perform the server-authorized action.
 }
 ```
 
-**Points forts.** API asynchrone claire, plusieurs types de réponses et grande flexibilité d'affichage. **À savoir :** les boutons et validations client améliorent l'expérience, mais ne remplacent jamais une autorisation backend ; vérifier les cas de fermeture, d'annulation et d'échec réseau.
+**Strengths.** Clear asynchronous API, several result types, and flexible presentation. **Good to know:** client-side buttons and validation improve usability but never replace backend authorization; handle dismissal, cancellation, and network failures.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinySwal/)** · [Démo](https://panda-softs.github.io/TinySuite/TinySwal/demo/) · [Sources](./TinySwal/) · [Documentation détaillée](./TinySwal/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinySwal/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinySwal/demo/) · [Source files](./TinySwal/) · [Detailed documentation](./TinySwal/README.md)
 
 ---
 
-### 6 · Outils développeur
+### 6 · Developer tools
 
-Un utilitaire orienté composition d'interfaces et rendu de contenu dynamique.
+One utility focused on interface composition and dynamic content rendering.
 
-| Composant | À quoi sert-il ? | Page |
+| Component | What does it do? | Website |
 | :-- | :-- | :-- |
-| **TinyT** | Compiler et afficher des templates HTML à partir de données JavaScript. | [Découvrir](https://panda-softs.github.io/TinySuite/TinyT/) |
+| **TinyT** | Compile and render HTML templates from JavaScript data. | [Explore](https://panda-softs.github.io/TinySuite/TinyT/) |
 
-#### TinyT — Moteur de templates JavaScript
+#### TinyT — JavaScript template engine
 
-**Pour quoi faire ?** Générer du HTML à partir de données applicatives sans installer un framework complet : lignes de tableau, cartes, panneaux, fragments réutilisables ou vues de détail.
+**What is it for?** Generate HTML from application data without installing a full framework: table rows, cards, panels, reusable fragments, or detail views.
 
-**Fonctionnalités principales.** Interpolation d'expressions JavaScript, conditions `{{if}}` / `{{else}}`, boucles `{{each}}`, templates imbriqués `{{tmpl}}`, fonctions utilitaires, enregistrement de templates, compilation et cache, rendu vers une chaîne ou un élément DOM, traitement de tableaux et diagnostic des identifiants manquants.
+**Key features.** JavaScript expression interpolation, `{{if}}` / `{{else}}` conditions, `{{each}}` loops, nested `{{tmpl}}` templates, helper functions, template registration, compilation and caching, rendering to a string or DOM element, array processing, and missing-identifier diagnostics.
 
-**Configuration et API.** `TinyT.render(template, data)`, `TinyT.renderTo(element, template, data)`, `TinyT.compile()`, `TinyT.registerTemplate()`, `TinyT.clearCache()` et `TinyT.configure()`. Options `helpers`, `strict`, `missingToUndefined`, `onMissing` et `rowTransform`. Une intégration jQuery est disponible **facultativement** via `$.tmpl()` / `$.fn.tmplTo()`.
+**Configuration and API.** `TinyT.render(template, data)`, `TinyT.renderTo(element, template, data)`, `TinyT.compile()`, `TinyT.registerTemplate()`, `TinyT.clearCache()`, and `TinyT.configure()`. Options include `helpers`, `strict`, `missingToUndefined`, `onMissing`, and `rowTransform`. Optional jQuery integration is available through `$.tmpl()` / `$.fn.tmplTo()`.
 
 ```js
 const html = TinyT.render('<strong>${name}</strong>', {
@@ -465,29 +465,29 @@ const html = TinyT.render('<strong>${name}</strong>', {
 });
 ```
 
-**Points forts.** Moteur ciblé, templates réutilisables et cache de compilation. **Attention sécurité :** TinyT évalue des expressions JavaScript et **n'échappe pas automatiquement toutes les interpolations HTML**. N'utiliser que des templates de confiance ; échapper ou assainir les données avant insertion dans le DOM. Ce n'est pas un moteur de templates sandboxé.
+**Strengths.** Focused engine, reusable templates, and compilation caching. **Security warning:** TinyT evaluates JavaScript expressions and **does not automatically HTML-escape every interpolation**. Use only trusted templates; escape or sanitize data before inserting it into the DOM. This is not a sandboxed template engine.
 
-**[Page du composant](https://panda-softs.github.io/TinySuite/TinyT/)** · [Démo](https://panda-softs.github.io/TinySuite/TinyT/demo/) · [Sources](./TinyT/) · [Documentation détaillée](./TinyT/README.md)
+**[Component website](https://panda-softs.github.io/TinySuite/TinyT/)** · [Live demo](https://panda-softs.github.io/TinySuite/TinyT/demo/) · [Source files](./TinyT/) · [Detailed documentation](./TinyT/README.md)
 
 ---
 
-## Installation et utilisation
+## Installation and usage
 
-### Option A — Intégrer un seul composant
+### Option A — Integrate a single component
 
-La méthode la plus directe consiste à copier les fichiers nécessaires depuis le dossier du composant, puis à charger son CSS (lorsqu'il existe) et son JavaScript.
+The simplest approach is to copy the required files from the component's folder, then load its CSS (if provided) and JavaScript.
 
-Exemple avec **TinyTabs**, en conservant l'arborescence TinySuite sur le serveur :
+Example with **TinyTabs**, assuming the TinySuite directory structure is preserved on your server:
 
 ```html
 <link rel="stylesheet" href="/assets/TinySuite/TinyTabs/dist/TinyTabs.min.css">
 
 <ul class="tabs js-tabs">
-  <li class="tab"><a href="#overview" class="active">Aperçu</a></li>
-  <li class="tab"><a href="#settings">Paramètres</a></li>
+  <li class="tab"><a href="#overview" class="active">Overview</a></li>
+  <li class="tab"><a href="#settings">Settings</a></li>
 </ul>
-<section id="overview">Contenu de l'aperçu</section>
-<section id="settings">Contenu des paramètres</section>
+<section id="overview">Overview content</section>
+<section id="settings">Settings content</section>
 
 <script src="/assets/TinySuite/TinyTabs/dist/TinyTabs.min.js"></script>
 <script>
@@ -495,11 +495,11 @@ Exemple avec **TinyTabs**, en conservant l'arborescence TinySuite sur le serveur
 </script>
 ```
 
-> Les chemins `/assets/TinySuite/...` sont **illustratifs** : adaptez-les à votre hébergement. Les fichiers compilés sont dans `dist/` lorsqu'ils sont produits par le build du dépôt. Pour les scripts ou styles additionnels, consultez le README du module.
+> Paths beginning with `/assets/TinySuite/...` are **illustrative**; adjust them to your hosting setup. Compiled files live in `dist/` when produced by the repository build. Consult the component's README for any additional scripts or styles.
 
-### Option B — Utiliser plusieurs composants
+### Option B — Combine multiple components
 
-Chargez uniquement les modules utilisés par la page, dans le bon ordre lorsqu'une dépendance existe. Exemple : **TinyLightbox + TinyGallery**.
+Load only the modules your page uses, in the correct order when dependencies exist. For example, **TinyLightbox + TinyGallery**:
 
 ```html
 <link rel="stylesheet" href="/assets/TinySuite/TinyLightbox/dist/TinyLightbox.min.css">
@@ -517,41 +517,41 @@ Chargez uniquement les modules utilisés par la page, dans le bon ordre lorsqu'u
 </script>
 ```
 
-### Cas particuliers de distribution
+### Special distribution considerations
 
-| Composant | Particularité |
+| Component | Special considerations |
 | :-- | :-- |
-| **TinyScheduler** | Fichiers compilés `dist/tiny-scheduler.min.js` et `dist/tiny-scheduler.min.css` ; sources réparties entre plusieurs fichiers JS/SCSS. |
-| **TinyDataTable** | Modules JS complémentaires (export, rendu, sélection, édition, localisation) ; charger ceux dont l'intégration a besoin. |
-| **TinySelectize** | Plugins d'arbre et de marquage séparés. |
-| **TinyGallery** | Nécessite TinyLightbox, chargé avant elle. |
-| **TinyInlineEditor** | Nécessite jQuery ; un fichier vendor est fourni dans le dossier du composant. |
-| **TinyGroupButton / TinySignature / TinyT** | La liste de build principale génère leur JavaScript minifié, sans CSS de distribution propre à ces trois modules. |
-| **tinyColorPicker** | Nom du dossier sensible à la casse : `tinyColorPicker`, classe JavaScript `TinyColorPicker`. |
+| **TinyScheduler** | Compiled files: `dist/tiny-scheduler.min.js` and `dist/tiny-scheduler.min.css`; source code is split across several JS/SCSS files. |
+| **TinyDataTable** | Additional JavaScript modules for export, rendering, selection, editing, and localization; load the ones your integration needs. |
+| **TinySelectize** | Separate tree and highlighting plugins. |
+| **TinyGallery** | Requires TinyLightbox, loaded before the gallery. |
+| **TinyInlineEditor** | Requires jQuery; a vendor file is supplied in the component folder. |
+| **TinyGroupButton / TinySignature / TinyT** | The main build manifest produces minified JavaScript for these modules but no component-specific distribution CSS. |
+| **tinyColorPicker** | Case-sensitive folder name: `tinyColorPicker`; JavaScript class: `TinyColorPicker`. |
 
-### Quel composant choisir ?
+### Which component should you choose?
 
-| Besoin | Composant recommandé |
+| Requirement | Recommended component |
 | :-- | :-- |
-| Compléter un `<input>` texte | **TinyAutocomplete** |
-| Enrichir un `<select>` et conserver son comportement natif | **TinySelectize** |
-| Saisir plusieurs tags libres | **TinyChips** |
-| Présenter des résultats métier avec tri, filtres et pagination | **TinyDataTable** |
-| Réserver un créneau ou planifier des ressources | **TinyScheduler** |
-| Parcourir des photos en plein écran | **TinyLightbox** |
-| Ajouter, retirer et ordonner des photos | **TinyGallery** + **TinyLightbox** |
-| Présenter des cartes ou images en slides | **TinyCarousel** |
-| Demander confirmation avant une action | **TinySwal** |
-| Éditer directement du HTML dans une page | **TinyInlineEditor** |
-| Réordonner une liste métier | **TinySortableList** |
+| Autocomplete a text `<input>` | **TinyAutocomplete** |
+| Enhance a `<select>` while preserving native form behavior | **TinySelectize** |
+| Enter multiple free-form tags | **TinyChips** |
+| Show business data with sorting, filters, and pagination | **TinyDataTable** |
+| Book time slots or schedule resources | **TinyScheduler** |
+| Browse full-screen photos | **TinyLightbox** |
+| Add, remove, and reorder photos | **TinyGallery** + **TinyLightbox** |
+| Display cards or images as slides | **TinyCarousel** |
+| Confirm an action before executing it | **TinySwal** |
+| Edit HTML directly in a page | **TinyInlineEditor** |
+| Reorder a business list | **TinySortableList** |
 
 ---
 
-## Architecture et philosophie technique
+## Architecture and technical philosophy
 
-### Un dépôt commun, des composants séparés
+### One repository, separate components
 
-La bibliothèque est organisée autour de dossiers individuels à la racine du dépôt. Chaque dossier peut contenir sa source JavaScript, son style CSS/SCSS, ses distributions, sa documentation, ses démonstrations et parfois ses tests ou plugins.
+The library is organized into individual folders at the repository root. Each folder may contain JavaScript source, CSS/SCSS, distributions, documentation, demos, and sometimes tests or plugins.
 
 ```text
 TinySuite/
@@ -568,7 +568,7 @@ TinySuite/
 │   └── dist/
 ├── TinyAutocomplete/
 ├── TinySelectize/
-├── ... autres composants ...
+├── ... other components ...
 ├── scripts/
 │   ├── dist-entries.json
 │   ├── build-dist.cjs
@@ -584,30 +584,30 @@ TinySuite/
 └── README.md
 ```
 
-**Programmation et organisation :**
+**Implementation and organization:**
 
-1. **JavaScript côté navigateur.** Les composants exposent des constructeurs, fonctions d'initialisation, plugins ou API d'instance selon leurs besoins. La plupart utilisent les API DOM natives ; les exceptions sont documentées.
-2. **État local et événements.** Chaque module pilote son propre état, ses interactions et ses callbacks. L'application reste responsable des appels métier, des permissions et de la persistance.
-3. **CSS indépendant.** Les styles sont fournis par module quand nécessaire ; certaines sources sont également maintenues en SCSS.
-4. **Sources et distributions distinctes.** `scripts/dist-entries.json` décrit les entrées de build ; `scripts/build-dist.cjs` génère les fichiers de distribution, dont le bundle de TinyScheduler sans Gulp.
-5. **Site statique séparé.** `website/catalog.json` décrit les 20 produits et leurs catégories. Les scripts Python construisent les pages de présentation et recopient les démonstrations/distributions dans `.build/site/`.
-6. **Publication automatisée.** GitHub Actions vérifie les distributions et assemble le site avant son déploiement sur GitHub Pages.
+1. **Browser-side JavaScript.** Components expose constructors, initialization functions, plugins, or instance APIs as appropriate. Most rely on native DOM APIs; exceptions are documented.
+2. **Local state and events.** Each module manages its own state, interactions, and callbacks. The host application remains responsible for business operations, permissions, and persistence.
+3. **Independent CSS.** Components provide their own styles when needed; some styles are maintained in SCSS source files.
+4. **Separate source and distribution files.** `scripts/dist-entries.json` describes build entries; `scripts/build-dist.cjs` generates distribution assets, including the TinyScheduler bundle without Gulp.
+5. **Separate static website.** `website/catalog.json` describes the 20 components and their categories. Python scripts generate the component pages and copy demos/distributions into `.build/site/`.
+6. **Automated publishing.** GitHub Actions checks distributions and assembles the website before deployment to GitHub Pages.
 
-### Dépendances : règle générale et exceptions
+### Dependencies: general rule and exceptions
 
-**La plupart des composants sont utilisables seuls**, mais la dépendance zéro n'est pas un contrat global. Il faut distinguer :
+**Most components can be used on their own**, but zero dependencies is not a universal guarantee. Distinguish between:
 
-- **Dépendances d'exécution :** par exemple jQuery pour TinyInlineEditor ou TinyLightbox pour TinyGallery.
-- **Intégrations optionnelles :** par exemple `mark.js` pour certaines fonctions de TinyDataTable, plugins TinySelectize ou adaptateur d'édition d'images pour TinyGallery.
-- **Dépendances de développement :** outils npm pour minifier/assembler les distributions et Python pour produire le site ; ils ne sont pas à charger dans le navigateur des utilisateurs.
+- **Runtime dependencies:** for example, jQuery for TinyInlineEditor or TinyLightbox for TinyGallery.
+- **Optional integrations:** for example, `mark.js` for certain TinyDataTable features, TinySelectize plugins, or an image-editing adapter for TinyGallery.
+- **Development dependencies:** npm tools for minifying and bundling distributions and Python for building the website; these do not need to be loaded in end users' browsers.
 
-L'architecture modulaire facilite l'intégration progressive, mais ne garantit pas à elle seule une compatibilité universelle avec tous les navigateurs ou tous les frameworks.
+A modular architecture makes incremental adoption easier, but does not automatically guarantee compatibility with every browser or framework.
 
 ---
 
-## Développement et vérifications
+## Development and validation
 
-Depuis la racine du dépôt :
+From the repository root:
 
 ```bash
 npm ci
@@ -615,96 +615,96 @@ npm run build
 npm run verify
 ```
 
-- **`npm ci`** installe les dépendances exactes du `package-lock.json`.
-- **`npm run build`** reconstruit les fichiers de distribution maintenus par le manifeste.
-- **`npm run verify`** contrôle la cohérence des distributions, les fichiers vendor et les références locales des démonstrations.
+- **`npm ci`** installs the dependency versions locked in `package-lock.json`.
+- **`npm run build`** regenerates distribution assets defined by the build manifest.
+- **`npm run verify`** checks distribution consistency, vendor files, and local references used by demos.
 
-Pour générer et contrôler le site statique :
+To build and verify the static website:
 
 ```bash
 python3 scripts/build-site.py
 python3 scripts/verify_site.py
 ```
 
-Le résultat du site TinySuite est généré dans **`.build/site/`**. La publication est assurée par le workflow GitHub Actions du dépôt, sur la branche `main`.
+The TinySuite website is generated in **`.build/site/`**. Deployment is handled by the repository's GitHub Actions workflow on the `main` branch.
 
 > [!NOTE]
-> Les fichiers de `dist/` sont des artefacts maintenus dans Git : une modification de source qui change la distribution nécessite de régénérer les fichiers et de vérifier leur cohérence. Les sorties doivent rester reproductibles entre les environnements de développement et la CI.
+> Files in `dist/` are tracked build artifacts: when a source change affects a distribution, regenerate the files and verify their consistency. Outputs should remain reproducible across local development and CI environments.
 
-### Bonnes pratiques d'intégration
+### Integration best practices
 
-- **Ne chargez que les composants nécessaires** et respectez l'ordre des dépendances explicites.
-- **Détruisez les instances** lorsque leur élément hôte disparaît, si le module propose `destroy()`, pour libérer listeners et ressources.
-- **Gérez les erreurs réseau** dans les callbacks AJAX et les opérations de sauvegarde ; les composants ne remplacent pas le backend.
-- **Contrôlez les données HTML** avant insertion, particulièrement avec TinyT et TinyInlineEditor.
-- **Testez l'accessibilité** clavier, les lecteurs d'écran, les contrastes et les comportements tactiles dans votre application ; la présence de raccourcis ou d'attributs ARIA ne constitue pas une certification WCAG.
-- **Vérifiez les formats de données** (dates, JSON/CSV, signatures, images) et la persistance côté serveur.
-
----
-
-## Questions fréquentes
-
-<details>
-<summary><strong>Dois-je installer les 20 composants ?</strong></summary>
-
-Non. TinySuite est une collection : utilisez uniquement les fichiers des composants dont vous avez besoin, avec leurs dépendances explicites éventuelles.
-
-</details>
-
-<details>
-<summary><strong>Faut-il React, Vue, Angular ou jQuery ?</strong></summary>
-
-Aucun framework n'est imposé à l'ensemble de la bibliothèque. La plupart des composants utilisent du JavaScript natif. **TinyInlineEditor nécessite jQuery** ; **TinyT peut l'utiliser de manière optionnelle**. Une intégration dans un framework reste possible, mais demande de gérer correctement le montage, les mises à jour et la destruction des instances.
-
-</details>
-
-<details>
-<summary><strong>Les composants fonctionnent-ils sans backend ?</strong></summary>
-
-De nombreuses démos et fonctionnalités locales fonctionnent côté navigateur. Les fonctionnalités impliquant recherche distante, upload, sauvegarde, autorisation ou réservation partagée nécessitent un backend adapté.
-
-</details>
-
-<details>
-<summary><strong>Où trouver la liste complète des options d'un composant ?</strong></summary>
-
-Chaque section ci-dessus contient un lien vers le **README propre au composant** et vers sa **page web**. Ces guides sont la référence pour les signatures d'API, les options et les exemples approfondis.
-
-</details>
-
-<details>
-<summary><strong>Pourquoi certains fichiers compilés ont-ils un nom différent ?</strong></summary>
-
-Les conventions historiques et les architectures varient selon les modules. Par exemple, TinyScheduler utilise `tiny-scheduler.min.js` / `tiny-scheduler.min.css`. Le manifeste `scripts/dist-entries.json` définit les entrées et les sorties maintenues.
-
-</details>
-
-<details>
-<summary><strong>Le README remplace-t-il la documentation API et les tests ?</strong></summary>
-
-Non. Ce document présente l'ensemble de la collection, ses possibilités et ses particularités d'intégration. Les README individuels, le code source, les démos et les tests restent nécessaires pour vérifier le contrat exact d'une version.
-
-</details>
+- **Load only the components you need**, respecting explicit dependency order.
+- **Destroy instances** when their host elements are removed, if the module provides `destroy()`, to release event listeners and resources.
+- **Handle network failures** in AJAX callbacks and save operations; UI components do not replace a backend.
+- **Validate and sanitize HTML** before insertion, especially with TinyT and TinyInlineEditor.
+- **Test accessibility** for keyboard use, screen readers, contrast, and touch interactions in your application; keyboard shortcuts or ARIA attributes alone do not constitute WCAG certification.
+- **Verify data formats** (dates, JSON/CSV, signatures, images) and server-side persistence.
 
 ---
 
-## Ressources et liens
+## Frequently asked questions
 
-| Ressource | Adresse |
+<details>
+<summary><strong>Do I need to install all 20 components?</strong></summary>
+
+No. TinySuite is a collection: use only the files for the components you need, together with any explicit dependencies.
+
+</details>
+
+<details>
+<summary><strong>Do I need React, Vue, Angular, or jQuery?</strong></summary>
+
+No framework is required for the collection as a whole. Most components use vanilla JavaScript. **TinyInlineEditor requires jQuery**; **TinyT can optionally use it**. Framework integration is possible, but you must handle instance mounting, updates, and cleanup correctly.
+
+</details>
+
+<details>
+<summary><strong>Can the components work without a backend?</strong></summary>
+
+Many demos and local features work entirely in the browser. Remote search, uploads, saving, authorization, and shared bookings require an appropriate backend.
+
+</details>
+
+<details>
+<summary><strong>Where can I find the complete list of options for a component?</strong></summary>
+
+Each component section above links to its **individual README** and **website page**. Those guides are the reference for exact API signatures, options, and in-depth examples.
+
+</details>
+
+<details>
+<summary><strong>Why do some compiled files have different names?</strong></summary>
+
+Historical conventions and module architectures vary. For example, TinyScheduler uses `tiny-scheduler.min.js` / `tiny-scheduler.min.css`. The `scripts/dist-entries.json` manifest defines the maintained build inputs and outputs.
+
+</details>
+
+<details>
+<summary><strong>Does this README replace API documentation and tests?</strong></summary>
+
+No. This document introduces the collection, its capabilities, and integration details. Individual READMEs, source code, demos, and tests remain necessary to confirm the exact contract of a given version.
+
+</details>
+
+---
+
+## Resources and links
+
+| Resource | URL |
 | :-- | :-- |
-| **Site officiel TinySuite** | **https://panda-softs.github.io/TinySuite/** |
-| Catalogue interactif | https://panda-softs.github.io/TinySuite/components/ |
-| Démonstrations | https://panda-softs.github.io/TinySuite/#demos |
-| Dépôt GitHub | https://github.com/Panda-Softs/TinySuite |
+| **Official TinySuite website** | **https://panda-softs.github.io/TinySuite/** |
+| Interactive component catalog | https://panda-softs.github.io/TinySuite/components/ |
+| Live demos | https://panda-softs.github.io/TinySuite/#demos |
+| GitHub repository | https://github.com/Panda-Softs/TinySuite |
 | Panda-Softs | https://panda-softs.github.io/ |
-| Métadonnées du catalogue | [`website/catalog.json`](./website/catalog.json) |
-| Manifeste des distributions | [`scripts/dist-entries.json`](./scripts/dist-entries.json) |
+| Catalog metadata | [`website/catalog.json`](./website/catalog.json) |
+| Distribution manifest | [`scripts/dist-entries.json`](./scripts/dist-entries.json) |
 
-### Contributions et maintenance
+### Contributing and maintenance
 
-Les améliorations, corrections et propositions peuvent être discutées via les [issues du dépôt](https://github.com/Panda-Softs/TinySuite/issues). Pour une modification, privilégiez un correctif ciblé, documentez le comportement modifié, ajoutez ou adaptez les tests pertinents, puis exécutez les vérifications disponibles avant de proposer la contribution.
+Improvements, bug fixes, and suggestions can be discussed through the repository's [GitHub issues](https://github.com/Panda-Softs/TinySuite/issues). Keep changes focused, document behavioral changes, add or update relevant tests, and run the available checks before submitting a contribution.
 
-**Licences :** consultez les fichiers de licence du dépôt et des composants concernés, ainsi que les licences des dépendances tierces. Ce README ne présume pas d'une licence unique pour tous les fichiers.
+**Licensing:** consult the repository and component license files, along with third-party dependency licenses. This README does not assume that every file is covered by a single license.
 
 ---
 
@@ -712,7 +712,7 @@ Les améliorations, corrections et propositions peuvent être discutées via les
 
 ### Build only what you need. Keep every component focused.
 
-**[Explorer TinySuite →](https://panda-softs.github.io/TinySuite/)**
+**[Explore TinySuite →](https://panda-softs.github.io/TinySuite/)**
 
 <sub>Made by <a href="https://panda-softs.github.io/">Panda-Softs</a> · <a href="https://github.com/Panda-Softs/TinySuite">Source on GitHub</a></sub>
 
