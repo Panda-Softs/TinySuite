@@ -47,7 +47,7 @@ jobs:
       - name: Checkout Panda-Softs website repository
         uses: actions/checkout@v4
         with:
-          repository: Panda-Softs/panda-softs.github.io
+          repository: Panda-Softs/panda-softs.github.com
           ref: main
           token: ${{ secrets.PANDA_SOFTS_DEPLOY_TOKEN }}
           path: .publish/panda-softs
