@@ -32,8 +32,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify demos and assemble static website
-        run: python3 scripts/build-site.py
+      - name: Build and verify TinySuite website
+        run: |
+          python3 scripts/build-site.py
+          python3 scripts/verify_site.py
+          test -f .build/site/index.html
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload website
