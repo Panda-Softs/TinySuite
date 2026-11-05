@@ -1,0 +1,81 @@
+
+name: Publish Panda-Softs homepage
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: panda-softs-homepage
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout TinySuite
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify distributions
+        run: npm run verify
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build websites
+        run: python3 scripts/build-site.py
+
+      - name: Verify Panda-Softs homepage
+        run: test -f .build/panda-softs/index.html
+
+      - name: Checkout Panda-Softs website repository
+        uses: actions/checkout@v4
+        with:
+          repository: Panda-Softs/panda-softs.github.io
+          ref: main
+          token: ${{ secrets.PANDA_SOFTS_DEPLOY_TOKEN }}
+          path: .publish/panda-softs
+
+      - name: Synchronize Panda-Softs website
+        run: |
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.gitignore' \
+            --exclude='README.md' \
+            --exclude='LICENSE' \
+            --exclude='CNAME' \
+            --exclude='.nojekyll' \
+            .build/panda-softs/ \
+            .publish/panda-softs/
+
+      - name: Commit and publish website
+        working-directory: .publish/panda-softs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if ! git diff --cached --quiet; then
+            git commit -m "deploy: update Panda-Softs homepage"
+            git push origin HEAD:main
+          else
+            echo "Website already up to date."
+          fi
